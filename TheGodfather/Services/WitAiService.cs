@@ -1,14 +1,12 @@
 ﻿#region USING_DIRECTIVES
 using DSharpPlus.Entities;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TheGodfather.Services.Common;
@@ -20,12 +18,12 @@ namespace TheGodfather.Services
     {
         private static readonly string _url = $"https://api.wit.ai/message?v=20180727";
         private static readonly HttpClient _http = new HttpClient(new HttpClientHandler { AllowAutoRedirect = false });
-        private static readonly Regex _mentionRegex = new Regex(@"<((@(!|&)?)|#)(?<id>[0-9]+)>\s*", RegexOptions.Compiled);
+        private static readonly Regex _mentionRegex = new Regex(@"<((@(!|&)?)|#)(?<id>[0-9]+)>", RegexOptions.Compiled);
 
 
         public WitAiService(string key)
         {
-            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "2PLQPY52YY2IGB3XVYF5TR6YYAFMXA3Z");
+            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", key);
         }
 
 

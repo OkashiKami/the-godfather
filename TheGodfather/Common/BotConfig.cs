@@ -57,6 +57,9 @@ namespace TheGodfather.Common
         [JsonProperty("key-weather")]
         public string WeatherKey { get; private set; }
 
+        [JsonProperty("key-wit")]
+        public string WitAiKey { get; private set; }
+
         [JsonProperty("key-youtube")]
         public string YouTubeKey { get; private set; }
 
@@ -92,6 +95,7 @@ namespace TheGodfather.Common
             SteamKey = "<insert Steam API key>",
             Token = "<insert bot token here>",
             WeatherKey = "<insert OpenWeatherMaps API key>",
+            WitAiKey = "<insert Wit.ai key>",
             YouTubeKey = "<insert YouTube API key>"
         };
     }

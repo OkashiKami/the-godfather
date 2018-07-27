@@ -114,7 +114,7 @@ namespace TheGodfather
                     .AddSingleton(new OMDbService(this.SharedData.BotConfiguration.OMDbKey))
                     .AddSingleton(new SteamService(this.SharedData.BotConfiguration.SteamKey))
                     .AddSingleton(new WeatherService(this.SharedData.BotConfiguration.WeatherKey))
-                    .AddSingleton(new WitAiService(null))
+                    .AddSingleton(new WitAiService(this.SharedData.BotConfiguration.WitAiKey))
                     .AddSingleton(new YtService(this.SharedData.BotConfiguration.YouTubeKey))
                     .BuildServiceProvider()
             });

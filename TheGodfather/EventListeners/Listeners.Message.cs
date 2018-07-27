@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TheGodfather.Common;
 using TheGodfather.Common.Attributes;
@@ -64,7 +63,7 @@ namespace TheGodfather.EventListeners
                             e.MentionedRoles
                         );
                         if (cmd != null) {
-                            await e.Channel.SendMessageAsync($"I am about to execute: {Formatter.InlineCode(cmd)}. Does that look good? (y/n)");
+                            await e.Channel.SendMessageAsync($"DEBUG: I am about to execute: {Formatter.InlineCode(cmd)} Proceed? (y/n)");
                             if (await e.Client.GetInteractivity().WaitForBoolReplyAsync(e.Channel.Id, e.Author.Id, shard.SharedData))
                                 await shard.CNext.SudoAsync(e.Author, e.Channel, shard.SharedData.GetGuildPrefix(e.Guild.Id) + cmd);
                         }
