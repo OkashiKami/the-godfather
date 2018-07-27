@@ -2,15 +2,19 @@
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using DSharpPlus.Interactivity;
 using Humanizer;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TheGodfather.Common;
 using TheGodfather.Common.Attributes;
 using TheGodfather.Extensions;
 using TheGodfather.Modules.Reactions.Common;
+using TheGodfather.Services;
 using TheGodfather.Services.Database.Ranks;
 using TheGodfather.Services.Database.Reactions;
 #endregion
@@ -47,6 +51,26 @@ namespace TheGodfather.EventListeners
                 if (rank != 0) {
                     string rankname = await shard.DatabaseService.GetRankAsync(e.Guild.Id, rank);
                     await e.Channel.InformSuccessAsync($"GG {e.Author.Mention}! You have advanced to level {Formatter.Bold(rank.ToString())} {(string.IsNullOrWhiteSpace(rankname) ? "" : $": {Formatter.Italic(rankname)}")} !", StaticDiscordEmoji.Medal);
+                }
+
+                if (e.MentionedUsers.Contains(e.Client.CurrentUser)) {
+                    var wit = shard.CNext.Services.GetService<WitAiService>();
+                    var data = await wit.ProcessMessageAsync(e.Message.Content.Replace(e.Client.CurrentUser.Mention, ""));
+                    if (data.Error == null) {
+                        string cmd = wit.CreateCommandAndArguments(
+                            data, 
+                            e.MentionedUsers.Where(u => u.Id != e.Client.CurrentUser.Id).ToList(), 
+                            e.MentionedChannels, 
+                            e.MentionedRoles
+                        );
+                        if (cmd != null) {
+                            await e.Channel.SendMessageAsync($"I am about to execute: {Formatter.InlineCode(cmd)}. Does that look good? (y/n)");
+                            if (await e.Client.GetInteractivity().WaitForBoolReplyAsync(e.Channel.Id, e.Author.Id, shard.SharedData))
+                                await shard.CNext.SudoAsync(e.Author, e.Channel, shard.SharedData.GetGuildPrefix(e.Guild.Id) + cmd);
+                        }
+                    } else {
+                        await e.Channel.SendMessageAsync("I don't understand what you mean.");
+                    }
                 }
             }
         }

@@ -102,7 +102,7 @@ namespace TheGodfather
             this.CNext = this.Client.UseCommandsNext(new CommandsNextConfiguration {
                 EnableDms = false,
                 CaseSensitive = false,
-                EnableMentionPrefix = true,
+                EnableMentionPrefix = false,
                 PrefixResolver = this.PrefixResolverAsync,
                 Services = new ServiceCollection()
                     .AddSingleton(this)
@@ -114,6 +114,7 @@ namespace TheGodfather
                     .AddSingleton(new OMDbService(this.SharedData.BotConfiguration.OMDbKey))
                     .AddSingleton(new SteamService(this.SharedData.BotConfiguration.SteamKey))
                     .AddSingleton(new WeatherService(this.SharedData.BotConfiguration.WeatherKey))
+                    .AddSingleton(new WitAiService(null))
                     .AddSingleton(new YtService(this.SharedData.BotConfiguration.YouTubeKey))
                     .BuildServiceProvider()
             });
