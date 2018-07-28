@@ -66,9 +66,11 @@ namespace TheGodfather.EventListeners
                             await e.Channel.SendMessageAsync($"DEBUG: I am about to execute: {Formatter.InlineCode(cmd)} Proceed? (y/n)");
                             if (await e.Client.GetInteractivity().WaitForBoolReplyAsync(e.Channel.Id, e.Author.Id, shard.SharedData))
                                 await shard.CNext.SudoAsync(e.Author, e.Channel, shard.SharedData.GetGuildPrefix(e.Guild.Id) + cmd);
+                        } else {
+                            await e.Channel.SendMessageAsync("I don't understand what you mean.");
                         }
                     } else {
-                        await e.Channel.SendMessageAsync("I don't understand what you mean.");
+                        await e.Channel.SendMessageAsync("Failed to parse command.");
                     }
                 }
             }
