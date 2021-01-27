@@ -53,7 +53,7 @@ namespace TheGodfather.EventListeners
         [AsyncEventListener(DiscordEventType.GuildEmojisUpdated)]
         public static async Task GuildEmojisUpdateEventHandlerAsync(TheGodfatherBot bot, GuildEmojisUpdateEventArgs e)
         {
-            LogExt.Information(bot.GetId(e.Guild.Id), "Emojis updated {Guild}, ({EmojisBefore} to {EmojisAfter}", e.Guild, e.EmojisBefore, e.EmojisAfter);
+            LogExt.Information(bot.GetId(e.Guild.Id), "Emojis updated {Guild}", e.Guild);
             if (!LoggingService.IsLogEnabledForGuild(bot, e.Guild.Id, out LoggingService logService, out LocalizedEmbedBuilder emb))
                 return;
 
@@ -154,7 +154,7 @@ namespace TheGodfather.EventListeners
                 emb.AddLocalizedPropertyChangeField("str-mention", ent.MentionableChange);
                 emb.AddLocalizedPropertyChangeField("str-pos", ent.PositionChange);
                 // TODO use permissions_new once it is implemented in D#+
-                emb.AddLocalizedTitleField("str-perms", ent.PermissionChange.After, inline: false);
+                emb.AddLocalizedTitleField("str-perms", ent.PermissionChange?.After, inline: false, unknown: false);
             });
 
             await logService.LogAsync(e.Guild, emb);
@@ -198,17 +198,6 @@ namespace TheGodfather.EventListeners
             });
 
             await logService.LogAsync(e.GuildAfter, emb);
-        }
-
-        [AsyncEventListener(DiscordEventType.VoiceServerUpdated)]
-        public static async Task GuildVoiceServerUpdateEventHandlerAsync(TheGodfatherBot bot, VoiceServerUpdateEventArgs e)
-        {
-            LogExt.Debug(bot.GetId(e.Guild.Id), "Guild voice server updated: {Endpoint} {Guild}", e.Endpoint, e.Guild);
-            if (!LoggingService.IsLogEnabledForGuild(bot, e.Guild.Id, out LoggingService logService, out LocalizedEmbedBuilder emb))
-                return;
-
-            emb.WithLocalizedTitle(DiscordEventType.VoiceServerUpdated, "evt-gld-vs-upd", e.Endpoint);
-            await logService.LogAsync(e.Guild, emb);
         }
 
         [AsyncEventListener(DiscordEventType.InviteCreated)]
