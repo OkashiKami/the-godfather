@@ -48,7 +48,7 @@ namespace TheGodfather.Misc.Services
             => index * index * 10;
 
         public short CalculateRankForUser(ulong gid, ulong uid)
-            => this.xps.GetOrAdd(gid, new ConcurrentDictionary<ulong, int>()).TryGetValue(uid, out int count) ? CalculateRankForXp(count) : 0;
+            => this.xps.GetOrAdd(gid, new ConcurrentDictionary<ulong, int>()).TryGetValue(uid, out int count) ? CalculateRankForXp(count) : (short)0;
 
         public int GetUserXp(ulong? gid, ulong uid)
         {
@@ -67,7 +67,7 @@ namespace TheGodfather.Misc.Services
             short prev = CalculateRankForXp(this.xps[gid][uid] - change);
             short curr = CalculateRankForXp(this.xps[gid][uid]);
 
-            return curr != prev ? curr : 0;
+            return curr != prev ? curr : (short)0;
         }
 
         public async Task Sync()
@@ -94,7 +94,7 @@ namespace TheGodfather.Misc.Services
         {
             using TheGodfatherDbContext db = this.dbb.CreateContext();
             return gid is null
-                ? await this.DbSetSelector(db).OrderByDescending(r => r.Xp).Take(count).ToListAsync()
+                ? await this.DbSetSelector(db).AsQueryable().OrderByDescending(r => r.Xp).Take(count).ToListAsync()
                 : await this.GroupSelector(this.DbSetSelector(db), gid.Value).OrderByDescending(r => r.Xp).Take(count).ToListAsync();
         }
 
@@ -102,7 +102,7 @@ namespace TheGodfather.Misc.Services
         {
             using TheGodfatherDbContext db = this.dbb.CreateContext();
             foreach (ulong uid in uids)
-                this.DbSetSelector(db).RemoveRange(this.DbSetSelector(db).Where(xpc => xpc.UserIdDb == (long)uid));
+                this.DbSetSelector(db).RemoveRange(this.DbSetSelector(db).AsQueryable().Where(xpc => xpc.UserIdDb == (long)uid));
             await db.SaveChangesAsync();
         }
 

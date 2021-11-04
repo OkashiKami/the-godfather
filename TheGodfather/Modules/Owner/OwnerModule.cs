@@ -214,7 +214,7 @@ namespace TheGodfather.Modules.Owner
 
                 foreach (Diagnostic d in diag.Take(3)) {
                     FileLinePositionSpan ls = d.Location.GetLineSpan();
-                    emb.AddLocalizedTitleField("fmt-eval-err", Formatter.InlineCode(d.GetMessage()), 
+                    emb.AddLocalizedTitleField("fmt-eval-err", Formatter.BlockCode(d.GetMessage()),
                         titleArgs: new object[] { ls.StartLinePosition.Line, ls.StartLinePosition.Character }
                     );
                 }
@@ -240,7 +240,6 @@ namespace TheGodfather.Modules.Owner
                 emb.WithLocalizedTitle("str-eval-fail-run");
                 emb.WithLocalizedDescription("fmt-eval-fail-run", runTime.ElapsedMilliseconds, exc?.GetType(), exc?.Message);
                 emb.WithColor(DiscordColor.Red);
-                await UpdateOrRespondAsync();
             } else {
                 emb.WithLocalizedTitle("str-eval-succ");
                 emb.WithColor(this.ModuleColor);
@@ -252,9 +251,9 @@ namespace TheGodfather.Modules.Owner
                 }
                 emb.AddLocalizedTitleField("str-eval-time-compile", compileTime.ElapsedMilliseconds, true);
                 emb.AddLocalizedTitleField("str-eval-time-run", runTime.ElapsedMilliseconds, true);
-                if (res.ReturnValue is { })
-                    await UpdateOrRespondAsync();
             }
+
+            await UpdateOrRespondAsync();
 
 
             Task UpdateOrRespondAsync()
@@ -314,11 +313,6 @@ namespace TheGodfather.Modules.Owner
 
                     sb.AppendLine(Formatter.Italic(this.Localization.GetCommandDescription(null, cmd.QualifiedName))).AppendLine();
 
-                    if (cmd.Aliases.Any()) {
-                        sb.AppendLine(Formatter.Bold("Aliases:"));
-                        sb.Append('`').AppendJoin(", ", cmd.Aliases).Append('`').AppendLine();
-                    }
-
                     IEnumerable<CheckBaseAttribute> execChecks = cmd.ExecutionChecks.AsEnumerable();
                     CommandGroup? parent = cmd.Parent;
                     while (parent is { }) {
@@ -351,50 +345,60 @@ namespace TheGodfather.Modules.Owner
                     if (execChecks.Any(chk => chk is RequireOwnerAttribute))
                         sb.AppendLine(Formatter.Bold("Owner-only.")).AppendLine();
                     if (execChecks.Any(chk => chk is RequirePrivilegedUserAttribute))
-                        sb.AppendLine(Formatter.Bold("Privileged users only.")).AppendLine().AppendLine();
+                        sb.AppendLine(Formatter.Bold("Privileged users only.")).AppendLine();
 
                     if (perms.Any()) {
                         sb.AppendLine(Formatter.Bold("Requires permissions:"));
-                        sb.Append('`').AppendJoin(", ", perms).Append('`').AppendLine().AppendLine();
+                        sb.Append('`').AppendJoin(", ", perms).Append('`').AppendLine();
                     }
                     if (uperms.Any()) {
                         sb.AppendLine(Formatter.Bold("Requires user permissions:"));
-                        sb.Append('`').AppendJoin(", ", uperms).Append('`').AppendLine().AppendLine();
+                        sb.Append('`').AppendJoin(", ", uperms).Append('`').AppendLine();
                     }
                     if (bperms.Any()) {
                         sb.AppendLine(Formatter.Bold("Requires bot permissions:"));
-                        sb.Append('`').AppendJoin(", ", bperms).Append('`').AppendLine().AppendLine();
+                        sb.Append('`').AppendJoin(", ", bperms).Append('`').AppendLine();
+                    }
+                    sb.AppendLine();
+
+                    if (cmd.Aliases.Any()) {
+                        sb.AppendLine(Formatter.Bold("Aliases:"));
+                        sb.Append('`').AppendJoin(", ", cmd.Aliases).Append('`').AppendLine().AppendLine();
                     }
 
                     foreach (CommandOverload overload in cmd.Overloads.OrderByDescending(o => o.Priority)) {
-                        if (!overload.Arguments.Any())
-                            continue;
+                        sb.AppendLine(Formatter.Bold($"Overload {overload.Priority}:"));
+                        if (overload.Arguments.Any()) {
+                            foreach (CommandArgument arg in overload.Arguments) {
+                                sb.Append("- ");
 
-                        sb.AppendLine(Formatter.Bold(cmd.Overloads.Count > 1 ? $"Overload {overload.Priority}:" : "Arguments:")).AppendLine();
-                        foreach (CommandArgument arg in overload.Arguments) {
-                            if (arg.IsOptional)
-                                sb.Append("(optional) ");
+                                if (arg.IsOptional)
+                                    sb.Append("(optional) ");
 
-                            sb.Append("[`").Append(ctx.CommandsNext.GetUserFriendlyTypeName(arg.Type));
-                            if (arg.IsCatchAll)
-                                sb.Append("...");
-                            sb.Append("`]: *");
-                            if (string.IsNullOrWhiteSpace(arg.Description))
-                                sb.Append("No description provided.");
-                            else
-                                sb.Append(this.Localization.GetString(null, arg.Description));
-                            sb.Append('*');
-
-                            if (arg.IsOptional) {
-                                sb.Append(" (def: `");
-                                if (arg.DefaultValue is null)
-                                    sb.Append("None`)");
+                                sb.Append(@"\[`").Append(ctx.CommandsNext.GetUserFriendlyTypeName(arg.Type));
+                                if (arg.IsCatchAll)
+                                    sb.Append("...");
+                                sb.Append(@"`\]: *");
+                                if (string.IsNullOrWhiteSpace(arg.Description))
+                                    sb.Append("No description provided.");
                                 else
-                                    sb.Append(arg.DefaultValue).Append("`)");
-                            }
+                                    sb.Append(this.Localization.GetString(null, arg.Description));
+                                sb.Append('*');
 
-                            sb.AppendLine().AppendLine();
+                                if (arg.IsOptional) {
+                                    sb.Append(" (def: `");
+                                    if (arg.DefaultValue is null)
+                                        sb.Append("None`)");
+                                    else
+                                        sb.Append(arg.DefaultValue).Append("`)");
+                                }
+
+                                sb.AppendLine();
+                            }
+                        } else {
+                            sb.AppendLine().AppendLine(Formatter.Italic("No arguments."));
                         }
+                        sb.AppendLine();
                     }
 
                     if (cmd is not CommandGroup || (cmd is CommandGroup group && group.IsExecutableWithoutSubcommands)) {
@@ -520,7 +524,7 @@ namespace TheGodfather.Modules.Owner
             }
 
             using FileStream? fs = fi.OpenRead();
-            await ctx.RespondWithFileAsync(fs);
+            await ctx.RespondAsync(new DiscordMessageBuilder().WithFile(fs));
         }
 
         [Command("log"), Priority(0)]
@@ -587,7 +591,9 @@ namespace TheGodfather.Modules.Owner
             if (string.IsNullOrWhiteSpace(command))
                 throw new InvalidCommandUsageException(ctx);
 
-            Command cmd = ctx.CommandsNext.FindCommand(command, out string args);
+            Command? cmd = ctx.CommandsNext.FindCommand(command, out string args);
+            if (cmd is null)
+                throw new CommandFailedException(ctx, "cmd-404", command);
             if (cmd.ExecutionChecks.Any(c => c is RequireOwnerAttribute or RequirePrivilegedUserAttribute))
                 throw new CommandFailedException(ctx, "cmd-err-sudo");
             CommandContext fctx = ctx.CommandsNext.CreateFakeContext(member, ctx.Channel, command, ctx.Prefix, cmd, args);
@@ -612,6 +618,7 @@ namespace TheGodfather.Modules.Owner
 
         #region restart
         [Command("restart")]
+        [Aliases("reboot")]
         [RequirePrivilegedUser]
         public Task RestartAsync(CommandContext ctx)
             => this.ExitAsync(ctx, 100);

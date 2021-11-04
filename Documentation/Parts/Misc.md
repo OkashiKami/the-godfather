@@ -7,11 +7,12 @@
 
 *Do you ponder the mysteries of our world? Ask the Almighty 8Ball whatever you want! But beware, because the truth can sometimes hurt...*
 
+
 **Aliases:**
 `8b`
-**Arguments:**
 
-[`string...`]: *A question for the Almighty 8Ball*
+**Overload 0:**
+- \[`string...`\]: *A question for the Almighty 8Ball*
 
 **Examples:**
 
@@ -27,36 +28,29 @@
 
 *Birthday notifications commands. Group call either lists or adds a new birthday notification(s).*
 
-**Aliases:**
-`birthdays, bday, bd, bdays`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 3:**
+**Aliases:**
+`birthdays, bday, bd, bdays`
 
-[`user`]: *Birthday boy/girl*
+**Overload 3:**
+- \[`user`\]: *Birthday boy/girl*
 
 **Overload 2:**
-
-(optional) [`channel`]: *Channel for birthday notifications* (def: `None`)
+- (optional) \[`channel`\]: *Channel for birthday notifications* (def: `None`)
 
 **Overload 1:**
-
-[`user`]: *Birthday boy/girl*
-
-[`channel`]: *Channel for birthday notifications*
-
-(optional) [`string`]: *Birthday date* (def: `None`)
+- \[`user`\]: *Birthday boy/girl*
+- \[`channel`\]: *Channel for birthday notifications*
+- (optional) \[`string`\]: *Birthday date* (def: `None`)
 
 **Overload 0:**
-
-[`user`]: *Birthday boy/girl*
-
-[`string`]: *Birthday date*
-
-(optional) [`channel`]: *Channel for birthday notifications* (def: `None`)
+- \[`user`\]: *Birthday boy/girl*
+- \[`string`\]: *Birthday date*
+- (optional) \[`channel`\]: *Channel for birthday notifications* (def: `None`)
 
 **Examples:**
 
@@ -74,28 +68,23 @@
 
 *Adds a new birthday notification for a given user in the given channel (defaults to current channel) at a given date (defaults to current date).*
 
-**Aliases:**
-`register, reg, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
+**Aliases:**
+`register, reg, a, +, +=, <<, <, <-, <=`
+
 **Overload 1:**
-
-[`user`]: *Birthday boy/girl*
-
-(optional) [`channel`]: *Channel for birthday notifications* (def: `None`)
-
-(optional) [`string`]: *Birthday date* (def: `None`)
+- \[`user`\]: *Birthday boy/girl*
+- (optional) \[`channel`\]: *Channel for birthday notifications* (def: `None`)
+- (optional) \[`string`\]: *Birthday date* (def: `None`)
 
 **Overload 0:**
-
-[`user`]: *Birthday boy/girl*
-
-[`string`]: *Birthday date*
-
-(optional) [`channel`]: *Channel for birthday notifications* (def: `None`)
+- \[`user`\]: *Birthday boy/girl*
+- \[`string`\]: *Birthday date*
+- (optional) \[`channel`\]: *Channel for birthday notifications* (def: `None`)
 
 **Examples:**
 
@@ -113,20 +102,19 @@
 
 *Removes registered birthday notification(s) for a given user or in a given channels.*
 
-**Aliases:**
-`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 
-[`user`]: *Birthday boy/girl*
+**Overload 1:**
+- \[`user`\]: *Birthday boy/girl*
 
 **Overload 0:**
-
-[`channel`]: *Channel for birthday notifications*
+- \[`channel`\]: *Channel for birthday notifications*
 
 **Examples:**
 
@@ -143,12 +131,17 @@
 
 *Removes all registered birthday notification(s).*
 
-**Aliases:**
-`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -164,20 +157,19 @@
 
 *Lists birthday notifications for a given user or a given channel.*
 
-**Aliases:**
-`print, show, view, ls, l, p`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`print, show, view, ls, l, p`
 
-[`user`]: *Birthday boy/girl*
+**Overload 1:**
+- \[`user`\]: *Birthday boy/girl*
 
 **Overload 0:**
-
-(optional) [`channel`]: *Channel for birthday notifications* (def: `None`)
+- (optional) \[`channel`\]: *Channel for birthday notifications* (def: `None`)
 
 **Examples:**
 
@@ -194,12 +186,17 @@
 
 *Lists all birthday notifications for this guild.*
 
-**Aliases:**
-`printall, showall, lsa, la, pa`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`printall, showall, lsa, la, pa`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -215,11 +212,12 @@
 
 *Flips a coin!*
 
+
 **Aliases:**
 `coin, flip`
-**Arguments:**
 
-(optional) [`int`]: *Reciprocal coinflip ratio* (def: `1`)
+**Overload 0:**
+- (optional) \[`int`\]: *Reciprocal coinflip ratio* (def: `1`)
 
 **Examples:**
 
@@ -236,11 +234,12 @@
 
 *Throws a dice!*
 
+
 **Aliases:**
 `die, roll`
-**Arguments:**
 
-(optional) [`int`]: *How many sides will the dice have?* (def: `6`)
+**Overload 0:**
+- (optional) \[`int`\]: *How many sides will the dice have?* (def: `6`)
 
 **Examples:**
 
@@ -257,13 +256,14 @@
 
 *Requests to grant the sender a certain object (role for example).*
 
-**Aliases:**
-`give`
 **Guild only.**
 
-**Arguments:**
 
-[`role...`]: *Roles to add*
+**Aliases:**
+`give`
+
+**Overload 0:**
+- \[`role...`\]: *Roles to add*
 
 **Examples:**
 
@@ -280,16 +280,16 @@
 
 *Grants you a given nickname.*
 
-**Aliases:**
-`nick, name, n`
 **Guild only.**
 
 **Requires bot permissions:**
 `Manage nicknames`
 
-**Arguments:**
+**Aliases:**
+`nick, name, n`
 
-[`string...`]: *New name*
+**Overload 0:**
+- \[`string...`\]: *New name*
 
 **Examples:**
 
@@ -305,16 +305,16 @@
 
 *Grants you a role from this guild's self-assignable roles list.*
 
-**Aliases:**
-`roles, rl, r`
 **Guild only.**
 
 **Requires bot permissions:**
 `Manage roles`
 
-**Arguments:**
+**Aliases:**
+`roles, rl, r`
 
-[`role...`]: *Roles to add*
+**Overload 0:**
+- \[`role...`\]: *Roles to add*
 
 **Examples:**
 
@@ -330,15 +330,19 @@
 
 *Shows the help embed.*
 
+
 **Aliases:**
 `h, ?, ??, ???, man`
-**Overload 1:**
 
-[`ModuleType`]: *Command module*
+**Overload 2:**
+
+*No arguments.*
+
+**Overload 1:**
+- \[`ModuleType`\]: *Command module*
 
 **Overload 0:**
-
-[`string...`]: *Command name*
+- \[`string...`\]: *Command name*
 
 **Examples:**
 
@@ -356,15 +360,15 @@
 
 *Writes an insult targeting a user. Alternatively, you can provide text to use as insult target.*
 
+
 **Aliases:**
 `burn, ins, roast`
-**Overload 1:**
 
-(optional) [`user`]: *User* (def: `None`)
+**Overload 1:**
+- (optional) \[`user`\]: *User* (def: `None`)
 
 **Overload 0:**
-
-[`string...`]: *Insult target*
+- \[`string...`\]: *Insult target*
 
 **Examples:**
 
@@ -381,11 +385,12 @@
 
 *Get or create an instant invite link for the current guild.*
 
+
 **Aliases:**
 `getinvite, inv`
-**Arguments:**
 
-(optional) [`time span`]: *Invite expiry time* (def: `None`)
+**Overload 0:**
+- (optional) \[`time span`\]: *Invite expiry time* (def: `None`)
 
 **Examples:**
 
@@ -405,6 +410,10 @@
 **Requires permissions:**
 `Administrator`
 
+**Overload 0:**
+
+*No arguments.*
+
 **Examples:**
 
 ```xml
@@ -419,11 +428,12 @@
 
 *Wr1t3s g1v3n tEx7 1n p5EuDo 1337sp34k.*
 
+
 **Aliases:**
 `l33t, 1337`
-**Arguments:**
 
-[`string...`]: *Text to repeat*
+**Overload 0:**
+- \[`string...`\]: *Text to repeat*
 
 **Examples:**
 
@@ -439,11 +449,10 @@
 
 *Prints a customizable GNU/Linux interjection.*
 
-**Arguments:**
 
-(optional) [`string`]: *Replacement string* (def: `None`)
-
-(optional) [`string`]: *Replacement string* (def: `None`)
+**Overload 0:**
+- (optional) \[`string`\]: *Replacement string* (def: `None`)
+- (optional) \[`string`\]: *Replacement string* (def: `None`)
 
 **Examples:**
 
@@ -460,13 +469,18 @@
 
 *Manipulate guild memes. Group call retrieves a meme from this guild's meme list by it's name or a random one if the name isn't provided.*
 
-**Aliases:**
-`memes, mm`
 **Guild only.**
 
-**Overload 0:**
 
-[`string...`]: *Meme name*
+**Aliases:**
+`memes, mm`
+
+**Overload 1:**
+
+*No arguments.*
+
+**Overload 0:**
+- \[`string...`\]: *Meme name*
 
 **Examples:**
 
@@ -483,24 +497,21 @@
 
 *Adds a new guild meme with a given name and an image (provided via URL or attachment).*
 
-**Aliases:**
-`register, reg, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
+**Aliases:**
+`register, reg, a, +, +=, <<, <, <-, <=`
+
 **Overload 1:**
-
-[`string`]: *Meme name*
-
-(optional) [`URL`]: *Meme URL* (def: `None`)
+- \[`string`\]: *Meme name*
+- (optional) \[`URL`\]: *Meme URL* (def: `None`)
 
 **Overload 0:**
-
-[`URL`]: *Meme URL*
-
-[`string...`]: *Meme name*
+- \[`URL`\]: *Meme URL*
+- \[`string...`\]: *Meme name*
 
 **Examples:**
 
@@ -517,20 +528,18 @@
 
 *Creates a new meme from template and top/bottom text(s).*
 
-**Aliases:**
-`maker, c, make, m`
 **Guild only.**
 
 **Requires permissions:**
 `Use embeds`
 
-**Arguments:**
+**Aliases:**
+`maker, c, make, m`
 
-[`string`]: *Meme template*
-
-[`string`]: *Top text*
-
-[`string`]: *Bottom text*
+**Overload 0:**
+- \[`string`\]: *Meme template*
+- \[`string`\]: *Top text*
+- \[`string`\]: *Bottom text*
 
 **Examples:**
 
@@ -546,16 +555,16 @@
 
 *Removes a meme from guild meme list.*
 
-**Aliases:**
-`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 
-[`string...`]: *Meme name*
+**Overload 0:**
+- \[`string...`\]: *Meme name*
 
 **Examples:**
 
@@ -571,12 +580,17 @@
 
 *Removes all guild memes.*
 
-**Aliases:**
-`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires user permissions:**
 `Administrator`
+
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -592,9 +606,15 @@
 
 *Lists all guild memes.*
 
+**Guild only.**
+
+
 **Aliases:**
 `print, show, view, ls, l, p`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -610,13 +630,14 @@
 
 *Lists all available meme templates.*
 
-**Aliases:**
-`template, ts, t`
 **Guild only.**
 
-**Arguments:**
 
-(optional) [`string...`]: *Meme template* (def: `None`)
+**Aliases:**
+`template, ts, t`
+
+**Overload 0:**
+- (optional) \[`string...`\]: *Meme template* (def: `None`)
 
 **Examples:**
 
@@ -633,15 +654,15 @@
 
 *An accurate measurement.*
 
+
 **Aliases:**
 `size, length, manhood, dick, dicksize`
-**Overload 1:**
 
-[`member...`]: *Member(s)*
+**Overload 1:**
+- \[`member...`\]: *Member(s)*
 
 **Overload 0:**
-
-[`user...`]: *User(s)*
+- \[`user...`\]: *User(s)*
 
 **Examples:**
 
@@ -659,17 +680,17 @@
 
 *Finds members with same `penis` command result as the given user.*
 
-**Aliases:**
-`sizebros, lengthbros, manhoodbros, dickbros, cockbros`
 **Guild only.**
 
-**Overload 1:**
 
-[`member`]: *Member*
+**Aliases:**
+`sizebros, lengthbros, manhoodbros, dickbros, cockbros`
+
+**Overload 1:**
+- \[`member`\]: *Member*
 
 **Overload 0:**
-
-(optional) [`user`]: *User* (def: `None`)
+- (optional) \[`user`\]: *User* (def: `None`)
 
 **Examples:**
 
@@ -686,6 +707,11 @@
 
 *Pings the bot.*
 
+
+**Overload 0:**
+
+*No arguments.*
+
 **Examples:**
 
 ```xml
@@ -700,16 +726,16 @@
 
 *Gets or sets command prefix.*
 
-**Aliases:**
-`setprefix, pref, setpref`
 **Guild only.**
 
 **Requires permissions:**
 `Administrator`
 
-**Arguments:**
+**Aliases:**
+`setprefix, pref, setpref`
 
-(optional) [`string`]: *New command prefix* (def: `None`)
+**Overload 0:**
+- (optional) \[`string`\]: *New command prefix* (def: `None`)
 
 **Examples:**
 
@@ -726,8 +752,10 @@
 
 *Randomization commands - choices, raffles etc.*
 
+
 **Aliases:**
 `rnd, rand`
+
 </p></details>
 
 ---
@@ -737,11 +765,12 @@
 
 *Chooses a random option from a comma separated option list.*
 
+
 **Aliases:**
 `select, choose`
-**Arguments:**
 
-[`string...`]: *Choice list (separated by comma)*
+**Overload 0:**
+- \[`string...`\]: *Choice list (separated by comma)*
 
 **Examples:**
 
@@ -757,11 +786,12 @@
 
 *Choose a user from the online members list optionally belonging to a given role.*
 
+
 **Aliases:**
 `chooseuser`
-**Arguments:**
 
-(optional) [`role`]: *Role* (def: `None`)
+**Overload 0:**
+- (optional) \[`role`\]: *Role* (def: `None`)
 
 **Examples:**
 
@@ -778,15 +808,15 @@
 
 *User rank management. Group call prints user rank info.*
 
+
 **Aliases:**
 `ranks, ranking, level, xp`
-**Overload 1:**
 
-(optional) [`member`]: *Member* (def: `None`)
+**Overload 1:**
+- (optional) \[`member`\]: *Member* (def: `None`)
 
 **Overload 0:**
-
-(optional) [`user`]: *User* (def: `None`)
+- (optional) \[`user`\]: *User* (def: `None`)
 
 **Examples:**
 
@@ -803,16 +833,15 @@
 
 *Adds a custom name for a given rank in this guild.*
 
-**Aliases:**
-`register, rename, mv, newname, reg, a, +, +=, <<, <, <-, <=`
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`register, rename, mv, newname, reg, a, +, +=, <<, <, <-, <=`
 
-[`short`]: *Rank*
-
-[`string...`]: *Rank name*
+**Overload 0:**
+- \[`short`\]: *Rank*
+- \[`string...`\]: *Rank name*
 
 **Examples:**
 
@@ -828,14 +857,14 @@
 
 *Removes a custom name for a given rank in this guild.*
 
-**Aliases:**
-`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 
-[`short`]: *Rank*
+**Overload 0:**
+- \[`short`\]: *Rank*
 
 **Examples:**
 
@@ -851,8 +880,14 @@
 
 *Print all customized rank names for this guild.*
 
+
 **Aliases:**
 `print, show, view, ls, l, p`
+
+**Overload 0:**
+
+*No arguments.*
+
 **Examples:**
 
 ```xml
@@ -866,6 +901,11 @@
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
 *Prints guild rank leaderboard*
+
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -881,8 +921,14 @@
 
 *Prints global rank leaderboard*
 
+
 **Aliases:**
 `bestglobally, globallystrongest, globaltop, topg, gtop, globalbest, bestglobal`
+
+**Overload 0:**
+
+*No arguments.*
+
 **Examples:**
 
 ```xml
@@ -897,18 +943,17 @@
 
 *A very accurate personality measurement.*
 
-**Aliases:**
-`score, graph, rating`
 **Requires bot permissions:**
 `Attach files`
 
-**Overload 1:**
+**Aliases:**
+`score, graph, rating`
 
-[`member...`]: *Member(s)*
+**Overload 1:**
+- \[`member...`\]: *Member(s)*
 
 **Overload 0:**
-
-[`user...`]: *User(s)*
+- \[`user...`\]: *User(s)*
 
 **Examples:**
 
@@ -926,9 +971,9 @@
 
 *Report an issue with the bot.*
 
-**Arguments:**
 
-[`string...`]: *Issue to report*
+**Overload 0:**
+- \[`string...`\]: *Issue to report*
 
 **Examples:**
 
@@ -944,13 +989,14 @@
 
 *Requests to revoke a certain object (role for example) from the sender.*
 
-**Aliases:**
-`take`
 **Guild only.**
 
-**Arguments:**
 
-[`role...`]: *Roles to remove*
+**Aliases:**
+`take`
+
+**Overload 0:**
+- \[`role...`\]: *Roles to remove*
 
 **Examples:**
 
@@ -966,16 +1012,16 @@
 
 *Revokes a role from this guild's self-assignable roles list.*
 
-**Aliases:**
-`rl, r`
 **Guild only.**
 
 **Requires bot permissions:**
 `Manage roles`
 
-**Arguments:**
+**Aliases:**
+`rl, r`
 
-[`role...`]: *Roles to remove*
+**Overload 0:**
+- \[`role...`\]: *Roles to remove*
 
 **Examples:**
 
@@ -986,16 +1032,45 @@
 
 ---
 
+## rip
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Rest in peace, user...*
+
+**Requires bot permissions:**
+`Attach files`
+
+**Aliases:**
+`restinpeace, grave`
+
+**Overload 1:**
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Text to put on the grave.* (def: `RIP`)
+
+**Overload 0:**
+- \[`user`\]: *User*
+- (optional) \[`string...`\]: *Text to put on the grave.* (def: `RIP`)
+
+**Examples:**
+
+```xml
+!rip @User
+```
+</p></details>
+
+---
+
 ## say
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
 *Echo! Echo! Echo!*
 
+
 **Aliases:**
 `repeat, echo`
-**Arguments:**
 
-[`string...`]: *Text to repeat*
+**Overload 0:**
+- \[`string...`\]: *Text to repeat*
 
 **Examples:**
 
@@ -1006,37 +1081,58 @@
 
 ---
 
+## simulate
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Simulates a message from another user.*
+
+**Guild only.**
+
+
+**Aliases:**
+`sim`
+
+**Overload 0:**
+- (optional) \[`member`\]: *Member* (def: `None`)
+
+**Examples:**
+
+```xml
+!simulate
+!simulate @User
+```
+</p></details>
+
+---
+
 ## Group: starboard
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
 *Guild starboard commands. Starboard is a channel where member-voted messages will be saved. Something like pins however the starboard is not limited to one channel, has no limits on the number of starred messages, and it is automatically updated. If a message has more than a number of specified emoji reactions, it will be saved in the starboard. The number of reactions before saving is referred to as *sensitivity*, whereas the emoji is referred to as a *star* (star being the default emoji). Both are customziable. Group call shows current starboard information for the guild or enables/disables starboard in given channel and using given star emoji.*
 
-**Aliases:**
-`star, sb`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
-
-[`boolean`]: *Enable?*
-
-[`emoji`]: *Emoji*
-
-[`channel`]: *Channel*
-
-(optional) [`int`]: *Sensitivity* (def: `None`)
+**Aliases:**
+`star, sb`
 
 **Overload 1:**
+- \[`boolean`\]: *Enable?*
+- \[`emoji`\]: *Emoji*
+- \[`channel`\]: *Channel*
+- (optional) \[`int`\]: *Sensitivity* (def: `None`)
 
-[`boolean`]: *Enable?*
+**Overload 1:**
+- \[`boolean`\]: *Enable?*
+- \[`channel`\]: *Emoji*
+- (optional) \[`emoji`\]: *Channel* (def: `None`)
+- (optional) \[`int`\]: *Sensitivity* (def: `None`)
 
-[`channel`]: *Emoji*
+**Overload 0:**
 
-(optional) [`emoji`]: *Channel* (def: `None`)
-
-(optional) [`int`]: *Sensitivity* (def: `None`)
+*No arguments.*
 
 **Examples:**
 
@@ -1055,16 +1151,16 @@
 
 *Sets starboard channel.*
 
-**Aliases:**
-`chn, setchannel, setchn, setc, location`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`chn, setchannel, setchn, setc, location`
 
-[`channel`]: *Channel*
+**Overload 0:**
+- \[`channel`\]: *Channel*
 
 **Examples:**
 
@@ -1080,16 +1176,16 @@
 
 *Gets or sets starboard sensitivity.*
 
-**Aliases:**
-`setsensitivity, setsens, sens, s`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`setsensitivity, setsens, sens, s`
 
-(optional) [`int`]: *Sensitivity* (def: `None`)
+**Overload 0:**
+- (optional) \[`int`\]: *Sensitivity* (def: `None`)
 
 **Examples:**
 
@@ -1106,11 +1202,12 @@
 
 *Shows time in a given timezone or localized guild time if timezone is not provided.*
 
+
 **Aliases:**
 `t`
-**Arguments:**
 
-(optional) [`string...`]: *IANA/Windows timezone ID* (def: `None`)
+**Overload 0:**
+- (optional) \[`string...`\]: *IANA/Windows/Rails timezone ID* (def: `None`)
 
 **Examples:**
 
@@ -1130,9 +1227,8 @@
 **Requires permissions:**
 `Send TTS messages`
 
-**Arguments:**
-
-[`string...`]: *Text to repeat*
+**Overload 0:**
+- \[`string...`\]: *Text to repeat*
 
 **Examples:**
 
@@ -1148,11 +1244,12 @@
 
 *Attempts to translate message from leetspeak.*
 
+
 **Aliases:**
 `unl33t`
-**Arguments:**
 
-[`string...`]: *Text to repeat*
+**Overload 0:**
+- \[`string...`\]: *Text to repeat*
 
 **Examples:**
 

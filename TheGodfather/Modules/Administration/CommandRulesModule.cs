@@ -38,15 +38,15 @@ namespace TheGodfather.Modules.Administration
         [Command("allow"), Priority(1)]
         [Aliases("only", "register", "reg", "a", "+", "+=", "<<", "<", "<-", "<=")]
         public async Task AllowAsync(CommandContext ctx,
-                                    [Description("desc-cr-allow")] string command,
-                                    [Description("desc-cr-chn")] params DiscordChannel[] channels)
-            => await this.AddRuleAsync(ctx, command, true, channels);
+                                    [Description("desc-cr-chn")] DiscordChannel channel,
+                                    [RemainingText, Description("desc-cr-allow")] string command)
+            => await this.AddRuleAsync(ctx, command, true, channel);
 
         [Command("allow"), Priority(0)]
         public async Task AllowAsync(CommandContext ctx,
-                                    [Description("desc-cr-chn")] DiscordChannel channel,
-                                    [Description("desc-cr-allow")] string command)
-            => await this.AddRuleAsync(ctx, command, true, channel);
+                                    [Description("desc-cr-allow")] string command,
+                                    [Description("desc-cr-chn")] params DiscordChannel[] channels)
+            => await this.AddRuleAsync(ctx, command, true, channels);
         #endregion
 
         #region commandrules forbid
@@ -97,7 +97,7 @@ namespace TheGodfather.Modules.Administration
         {
             Command? cmd = ctx.CommandsNext.FindCommand(command, out _);
             if (cmd is null)
-                throw new CommandFailedException(ctx, "cmd-404", Formatter.InlineCode(Formatter.Strip(command)));
+                throw new CommandFailedException(ctx, "cmd-404", Formatter.Strip(command));
 
             IEnumerable<DiscordChannel> validChannels = channels.Where(c => c.Type == ChannelType.Text);
 
@@ -123,13 +123,13 @@ namespace TheGodfather.Modules.Administration
             });
         }
 
-        private Task PrintRulesAsync(CommandContext ctx, DiscordChannel? chn = null, string? cmd = null, bool global = false)
+        private Task PrintRulesAsync(CommandContext ctx, DiscordChannel? chn = null, string? cmd = null, bool includeGlobalRules = false)
         {
             IEnumerable<CommandRule> crs = this.Service.GetRules(ctx.Guild.Id, cmd);
             if (chn is { })
                 crs = crs.Where(cr => cr.ChannelId == chn.Id);
-            else if (!global)
-                crs = crs.Where(cr => cr.ChannelId == 0);
+            else if (!includeGlobalRules)
+                crs = crs.Where(cr => cr.ChannelId != 0);
 
             return crs.Any()
                 ? ctx.PaginateAsync(

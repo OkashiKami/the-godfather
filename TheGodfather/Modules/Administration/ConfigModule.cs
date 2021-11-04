@@ -55,6 +55,8 @@ namespace TheGodfather.Modules.Administration
 
             gcfg.ReactionResponse = await ctx.WaitForBoolReplyAsync("q-setup-verbose", channel, false);
             gcfg.SuggestionsEnabled = await ctx.WaitForBoolReplyAsync("q-setup-suggestions", channel, false);
+            gcfg.ActionHistoryEnabled = await ctx.WaitForBoolReplyAsync("q-setup-ah", channel, false);
+            gcfg.SilentLevelUpEnabled = await ctx.WaitForBoolReplyAsync("q-setup-lvlup", channel, false);
 
             await this.SetupMemberUpdateMessagesAsync(gcfg, ctx, channel);
             await this.SetupMuteRoleAsync(gcfg, ctx, channel);
@@ -77,6 +79,33 @@ namespace TheGodfather.Modules.Administration
         }
         #endregion
 
+        #region config level
+        [Command("levelup"), Priority(1)]
+        [Aliases("lvlup", "lvl")]
+        public async Task LevelUpAsync(CommandContext ctx,
+                                      [Description("desc-lvlup-s")] bool enable)
+        {
+            await this.Service.ModifyConfigAsync(ctx.Guild.Id, cfg => {
+                cfg.SilentLevelUpEnabled = !enable;
+            });
+
+            await ctx.GuildLogAsync(emb => {
+                emb.WithLocalizedTitle("evt-cfg-upd");
+                emb.WithColor(this.ModuleColor);
+                emb.AddLocalizedField("str-lvlup-s", enable ? "str-on" : "str-off", inline: true);
+            });
+
+            await ctx.InfoAsync(this.ModuleColor, enable ? "str-cfg-lvlup-on" : "str-cfg-lvlup-off");
+        }
+
+        [Command("levelup"), Priority(0)]
+        public async Task LevelUpAsync(CommandContext ctx)
+        {
+            GuildConfig gcfg = await this.Service.GetConfigAsync(ctx.Guild.Id);
+            await ctx.InfoAsync(this.ModuleColor, gcfg.SilentLevelUpEnabled ? "str-cfg-lvlup-get-on" : "str-cfg-lvlup-get-off");
+        }
+        #endregion
+
         #region config silent
         [Command("silent"), Priority(1)]
         [Aliases("reactionresponse", "silentresponse", "s", "rr")]
@@ -90,7 +119,7 @@ namespace TheGodfather.Modules.Administration
             await ctx.GuildLogAsync(emb => {
                 emb.WithLocalizedTitle("evt-cfg-upd");
                 emb.WithColor(this.ModuleColor);
-                emb.AddLocalizedField("str-silent", enable ? "str-on" : "str-off", inline: true);
+                emb.AddLocalizedField("str-replies-s", enable ? "str-on" : "str-off", inline: true);
             });
 
             await ctx.InfoAsync(this.ModuleColor, enable ? "str-cfg-silent-on" : "str-cfg-silent-off");
@@ -166,6 +195,31 @@ namespace TheGodfather.Modules.Administration
         {
             CachedGuildConfig gcfg = this.Service.GetCachedConfig(ctx.Guild.Id);
             return ctx.InfoAsync(this.ModuleColor, gcfg.SuggestionsEnabled ? "str-cfg-suggest-get-on" : "str-cfg-suggest-get-off");
+        }
+        #endregion
+
+        #region config actionhistory
+        [Command("actionhistory"), Priority(1)]
+        [Aliases("history", "ah")]
+        public async Task ActionHistoryAsync(CommandContext ctx,
+                                            [Description("desc-actionhistory")] bool enable)
+        {
+            await this.Service.ModifyConfigAsync(ctx.Guild.Id, cfg => cfg.ActionHistoryEnabled = enable);
+
+            await ctx.GuildLogAsync(emb => {
+                emb.WithLocalizedTitle("evt-cfg-upd");
+                emb.WithColor(this.ModuleColor);
+                emb.AddLocalizedField("str-actionhistory", enable ? "str-on" : "str-off", inline: true);
+            });
+
+            await ctx.InfoAsync(this.ModuleColor, enable ? "str-cfg-ah-on" : "str-cfg-ah-off");
+        }
+
+        [Command("actionhistory"), Priority(0)]
+        public async Task ActionHistoryAsync(CommandContext ctx)
+        {
+            GuildConfig gcfg = await this.Service.GetConfigAsync(ctx.Guild.Id);
+            await ctx.InfoAsync(this.ModuleColor, gcfg.ActionHistoryEnabled ? "str-cfg-ah-get-on" : "str-cfg-ah-get-off");
         }
         #endregion
 
@@ -325,8 +379,8 @@ namespace TheGodfather.Modules.Administration
                 gcfg.RatelimitEnabled = true;
 
                 if (await ctx.WaitForBoolReplyAsync("q-setup-rl-action", channel: channel, reply: false, args: gcfg.RatelimitAction.Humanize())) {
-                    await channel.LocalizedEmbedAsync(this.Localization, "q-setup-new-action", args: Enum.GetNames<PunishmentAction>().JoinWith(", "));
-                    PunishmentAction? action = await ctx.Client.GetInteractivity().WaitForPunishmentActionAsync(channel, ctx.User);
+                    await channel.LocalizedEmbedAsync(this.Localization, "q-setup-new-action", args: Enum.GetNames<Punishment.Action>().JoinWith(", "));
+                    Punishment.Action? action = await ctx.Client.GetInteractivity().WaitForPunishmentActionAsync(channel, ctx.User);
                     if (action is { })
                         gcfg.RatelimitAction = action.Value;
                 }
@@ -347,8 +401,8 @@ namespace TheGodfather.Modules.Administration
                 gcfg.AntispamEnabled = true;
 
                 if (await ctx.WaitForBoolReplyAsync("q-setup-as-action", channel: channel, reply: false, args: gcfg.AntispamAction.Humanize())) {
-                    await channel.LocalizedEmbedAsync(this.Localization, "q-setup-new-action", Enum.GetNames<PunishmentAction>().JoinWith(", "));
-                    PunishmentAction? action = await ctx.Client.GetInteractivity().WaitForPunishmentActionAsync(channel, ctx.User);
+                    await channel.LocalizedEmbedAsync(this.Localization, "q-setup-new-action", Enum.GetNames<Punishment.Action>().JoinWith(", "));
+                    Punishment.Action? action = await ctx.Client.GetInteractivity().WaitForPunishmentActionAsync(channel, ctx.User);
                     if (action is { })
                         gcfg.AntispamAction = action.Value;
                 }
@@ -369,8 +423,8 @@ namespace TheGodfather.Modules.Administration
                 gcfg.AntispamEnabled = true;
 
                 if (await ctx.WaitForBoolReplyAsync("q-setup-am-action", channel: channel, reply: false, args: gcfg.AntiMentionAction.Humanize())) {
-                    await channel.LocalizedEmbedAsync(this.Localization, "q-setup-new-action", Enum.GetNames<PunishmentAction>().JoinWith(", "));
-                    PunishmentAction? action = await ctx.Client.GetInteractivity().WaitForPunishmentActionAsync(channel, ctx.User);
+                    await channel.LocalizedEmbedAsync(this.Localization, "q-setup-new-action", Enum.GetNames<Punishment.Action>().JoinWith(", "));
+                    Punishment.Action? action = await ctx.Client.GetInteractivity().WaitForPunishmentActionAsync(channel, ctx.User);
                     if (action is { })
                         gcfg.AntiMentionAction = action.Value;
                 }
@@ -391,8 +445,8 @@ namespace TheGodfather.Modules.Administration
                 gcfg.AntifloodEnabled = true;
 
                 if (await ctx.WaitForBoolReplyAsync("q-setup-af-action", channel: channel, reply: false, args: gcfg.AntifloodAction.Humanize())) {
-                    await channel.LocalizedEmbedAsync(this.Localization, "q-setup-new-action", Enum.GetNames<PunishmentAction>().JoinWith(", "));
-                    PunishmentAction? action = await ctx.Client.GetInteractivity().WaitForPunishmentActionAsync(channel, ctx.User);
+                    await channel.LocalizedEmbedAsync(this.Localization, "q-setup-new-action", Enum.GetNames<Punishment.Action>().JoinWith(", "));
+                    Punishment.Action? action = await ctx.Client.GetInteractivity().WaitForPunishmentActionAsync(channel, ctx.User);
                     if (action is { })
                         gcfg.AntifloodAction = action.Value;
                 }
@@ -443,6 +497,7 @@ namespace TheGodfather.Modules.Administration
         private async Task ApplySettingsAsync(CommandContext ctx, GuildConfig gcfg)
         {
             await this.Service.ModifyConfigAsync(ctx.Guild.Id, cfg => {
+                cfg.ActionHistoryEnabled = gcfg.ActionHistoryEnabled;
                 cfg.AntifloodSettings = gcfg.AntifloodSettings;
                 cfg.AntiInstantLeaveSettings = gcfg.AntiInstantLeaveSettings;
                 cfg.BackupEnabled = gcfg.BackupEnabled;
@@ -450,6 +505,7 @@ namespace TheGodfather.Modules.Administration
                 cfg.LeaveChannelId = gcfg.LeaveChannelId;
                 cfg.LeaveMessage = gcfg.LeaveMessage;
                 cfg.MuteRoleId = gcfg.MuteRoleId;
+                cfg.SilentLevelUpEnabled = gcfg.SilentLevelUpEnabled;
                 cfg.WelcomeChannelId = gcfg.WelcomeChannelId;
                 cfg.WelcomeMessage = gcfg.WelcomeMessage;
             });

@@ -1,4 +1,46 @@
 {
+  "actionhistory": {
+    "usage": [
+      [],
+      [ "arg-usr" ]
+    ]
+  },
+  "actionhistory add": {
+    "usage": [
+      [ "arg-usr", "str-rsn" ]
+    ]
+  },
+  "actionhistory delete": {
+    "usage": [
+      [ "arg-usr" ]
+    ]
+  },
+  "actionhistory delete after": {
+    "usage": [
+      [ "arg-date" ]
+    ]
+  },
+  "actionhistory delete before": {
+    "usage": [
+      [ "arg-date" ]
+    ]
+  },
+  "actionhistory delete users": {
+    "usage": [
+      [ "arg-usr" ]
+    ]
+  },
+  "actionhistory deleteall": {
+    "usage": [
+      []
+    ]
+  },
+  "actionhistory list": {
+    "usage": [
+      [],
+      [ "arg-usr" ]
+    ]
+  },
   "automaticroles": {
     "usage": [
       [],
@@ -50,6 +92,12 @@
       [ "arg-chn-voice", "arg-chn-cat", "arg-ten" ],
       [ "arg-chn-cat", "arg-chn-voice", "arg-ten" ],
       [ "arg-chn-voice", "arg-chn-cat", "arg-ten", "arg-sbyte-max" ]
+    ]
+  },
+  "channel bitrate": {
+    "usage": [
+      [ "arg-chn-voice", "arg-sbyte-max" ],
+      [ "arg-sbyte-max", "arg-chn-voice", "arg-rsn" ]
     ]
   },
   "channel clone": {
@@ -126,25 +174,19 @@
       [ "arg-ten", "arg-chn-voice", "arg-rsn" ]
     ]
   },
-  "channel setbitrate": {
+  "channel nsfw": {
     "usage": [
-      [ "arg-chn-voice", "arg-sbyte-max" ],
-      [ "arg-sbyte-max", "arg-chn-voice", "arg-rsn" ]
+      [ "arg-bool" ],
+      [ "arg-chn-text", "arg-bool" ],
+      [ "arg-bool", "arg-chn-text", "arg-rsn" ]
     ]
   },
-  "channel setname": {
+  "channel rename": {
     "usage": [
       [ "arg-name-small" ],
       [ "arg-chn-text", "arg-name-small" ],
       [ "arg-chn-voice", "arg-name" ],
       [ "arg-name-small", "arg-chn-text", "arg-rsn" ]
-    ]
-  },
-  "channel setnsfw": {
-    "usage": [
-      [ "arg-bool" ],
-      [ "arg-chn-text", "arg-bool" ],
-      [ "arg-bool", "arg-chn-text", "arg-rsn" ]
     ]
   },
   "channel setparent": {
@@ -158,20 +200,20 @@
       [ "arg-ten", "arg-chn-voice", "arg-rsn" ]
     ]
   },
-  "channel setslowmode": {
+  "channel slowmode": {
     "usage": [
       [ "arg-chn-text", "arg-ten" ],
       [ "arg-ten", "arg-chn-voice", "arg-rsn" ]
     ]
   },
-  "channel settopic": {
+  "channel topic": {
     "usage": [
       [ "arg-topic" ],
       [ "arg-chn-text", "arg-topic" ],
       [ "arg-topic", "arg-chn-text", "arg-rsn" ]
     ]
   },
-  "channel setuserlimit": {
+  "channel userlimit": {
     "usage": [
       [ "arg-chn-voice", "arg-ten" ],
       [ "arg-ten", "arg-chn-voice", "arg-rsn" ]
@@ -219,6 +261,12 @@
   "config": {
     "usage": [
       []
+    ]
+  },
+  "config actionhistory": {
+    "usage": [
+      [],
+      [ "arg-bool" ]
     ]
   },
   "config antiflood": {
@@ -393,6 +441,12 @@
       [ "arg-chn-text" ]
     ]
   },
+  "config levelup": {
+    "usage": [
+      [],
+      [ "arg-bool" ]
+    ]
+  },
   "config linkfilter": {
     "usage": [
       []
@@ -528,6 +582,38 @@
       [ "arg-bool" ]
     ]
   },
+  "config timezone": {
+    "usage": [
+      [],
+      [ "arg-tz" ]
+    ]
+  },
+  "config timezone current": {
+    "usage": [
+      []
+    ]
+  },
+  "config timezone info": {
+    "usage": [
+      [],
+      [ "arg-tz" ]
+    ]
+  },
+  "config timezone list": {
+    "usage": [
+      []
+    ]
+  },
+  "config timezone reset": {
+    "usage": [
+      []
+    ]
+  },
+  "config timezone set": {
+    "usage": [
+      [ "arg-tz" ]
+    ]
+  },
   "config verbose": {
     "usage": [
       [],
@@ -634,7 +720,9 @@
   },
   "forbiddennames add": {
     "usage": [
-      [ "arg-regex" ]
+      [ "arg-regex" ],
+      [ "arg-punish-action", "arg-regex" ],
+      [ "arg-regex", "arg-regex" ]
     ]
   },
   "forbiddennames delete": {
@@ -811,19 +899,29 @@
     "usage": [
       [],
       [ "arg-role", "arg-emoji" ],
-      [ "arg-emoji", "arg-role" ]
+      [ "arg-emoji", "arg-role" ],
+      [ "arg-role", "arg-emoji", "arg-ulong" ],
+      [ "arg-emoji", "arg-role", "arg-ulong" ],
+      [ "arg-ulong", "arg-role", "arg-emoji" ],
+      [ "arg-ulong", "arg-emoji", "arg-role" ]
     ]
   },
   "reactionroles add": {
     "usage": [
       [ "arg-role", "arg-emoji" ],
-      [ "arg-emoji", "arg-role" ]
+      [ "arg-emoji", "arg-role" ],
+      [ "arg-role", "arg-emoji", "arg-ulong" ],
+      [ "arg-emoji", "arg-role", "arg-ulong" ],
+      [ "arg-ulong", "arg-role", "arg-emoji" ],
+      [ "arg-ulong", "arg-emoji", "arg-role" ]
     ]
   },
   "reactionroles delete": {
     "usage": [
       [ "arg-role", "arg-role-raw" ],
-      [ "arg-emoji", "arg-emoji-name" ]
+      [ "arg-emoji", "arg-emoji-name" ],
+      [ "arg-msg" ],
+      [ "arg-chn-text" ]
     ]
   },
   "reactionroles deleteall": {
@@ -962,7 +1060,9 @@
   },
   "user mute": {
     "usage": [
-      [ "arg-usr" ]
+      [ "arg-usr" ],
+      [ "arg-usr", "arg-timespan-day" ],
+      [ "arg-timespan-day", "arg-usr" ]
     ]
   },
   "user mutevoice": {

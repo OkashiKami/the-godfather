@@ -127,11 +127,11 @@ namespace TheGodfather.Modules.Misc
         {
             if (string.IsNullOrWhiteSpace(str1))
                 str1 = "GNU";
-            
+
             if (string.IsNullOrWhiteSpace(str2))
                 str2 = "Linux";
 
-            string interjection = 
+            string interjection =
                 $"I'd just like to interject for a moment. What you're refering to as {str2}, " +
                 $"is in fact, {str1}/{str2}, or as I've recently taken to calling it, {str1} plus {str2}. " +
                 $"{str2} is not an operating system unto itself, but rather another free component of a fully " +
@@ -235,6 +235,22 @@ namespace TheGodfather.Modules.Misc
             => this.InternalRateAsync(ctx, users);
         #endregion
 
+        #region rip
+        [Command("rip"), Priority(1)]
+        [Aliases("restinpeace", "grave")]
+        [RequireBotPermissions(Permissions.AttachFiles)]
+        public Task RateAsync(CommandContext ctx,
+                             [Description("desc-member")] DiscordMember member,
+                             [RemainingText, Description("desc-rip")] string? desc = "RIP")
+            => this.InternalRipAsync(ctx, member, desc);
+
+        [Command("rip"), Priority(0)]
+        public Task RateAsync(CommandContext ctx,
+                             [Description("desc-user")] DiscordUser user,
+                             [RemainingText, Description("desc-rip")] string? desc = "RIP")
+            => this.InternalRipAsync(ctx, user, desc);
+        #endregion
+
         #region report
         [Command("report"), UsesInteractivity]
         [Cooldown(1, 3600, CooldownBucketType.User)]
@@ -282,6 +298,25 @@ namespace TheGodfather.Modules.Misc
         }
         #endregion
 
+        #region simulate
+        [Command("simulate")]
+        [Aliases("sim")]
+        [RequireGuild, Cooldown(1, 5, CooldownBucketType.Guild)]
+        public async Task SimulateAsync(CommandContext ctx,
+                                       [Description("desc-member")] DiscordMember? member = null)
+        {
+            member ??= ctx.Member;
+            if (member == ctx.Guild.CurrentMember)
+                member = ctx.Member;
+
+            string prefix = ctx.Services.GetRequiredService<GuildConfigService>().GetGuildPrefix(ctx.Guild.Id);
+            string? simulatedMessage = await SimulationService.SimulateAsync(ctx.Channel, member, prefix);
+            if (simulatedMessage is null)
+                throw new CommandFailedException(ctx, "cmd-err-sim");
+            await ctx.Channel.EmbedAsync(simulatedMessage, Emojis.Loudspeaker, this.ModuleColor);
+        }
+        #endregion
+
         #region tts
         [Command("tts")]
         [RequirePermissions(Permissions.SendTtsMessages)]
@@ -294,7 +329,7 @@ namespace TheGodfather.Modules.Misc
 
             return ctx.Services.GetRequiredService<FilteringService>().TextContainsFilter(ctx.Guild.Id, text, out _)
                 ? throw new CommandFailedException(ctx, "cmd-err-say")
-                : ctx.RespondAsync(Formatter.BlockCode(Formatter.Strip(text)), isTTS: true);
+                : ctx.RespondAsync(new DiscordMessageBuilder().WithContent(Formatter.BlockCode(Formatter.Strip(text))).HasTTS(true));
         }
         #endregion
 
@@ -359,8 +394,7 @@ namespace TheGodfather.Modules.Misc
             });
         }
 
-
-        public async Task InternalRateAsync(CommandContext ctx, IReadOnlyList<DiscordUser> users)
+        private async Task InternalRateAsync(CommandContext ctx, IReadOnlyList<DiscordUser> users)
         {
             users = users.Distinct().ToList();
             if (!users.Any())
@@ -373,11 +407,27 @@ namespace TheGodfather.Modules.Misc
                 return;
             }
 
-            using Stream ms = this.Service.Rate(users.Select(u => (u.ToDiscriminatorString(), u.Id)));
-            await ctx.RespondWithFileAsync("Rating.jpg", ms, embed: new DiscordEmbedBuilder {
-                Description = this.Localization.GetString(ctx.Guild?.Id, "fmt-rating", Emojis.Ruler, users.Select(u => u.Mention).JoinWith(", ")),
-                Color = this.ModuleColor,
-            });
+            using Stream ms = await ctx.Services.GetRequiredService<ImagingService>().RateAsync(users.Select(u => (u.ToDiscriminatorString(), u.Id)));
+            await ctx.RespondAsync(new DiscordMessageBuilder()
+                .WithFile("Rating.jpg", ms)
+                .WithEmbed(new DiscordEmbedBuilder {
+                    Description = this.Localization.GetString(ctx.Guild?.Id, "fmt-rating", Emojis.Ruler, users.Select(u => u.Mention).JoinWith(", ")),
+                    Color = this.ModuleColor,
+                })
+            );
+        }
+
+        private async Task InternalRipAsync(CommandContext ctx, DiscordUser user, string? desc)
+        {
+            if (user.IsCurrent) {
+                await ctx.ImpInfoAsync(this.ModuleColor, Emojis.Ruler, "cmd-err-size-bot");
+                return;
+            }
+
+            ImagingService ims = ctx.Services.GetRequiredService<ImagingService>();
+            CultureInfo culture = this.Localization.GetGuildCulture(ctx.Guild.Id);
+            using Stream ms = await ims.RipAsync(user.ToDiscriminatorString(), user.AvatarUrl, user.CreationTimestamp, desc, culture);
+            await ctx.RespondAsync(new DiscordMessageBuilder().WithFile("Grave.jpg", ms));
         }
         #endregion
     }

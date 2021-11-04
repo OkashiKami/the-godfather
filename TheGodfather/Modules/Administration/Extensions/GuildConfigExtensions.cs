@@ -13,12 +13,14 @@ namespace TheGodfather.Modules.Administration.Extensions
         {
             var emb = new LocalizedEmbedBuilder(lcs, guild.Id);
 
-            emb.WithLocalizedTitle(DiscordEventType.GuildUpdated, update ? "evt-cfg-update" : "str-guild-cfg");
+            emb.WithLocalizedTitle(DiscordEventType.GuildUpdated, update ? "evt-cfg-upd" : "str-guild-cfg");
             emb.WithThumbnail(guild.IconUrl);
 
             emb.AddLocalizedTitleField("str-prefix", gcfg.Prefix ?? lcs.GetString(guild.Id, "str-default"), inline: true);
-            emb.AddLocalizedTitleField("str-silent", gcfg.ReactionResponse, inline: true);
+            emb.AddLocalizedTitleField("str-replies-s", gcfg.ReactionResponse, inline: true);
             emb.AddLocalizedTitleField("str-cmd-suggestions", gcfg.SuggestionsEnabled, inline: true);
+            emb.AddLocalizedTitleField("str-actionhistory", gcfg.ActionHistoryEnabled, inline: true);
+            emb.AddLocalizedTitleField("str-lvlup-s", gcfg.SilentLevelUpEnabled, inline: true);
 
             if (gcfg.LoggingEnabled) {
                 DiscordChannel? logchn = guild.GetChannel(gcfg.LogChannelId);

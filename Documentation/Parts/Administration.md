@@ -4,21 +4,237 @@
 *This module contains commands which help administer guilds and automate some actions.*
 
 
+## Group: actionhistory
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Manages action history entries. Action history is a log of all actions performed in the guild and can be queried to get detailed list of all the actions performed on a given user. Action history can be enabled using the `config actionhistory` command.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`View audit log`
+
+**Aliases:**
+`history, ah`
+
+**Overload 1:**
+- \[`user`\]: *User*
+
+**Overload 0:**
+
+*No arguments.*
+
+**Examples:**
+
+```xml
+!actionhistory
+!actionhistory @User
+```
+</p></details>
+
+---
+
+### actionhistory add
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Adds a new custom note entry to the action history for the given user and note.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`View audit log`
+
+**Aliases:**
+`register, reg, a, +, +=, <<, <, <-, <=`
+
+**Overload 0:**
+- \[`user`\]: *User*
+- \[`string...`\]: *Reason for the action*
+
+**Examples:**
+
+```xml
+!actionhistory add @User Reason
+```
+</p></details>
+
+---
+
+## Group: actionhistory delete
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Manages removal of action history entries. Group call removes all entries for given user(s).*
+
+**Guild only.**
+
+**Requires user permissions:**
+`View audit log`
+
+**Aliases:**
+`remove, rm, del, d, -, -=, >, >>`
+
+**Overload 0:**
+- \[`user...`\]: *User(s)*
+
+**Examples:**
+
+```xml
+!actionhistory delete @User
+```
+</p></details>
+
+---
+
+### actionhistory delete after
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Removes all action history entries which were recorded after the specified time.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`View audit log`
+
+**Aliases:**
+`aft, a`
+
+**Overload 0:**
+- \[`date and time`\]: *When?*
+
+**Examples:**
+
+```xml
+!actionhistory delete after 13.10.2000
+```
+</p></details>
+
+---
+
+### actionhistory delete before
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Removes all action history entries which were recorded before the specified time.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`View audit log`
+
+**Aliases:**
+`due, b`
+
+**Overload 0:**
+- \[`date and time`\]: *When?*
+
+**Examples:**
+
+```xml
+!actionhistory delete before 13.10.2000
+```
+</p></details>
+
+---
+
+### actionhistory delete users
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Removes all action history entries for given user(s).*
+
+**Guild only.**
+
+**Requires user permissions:**
+`View audit log`
+
+**Aliases:**
+`members, member, mem, user, usr, m, u`
+
+**Overload 0:**
+- \[`user...`\]: *User(s)*
+
+**Examples:**
+
+```xml
+!actionhistory delete users @User
+```
+</p></details>
+
+---
+
+### actionhistory deleteall
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Removes all action history entries for this guild.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`View audit log`
+
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
+
+**Examples:**
+
+```xml
+!actionhistory deleteall
+```
+</p></details>
+
+---
+
+### actionhistory list
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Lists all action history entries for this guild or only those matching the specified user if the user is provided.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`View audit log`
+
+**Aliases:**
+`print, show, view, ls, l, p`
+
+**Overload 1:**
+- \[`user`\]: *User*
+
+**Overload 0:**
+
+*No arguments.*
+
+**Examples:**
+
+```xml
+!actionhistory list
+!actionhistory list @User
+```
+</p></details>
+
+---
+
 ## Group: automaticroles
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
 *Automatic roles commands. Automatic roles are automatically granted to a new member of the guild. Group call lists all automatic roles for the guild. Group call with an arbitrary amount of roles will add those roles to the automatic roles list for the guild, effective immediately.*
 
-**Aliases:**
-`autoassignroles, autoassign, autoroles, autorole, aroles, arole, arl, ar, aar`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 0:**
+**Aliases:**
+`autoassignroles, autoassign, autoroles, autorole, aroles, arole, arl, ar, aar`
 
-[`role...`]: *Roles to add*
+**Overload 1:**
+
+*No arguments.*
+
+**Overload 0:**
+- \[`role...`\]: *Roles to add*
 
 **Examples:**
 
@@ -35,16 +251,16 @@
 
 *Registers given role(s) as automatic.*
 
-**Aliases:**
-`register, reg, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`register, reg, a, +, +=, <<, <, <-, <=`
 
-[`role...`]: *Roles to add*
+**Overload 0:**
+- \[`role...`\]: *Roles to add*
 
 **Examples:**
 
@@ -60,16 +276,16 @@
 
 *Removes given automatic role(s).*
 
-**Aliases:**
-`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 
-[`role...`]: *Roles to remove*
+**Overload 0:**
+- \[`role...`\]: *Roles to remove*
 
 **Examples:**
 
@@ -85,12 +301,17 @@
 
 *Removes all automatic roles.*
 
-**Aliases:**
-`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -106,12 +327,17 @@
 
 *Lists all automatic roles.*
 
-**Aliases:**
-`print, show, view, ls, l, p`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`print, show, view, ls, l, p`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -127,16 +353,16 @@
 
 *Channel administration commands. Group call prints channel information.*
 
-**Aliases:**
-`channels, chn, ch, c`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
-**Arguments:**
+**Aliases:**
+`channels, chn, ch, c`
 
-(optional) [`channel`]: *Channel to view* (def: `None`)
+**Overload 0:**
+- (optional) \[`channel`\]: *Channel to view* (def: `None`)
 
 **Examples:**
 
@@ -153,12 +379,13 @@
 
 *Channel creation commands.*
 
-**Aliases:**
-`create, cr, new, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
+
+**Aliases:**
+`create, cr, new, a, +, +=, <<, <, <-, <=`
 
 </p></details>
 
@@ -169,16 +396,16 @@
 
 *Creates a new channel category.*
 
-**Aliases:**
-`addcategory, cat, c, cc, +category, +cat, +c, <c, <<c`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
-**Arguments:**
+**Aliases:**
+`addcategory, cat, c, cc, +category, +cat, +c, <c, <<c`
 
-[`string...`]: *Category name*
+**Overload 0:**
+- \[`string...`\]: *Category name*
 
 **Examples:**
 
@@ -194,36 +421,28 @@
 
 *Creates a new text channel with option to specify parent, user limit and NSFW flag.*
 
-**Aliases:**
-`addtext, addtxt, txt, ctxt, ct, +, +txt, +t, <t, <<t`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`addtext, addtxt, txt, ctxt, ct, +, +txt, +t, <t, <<t`
+
 **Overload 2:**
-
-[`string`]: *Channel name*
-
-(optional) [`channel`]: *Parent category* (def: `None`)
-
-(optional) [`boolean`]: *NSFW?* (def: `False`)
+- \[`string`\]: *Channel name*
+- (optional) \[`channel`\]: *Parent category* (def: `None`)
+- (optional) \[`boolean`\]: *NSFW?* (def: `False`)
 
 **Overload 1:**
-
-[`string`]: *Channel name*
-
-(optional) [`boolean`]: *NSFW?* (def: `False`)
-
-(optional) [`channel`]: *Parent category* (def: `None`)
+- \[`string`\]: *Channel name*
+- (optional) \[`boolean`\]: *NSFW?* (def: `False`)
+- (optional) \[`channel`\]: *Parent category* (def: `None`)
 
 **Overload 0:**
-
-[`channel`]: *Parent category*
-
-[`string`]: *Channel name*
-
-(optional) [`boolean`]: *NSFW?* (def: `False`)
+- \[`channel`\]: *Parent category*
+- \[`string`\]: *Channel name*
+- (optional) \[`boolean`\]: *NSFW?* (def: `False`)
 
 **Examples:**
 
@@ -244,42 +463,31 @@
 
 *Creates a new voice channel with option to specify channel parent, user limit and bitrate.*
 
-**Aliases:**
-`addvoice, addv, cvoice, cv, +voice, +v, <v, <<v`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`addvoice, addv, cvoice, cv, +voice, +v, <v, <<v`
+
 **Overload 2:**
-
-[`string`]: *Voice channel name*
-
-(optional) [`channel`]: *Parent category* (def: `None`)
-
-(optional) [`int`]: *User limit* (def: `None`)
-
-(optional) [`int`]: *Channel bitrate [8-128]* (def: `None`)
+- \[`string`\]: *Voice channel name*
+- (optional) \[`channel`\]: *Parent category* (def: `None`)
+- (optional) \[`int`\]: *User limit* (def: `None`)
+- (optional) \[`int`\]: *Channel bitrate [8-128]* (def: `None`)
 
 **Overload 1:**
-
-[`string`]: *Voice channel name*
-
-(optional) [`int`]: *User limit* (def: `None`)
-
-(optional) [`int`]: *Channel bitrate [8-128]* (def: `None`)
-
-(optional) [`channel`]: *Parent category* (def: `None`)
+- \[`string`\]: *Voice channel name*
+- (optional) \[`int`\]: *User limit* (def: `None`)
+- (optional) \[`int`\]: *Channel bitrate [8-128]* (def: `None`)
+- (optional) \[`channel`\]: *Parent category* (def: `None`)
 
 **Overload 0:**
-
-[`channel`]: *Parent category*
-
-[`string`]: *Voice channel name*
-
-(optional) [`int`]: *User limit* (def: `None`)
-
-(optional) [`int`]: *Channel bitrate [8-128]* (def: `None`)
+- \[`channel`\]: *Parent category*
+- \[`string`\]: *Voice channel name*
+- (optional) \[`int`\]: *User limit* (def: `None`)
+- (optional) \[`int`\]: *Channel bitrate [8-128]* (def: `None`)
 
 **Examples:**
 
@@ -295,27 +503,61 @@
 
 ---
 
-### channel clone
+### channel bitrate
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
-*Clones an existing channel (current one if channel is not provided) with an optional new name.*
+*Modifies voice channel bitrate.*
 
-**Aliases:**
-`copy, cp, cln`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`setbr, setbitr, setbrate, setb, br, setbitrate, bitr, brate`
+
+**Overload 2:**
+- \[`channel`\]: *Channel to modify*
+- \[`int`\]: *Bitrate*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
+
 **Overload 1:**
-
-[`channel`]: *Channel to clone*
-
-(optional) [`string...`]: *Channel to clone* (def: `None`)
+- \[`int`\]: *Bitrate*
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
+- (optional) \[`channel`\]: *Channel to modify* (def: `None`)
 
-(optional) [`string...`]: *Channel to clone* (def: `None`)
+**Examples:**
+
+```xml
+!channel bitrate My Voice Channel 128
+!channel bitrate 128 My Voice Channel Because I can!
+```
+</p></details>
+
+---
+
+### channel clone
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Clones an existing channel (current one if channel is not provided) with an optional new name.*
+
+**Guild only.**
+
+**Requires permissions:**
+`Manage channels`
+
+**Aliases:**
+`copy, cp, cln`
+
+**Overload 1:**
+- \[`channel`\]: *Channel to clone*
+- (optional) \[`string...`\]: *Channel to clone* (def: `None`)
+
+**Overload 0:**
+- (optional) \[`string...`\]: *Channel to clone* (def: `None`)
 
 **Examples:**
 
@@ -334,22 +576,20 @@
 
 *Delete a channel/category with optional reason for the action. If a channel is not specified, deletes the current channel.*
 
-**Aliases:**
-`remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`remove, rm, del, d, -, -=, >, >>, ->, =>`
+
 **Overload 1:**
-
-[`channel`]: *Channel to delete*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`channel`\]: *Channel to delete*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`string...`]: *Reason for the action*
+- \[`string...`\]: *Reason for the action*
 
 **Examples:**
 
@@ -367,16 +607,16 @@
 
 *Shows detailed channel information. If a channel is not specified, uses the current channel.*
 
-**Aliases:**
-`information, details, about, i`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
-**Arguments:**
+**Aliases:**
+`information, details, about, i`
 
-(optional) [`channel`]: *Channel to view* (def: `None`)
+**Overload 0:**
+- (optional) \[`channel`\]: *Channel to view* (def: `None`)
 
 **Examples:**
 
@@ -395,12 +635,13 @@
 
 *Channel modification commands.*
 
-**Aliases:**
-`edit, mod, m, e, set, change`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
+
+**Aliases:**
+`edit, mod, m, e, set, change`
 
 </p></details>
 
@@ -411,28 +652,23 @@
 
 *Modifies voice channel bitrate.*
 
-**Aliases:**
-`br, bitr, brate, b`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`br, bitr, brate, b`
+
 **Overload 1:**
-
-[`channel`]: *Channel to modify*
-
-[`int`]: *Bitrate*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`channel`\]: *Channel to modify*
+- \[`int`\]: *Bitrate*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`int`]: *Bitrate*
-
-[`channel`]: *Channel to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *Bitrate*
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -449,32 +685,26 @@
 
 *Modifies channel name.*
 
-**Aliases:**
-`title, nm, n`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`title, nm, n`
+
 **Overload 2:**
-
-[`channel`]: *Channel to modify*
-
-[`string`]: *Name*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`channel`\]: *Channel to modify*
+- \[`string`\]: *Name*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 1:**
-
-[`string`]: *Name*
-
-[`channel`]: *Channel to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`string`\]: *Name*
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`string...`]: *Reason for the action*
+- \[`string...`\]: *Reason for the action*
 
 **Examples:**
 
@@ -499,26 +729,18 @@
 `Manage channels`
 
 **Overload 2:**
-
-[`channel`]: *Channel to modify*
-
-[`boolean`]: *Name*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`channel`\]: *Channel to modify*
+- \[`boolean`\]: *Name*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 1:**
-
-[`boolean`]: *Name*
-
-[`channel`]: *Channel to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`boolean`\]: *Name*
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`boolean`]: *Reason for the action*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`boolean`\]: *Reason for the action*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -536,22 +758,20 @@
 
 *Modifies channel's parent category.*
 
-**Aliases:**
-`par`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
-**Overload 1:**
+**Aliases:**
+`par`
 
-[`channel...`]: *Channels to reorganize, including exactly one category to set as the parent*
+**Overload 1:**
+- \[`channel...`\]: *Channels to reorganize, including exactly one category to set as the parent*
 
 **Overload 0:**
-
-[`string`]: *Reason for the action*
-
-[`channel...`]: *Channels to reorganize, including exactly one category to set as the parent*
+- \[`string`\]: *Reason for the action*
+- \[`channel...`\]: *Channels to reorganize, including exactly one category to set as the parent*
 
 **Examples:**
 
@@ -567,34 +787,27 @@
 
 *Modifies channel's position.*
 
-**Aliases:**
-`pos, p, order`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`pos, p, order`
+
 **Overload 2:**
-
-[`channel`]: *Channel to modify*
-
-[`int`]: *Position*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`channel`\]: *Channel to modify*
+- \[`int`\]: *Position*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 1:**
-
-[`int`]: *Position*
-
-[`channel`]: *Channel to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *Position*
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`int`]: *Position*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *Position*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -611,34 +824,27 @@
 
 *Modifies channel's slowmode settings.*
 
-**Aliases:**
-`rlimit, rl, ratel, rate, ratelimit, slow, sm, smode`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`rlimit, rl, ratel, rate, ratelimit, slow, sm, smode`
+
 **Overload 2:**
-
-[`channel`]: *Channel to modify*
-
-[`int`]: *Slowmode value, from set: [0, 5, 10, 15, 30, 45, 60, 75, 90, 120]*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`channel`\]: *Channel to modify*
+- \[`int`\]: *Slowmode value, from set: [0, 5, 10, 15, 30, 45, 60, 75, 90, 120]*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 1:**
-
-[`int`]: *Slowmode value, from set: [0, 5, 10, 15, 30, 45, 60, 75, 90, 120]*
-
-[`channel`]: *Channel to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *Slowmode value, from set: [0, 5, 10, 15, 30, 45, 60, 75, 90, 120]*
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`int`]: *Slowmode value, from set: [0, 5, 10, 15, 30, 45, 60, 75, 90, 120]*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *Slowmode value, from set: [0, 5, 10, 15, 30, 45, 60, 75, 90, 120]*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -655,30 +861,25 @@
 
 *Modifies channel's topic.*
 
-**Aliases:**
-`t, desc, description`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`t, desc, description`
+
 **Overload 2:**
-
-[`string`]: *Reason for the action*
-
-[`channel`]: *Channel to modify*
-
-[`string...`]: *Channel topic*
+- \[`string`\]: *Reason for the action*
+- \[`channel`\]: *Channel to modify*
+- \[`string...`\]: *Channel topic*
 
 **Overload 1:**
-
-[`channel`]: *Channel to modify*
-
-[`string...`]: *Channel topic*
+- \[`channel`\]: *Channel to modify*
+- \[`string...`\]: *Channel topic*
 
 **Overload 0:**
-
-[`string...`]: *Channel topic*
+- \[`string...`\]: *Channel topic*
 
 **Examples:**
 
@@ -696,28 +897,23 @@
 
 *Modifies voice channel user limit.*
 
-**Aliases:**
-`ul, ulimit, limit, l`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`ul, ulimit, limit, l`
+
 **Overload 1:**
-
-[`channel`]: *Channel to modify*
-
-[`int`]: *User limit*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`channel`\]: *Channel to modify*
+- \[`int`\]: *User limit*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`int`]: *User limit*
-
-[`channel`]: *Channel to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *User limit*
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -729,128 +925,80 @@
 
 ---
 
-### channel setbitrate
-<details><summary markdown='span'>Expand for additional information</summary><p>
-
-*Modifies voice channel bitrate.*
-
-**Aliases:**
-`setbr, setbitr, setbrate, setb, br, bitrate, bitr, brate`
-**Guild only.**
-
-**Requires permissions:**
-`Manage channels`
-
-**Overload 1:**
-
-[`channel`]: *Channel to modify*
-
-[`int`]: *Bitrate*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
-
-**Overload 0:**
-
-[`int`]: *Bitrate*
-
-[`channel`]: *Channel to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
-
-**Examples:**
-
-```xml
-!channel setbitrate My Voice Channel 128
-!channel setbitrate 128 My Voice Channel Because I can!
-```
-</p></details>
-
----
-
-### channel setname
-<details><summary markdown='span'>Expand for additional information</summary><p>
-
-*Modifies channel name.*
-
-**Aliases:**
-`settitle, rename, changename, rn, rnm, name, mv`
-**Guild only.**
-
-**Requires permissions:**
-`Manage channels`
-
-**Overload 2:**
-
-[`channel`]: *Channel to modify*
-
-[`string`]: *Name*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
-
-**Overload 1:**
-
-[`string`]: *Name*
-
-[`channel`]: *Channel to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
-
-**Overload 0:**
-
-[`string...`]: *Reason for the action*
-
-**Examples:**
-
-```xml
-!channel setname new_name
-!channel setname #my-text-channel new_name
-!channel setname My Voice Channel SampleName
-!channel setname new_name #my-text-channel Because I can!
-```
-</p></details>
-
----
-
-### channel setnsfw
+### channel nsfw
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
 *Modifies channel's NSFW flag.*
 
-**Aliases:**
-`nsfw`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`setnsfw`
+
+**Overload 3:**
+- \[`channel`\]: *Channel to modify*
+- \[`boolean`\]: *Name*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
+
 **Overload 2:**
-
-[`channel`]: *Channel to modify*
-
-[`boolean`]: *Name*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`boolean`\]: *Name*
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 1:**
-
-[`boolean`]: *Name*
-
-[`channel`]: *Channel to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`boolean`\]: *Reason for the action*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`boolean`]: *Reason for the action*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- (optional) \[`channel`\]: *Channel to modify* (def: `None`)
 
 **Examples:**
 
 ```xml
-!channel setnsfw Yes/No
-!channel setnsfw #my-text-channel Yes/No
-!channel setnsfw Yes/No #my-text-channel Because I can!
+!channel nsfw Yes/No
+!channel nsfw #my-text-channel Yes/No
+!channel nsfw Yes/No #my-text-channel Because I can!
+```
+</p></details>
+
+---
+
+### channel rename
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Modifies channel name.*
+
+**Guild only.**
+
+**Requires permissions:**
+`Manage channels`
+
+**Aliases:**
+`settitle, setname, changename, rn, rnm, name, mv`
+
+**Overload 2:**
+- \[`channel`\]: *Channel to modify*
+- \[`string`\]: *Name*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
+
+**Overload 1:**
+- \[`string`\]: *Name*
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
+
+**Overload 0:**
+- \[`string...`\]: *Reason for the action*
+
+**Examples:**
+
+```xml
+!channel rename new_name
+!channel rename #my-text-channel new_name
+!channel rename My Voice Channel SampleName
+!channel rename new_name #my-text-channel Because I can!
 ```
 </p></details>
 
@@ -861,22 +1009,20 @@
 
 *Modifies channel's parent category.*
 
-**Aliases:**
-`setpar, parent, par`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
-**Overload 1:**
+**Aliases:**
+`setpar, parent, par`
 
-[`channel...`]: *Channels to reorganize, including exactly one category to set as the parent*
+**Overload 1:**
+- \[`channel...`\]: *Channels to reorganize, including exactly one category to set as the parent*
 
 **Overload 0:**
-
-[`string`]: *Reason for the action*
-
-[`channel...`]: *Channels to reorganize, including exactly one category to set as the parent*
+- \[`string`\]: *Reason for the action*
+- \[`channel...`\]: *Channels to reorganize, including exactly one category to set as the parent*
 
 **Examples:**
 
@@ -892,34 +1038,27 @@
 
 *Modifies channel's position.*
 
-**Aliases:**
-`setpos, setp, order, setorder, position, pos`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`setpos, setp, order, setorder, position, pos`
+
 **Overload 2:**
-
-[`channel`]: *Channel to modify*
-
-[`int`]: *Position*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`channel`\]: *Channel to modify*
+- \[`int`\]: *Position*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 1:**
-
-[`int`]: *Position*
-
-[`channel`]: *Channel to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *Position*
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`int`]: *Position*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *Position*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -931,124 +1070,117 @@
 
 ---
 
-### channel setslowmode
+### channel slowmode
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
 *Modifies channel's slowmode settings.*
 
-**Aliases:**
-`setratel, setrl, setrate, setratelimit, setslow, slowmode, slow, sm, setsmode, smode`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`setratel, setrl, setrate, setratelimit, setslow, setslowmode, slow, sm, setsmode, smode`
+
+**Overload 3:**
+- \[`channel`\]: *Channel to modify*
+- \[`int`\]: *Slowmode value, from set: [0, 5, 10, 15, 30, 45, 60, 75, 90, 120]*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
+
 **Overload 2:**
-
-[`channel`]: *Channel to modify*
-
-[`int`]: *Slowmode value, from set: [0, 5, 10, 15, 30, 45, 60, 75, 90, 120]*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *Slowmode value, from set: [0, 5, 10, 15, 30, 45, 60, 75, 90, 120]*
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 1:**
-
-[`int`]: *Slowmode value, from set: [0, 5, 10, 15, 30, 45, 60, 75, 90, 120]*
-
-[`channel`]: *Channel to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *Slowmode value, from set: [0, 5, 10, 15, 30, 45, 60, 75, 90, 120]*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`int`]: *Slowmode value, from set: [0, 5, 10, 15, 30, 45, 60, 75, 90, 120]*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- (optional) \[`channel`\]: *Channel to modify* (def: `None`)
 
 **Examples:**
 
 ```xml
-!channel setslowmode #my-text-channel 10
-!channel setslowmode 10 My Voice Channel Because I can!
+!channel slowmode #my-text-channel 10
+!channel slowmode 10 My Voice Channel Because I can!
 ```
 </p></details>
 
 ---
 
-### channel settopic
+### channel topic
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
-*Modifies channel's topic.*
+*Gets or sets the channel topic.*
 
-**Aliases:**
-`t, topic, sett, desc, setdesc, description, setdescription`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`t, settopic, sett, desc, setdesc, description, setdescription`
+
+**Overload 3:**
+- \[`string`\]: *Reason for the action*
+- \[`channel`\]: *Channel to modify*
+- \[`string...`\]: *Channel topic*
+
 **Overload 2:**
-
-[`string`]: *Reason for the action*
-
-[`channel`]: *Channel to modify*
-
-[`string...`]: *Channel topic*
+- \[`channel`\]: *Channel to modify*
+- \[`string...`\]: *Channel topic*
 
 **Overload 1:**
-
-[`channel`]: *Channel to modify*
-
-[`string...`]: *Channel topic*
+- \[`string...`\]: *Channel topic*
 
 **Overload 0:**
 
-[`string...`]: *Channel topic*
+*No arguments.*
 
 **Examples:**
 
 ```xml
-!channel settopic My channel topic!
-!channel settopic #my-text-channel My channel topic!
-!channel settopic My channel topic! #my-text-channel Because I can!
+!channel topic My channel topic!
+!channel topic #my-text-channel My channel topic!
+!channel topic My channel topic! #my-text-channel Because I can!
 ```
 </p></details>
 
 ---
 
-### channel setuserlimit
+### channel userlimit
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
 *Modifies voice channel user limit.*
 
-**Aliases:**
-`setul, setulimit, setlimit, setl, userlimit, ul, ulimig, userl`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
 
+**Aliases:**
+`setul, setulimit, setlimit, setl, setuserlimit, ul, ulimig, userl`
+
+**Overload 2:**
+- \[`channel`\]: *Channel to modify*
+- \[`int`\]: *User limit*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
+
 **Overload 1:**
-
-[`channel`]: *Channel to modify*
-
-[`int`]: *User limit*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *User limit*
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`int`]: *User limit*
-
-[`channel`]: *Channel to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- (optional) \[`channel`\]: *Channel to modify* (def: `None`)
 
 **Examples:**
 
 ```xml
-!channel setuserlimit My Voice Channel 10
-!channel setuserlimit 10 My Voice Channel Because I can!
+!channel userlimit My Voice Channel 10
+!channel userlimit 10 My Voice Channel Because I can!
 ```
 </p></details>
 
@@ -1059,39 +1191,31 @@
 
 *Shows permissions for member/role in a given channel.*
 
-**Aliases:**
-`perms, permsfor, testperms, listperms, permissions`
 **Guild only.**
 
 **Requires permissions:**
 `Manage channels`
-
 **Requires bot permissions:**
 `Administrator`
 
+**Aliases:**
+`perms, permsfor, testperms, listperms, permissions`
+
 **Overload 3:**
-
-(optional) [`member`]: *Member* (def: `None`)
-
-(optional) [`channel`]: *Channel to modify* (def: `None`)
+- (optional) \[`member`\]: *Member* (def: `None`)
+- (optional) \[`channel`\]: *Channel to modify* (def: `None`)
 
 **Overload 2:**
-
-[`channel`]: *Channel to modify*
-
-(optional) [`member`]: *Member* (def: `None`)
+- \[`channel`\]: *Channel to modify*
+- (optional) \[`member`\]: *Member* (def: `None`)
 
 **Overload 1:**
-
-[`role`]: *Role*
-
-(optional) [`channel`]: *Channel to modify* (def: `None`)
+- \[`role`\]: *Role*
+- (optional) \[`channel`\]: *Channel to modify* (def: `None`)
 
 **Overload 0:**
-
-[`channel`]: *Channel to modify*
-
-[`role`]: *Role*
+- \[`channel`\]: *Channel to modify*
+- \[`role`\]: *Role*
 
 **Examples:**
 
@@ -1108,20 +1232,19 @@
 
 *Bot command rule management (allowing or forbiding certain commands). Group call shows active command rules in specified channel or globally if the channel is not specified.*
 
-**Aliases:**
-`cmdrules, crules, cr`
 **Guild only.**
 
 **Requires user permissions:**
 `Administrator`
 
-**Overload 1:**
+**Aliases:**
+`cmdrules, crules, cr`
 
-(optional) [`channel`]: *Channel in which to search for active rules* (def: `None`)
+**Overload 1:**
+- (optional) \[`channel`\]: *Channel in which to search for active rules* (def: `None`)
 
 **Overload 0:**
-
-[`string...`]: *Command/Group full name*
+- \[`string...`\]: *Command/Group full name*
 
 **Examples:**
 
@@ -1139,24 +1262,21 @@
 
 *Allows command execution only in specified channel(s), or globally if they are not specified.*
 
-**Aliases:**
-`only, register, reg, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires user permissions:**
 `Administrator`
 
+**Aliases:**
+`only, register, reg, a, +, +=, <<, <, <-, <=`
+
 **Overload 1:**
-
-[`string`]: *Command or group to allow*
-
-[`channel...`]: *Channel(s) affected by this action*
+- \[`channel`\]: *Channel(s) affected by this action*
+- \[`string...`\]: *Command or group to allow*
 
 **Overload 0:**
-
-[`channel`]: *Channel(s) affected by this action*
-
-[`string`]: *Command or group to allow*
+- \[`string`\]: *Command or group to allow*
+- \[`channel...`\]: *Channel(s) affected by this action*
 
 **Examples:**
 
@@ -1174,12 +1294,17 @@
 
 *Remove all command rules.*
 
-**Aliases:**
-`reset, removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires user permissions:**
 `Administrator`
+
+**Aliases:**
+`reset, removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -1195,24 +1320,21 @@
 
 *Forbids command execution in specified channel(s), or globally if they are not specified.*
 
-**Aliases:**
-`f, deny, unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires user permissions:**
 `Administrator`
 
-**Overload 0:**
-
-[`string`]: *Command or group to forbid*
-
-[`channel...`]: *Channel(s) affected by this action*
+**Aliases:**
+`f, deny, unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 
 **Overload 0:**
+- \[`string`\]: *Command or group to forbid*
+- \[`channel...`\]: *Channel(s) affected by this action*
 
-[`channel`]: *Channel(s) affected by this action*
-
-[`string`]: *Command or group to forbid*
+**Overload 0:**
+- \[`channel`\]: *Channel(s) affected by this action*
+- \[`string`\]: *Command or group to forbid*
 
 **Examples:**
 
@@ -1230,20 +1352,19 @@
 
 *Lists active command rules in specified channel or globally if the channel is not specified.*
 
-**Aliases:**
-`print, show, view, ls, l, p`
 **Guild only.**
 
 **Requires user permissions:**
 `Administrator`
 
-**Overload 1:**
+**Aliases:**
+`print, show, view, ls, l, p`
 
-[`string...`]: *Command/Group full name*
+**Overload 1:**
+- \[`string...`\]: *Command/Group full name*
 
 **Overload 0:**
-
-(optional) [`channel`]: *Channel in which to search for active rules* (def: `None`)
+- (optional) \[`channel`\]: *Channel in which to search for active rules* (def: `None`)
 
 **Examples:**
 
@@ -1261,12 +1382,17 @@
 
 *Manage bot configuration for this guild. Group call lists current guild configuration.*
 
-**Aliases:**
-`configuration, configure, settings, cfg`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`configuration, configure, settings, cfg`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -1277,61 +1403,79 @@
 
 ---
 
-## Group: config antiflood
+### config actionhistory
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
-*Punishes guild flooders/raiders. Executes punishment action when more than specified amount of users (sensitivity) enter the guild within a given time window (cooldown).*
+*Views or toggles moderation action recording.*
 
-**Aliases:**
-`antiraid, ar, af`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 5:**
-
-[`boolean`]: *Enable?*
-
-[`short`]: *Sensitivity*
-
-(optional) [`PunishmentAction`]: *Punishment action* (def: `Kick`)
-
-(optional) [`time span`]: *Cooldown timespan* (def: `None`)
-
-**Overload 4:**
-
-[`boolean`]: *Enable?*
-
-[`PunishmentAction`]: *Punishment action*
-
-(optional) [`short`]: *Sensitivity* (def: `5`)
-
-(optional) [`time span`]: *Cooldown timespan* (def: `None`)
-
-**Overload 3:**
-
-[`boolean`]: *Enable?*
-
-[`PunishmentAction`]: *Punishment action*
-
-(optional) [`time span`]: *Cooldown timespan* (def: `None`)
-
-(optional) [`short`]: *Sensitivity* (def: `5`)
-
-**Overload 2:**
-
-[`boolean`]: *Enable?*
-
-[`time span`]: *Cooldown timespan*
-
-(optional) [`PunishmentAction`]: *Punishment action* (def: `Kick`)
-
-(optional) [`short`]: *Sensitivity* (def: `5`)
+**Aliases:**
+`history, ah`
 
 **Overload 1:**
+- \[`boolean`\]: *Enable action history?*
 
-[`boolean`]: *Enable?*
+**Overload 0:**
+
+*No arguments.*
+
+**Examples:**
+
+```xml
+!config actionhistory
+!config actionhistory Yes/No
+```
+</p></details>
+
+---
+
+## Group: config antiflood
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Punishes guild flooders/raiders. Executes punishment action when more than specified amount of users (sensitivity) enter the guild within a given time window (cooldown).*
+
+**Guild only.**
+
+**Requires user permissions:**
+`Manage guild`
+
+**Aliases:**
+`antiraid, ar, af`
+
+**Overload 5:**
+- \[`boolean`\]: *Enable?*
+- \[`short`\]: *Sensitivity*
+- (optional) \[`PunishmentAction`\]: *Punishment action* (def: `Kick`)
+- (optional) \[`time span`\]: *Cooldown timespan* (def: `None`)
+
+**Overload 4:**
+- \[`boolean`\]: *Enable?*
+- \[`PunishmentAction`\]: *Punishment action*
+- (optional) \[`short`\]: *Sensitivity* (def: `5`)
+- (optional) \[`time span`\]: *Cooldown timespan* (def: `None`)
+
+**Overload 3:**
+- \[`boolean`\]: *Enable?*
+- \[`PunishmentAction`\]: *Punishment action*
+- (optional) \[`time span`\]: *Cooldown timespan* (def: `None`)
+- (optional) \[`short`\]: *Sensitivity* (def: `5`)
+
+**Overload 2:**
+- \[`boolean`\]: *Enable?*
+- \[`time span`\]: *Cooldown timespan*
+- (optional) \[`PunishmentAction`\]: *Punishment action* (def: `Kick`)
+- (optional) \[`short`\]: *Sensitivity* (def: `5`)
+
+**Overload 1:**
+- \[`boolean`\]: *Enable?*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -1351,16 +1495,16 @@
 
 *Gets or sets the antiflood action.*
 
-**Aliases:**
-`setaction, setact, act, a`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`setaction, setact, act, a`
 
-(optional) [`Nullable`1`]: *Punishment action* (def: `None`)
+**Overload 0:**
+- (optional) \[`Nullable`1`\]: *Punishment action* (def: `None`)
 
 **Examples:**
 
@@ -1377,16 +1521,16 @@
 
 *Gets or sets the antiflood cooldown.*
 
-**Aliases:**
-`setcooldown, setcool, cd, c`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`setcooldown, setcool, cd, c`
 
-(optional) [`time span`]: *Cooldown timespan* (def: `None`)
+**Overload 0:**
+- (optional) \[`time span`\]: *Cooldown timespan* (def: `None`)
 
 **Examples:**
 
@@ -1403,12 +1547,17 @@
 
 *Reverts antiflood configuration to default values.*
 
-**Aliases:**
-`default, def, s, rr`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`default, def, s, rr`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -1424,16 +1573,16 @@
 
 *Gets or sets the antiflood sensitivity.*
 
-**Aliases:**
-`setsensitivity, setsens, sens, s`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`setsensitivity, setsens, sens, s`
 
-(optional) [`short`]: *Sensitivity* (def: `None`)
+**Overload 0:**
+- (optional) \[`short`\]: *Sensitivity* (def: `None`)
 
 **Examples:**
 
@@ -1450,32 +1599,30 @@
 
 *Punishes users that send more than specified amount mentions (sensitivity) in a message.*
 
-**Aliases:**
-`am`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
+**Aliases:**
+`am`
+
 **Overload 3:**
-
-[`boolean`]: *Enable?*
-
-[`short`]: *Sensitivity*
-
-(optional) [`PunishmentAction`]: *Punishment action* (def: `TemporaryMute`)
+- \[`boolean`\]: *Enable?*
+- \[`short`\]: *Sensitivity*
+- (optional) \[`PunishmentAction`\]: *Punishment action* (def: `TemporaryMute`)
 
 **Overload 2:**
-
-[`boolean`]: *Enable?*
-
-[`PunishmentAction`]: *Punishment action*
-
-(optional) [`short`]: *Sensitivity* (def: `5`)
+- \[`boolean`\]: *Enable?*
+- \[`PunishmentAction`\]: *Punishment action*
+- (optional) \[`short`\]: *Sensitivity* (def: `5`)
 
 **Overload 1:**
+- \[`boolean`\]: *Enable?*
 
-[`boolean`]: *Enable?*
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -1494,16 +1641,16 @@
 
 *Gets or sets the anti-mention action.*
 
-**Aliases:**
-`setaction, setact, act, a`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`setaction, setact, act, a`
 
-(optional) [`Nullable`1`]: *Punishment action* (def: `None`)
+**Overload 0:**
+- (optional) \[`Nullable`1`\]: *Punishment action* (def: `None`)
 
 **Examples:**
 
@@ -1520,24 +1667,22 @@
 
 *Disable anti-mention for specified users, channels or roles.*
 
-**Aliases:**
-`ex, exc`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 2:**
+**Aliases:**
+`ex, exc`
 
-[`member...`]: *User(s) to exempt*
+**Overload 2:**
+- \[`member...`\]: *User(s) to exempt*
 
 **Overload 1:**
-
-[`role...`]: *Role(s) to exempt*
+- \[`role...`\]: *Role(s) to exempt*
 
 **Overload 0:**
-
-[`channel...`]: *Channel(s) to exempt*
+- \[`channel...`\]: *Channel(s) to exempt*
 
 **Examples:**
 
@@ -1555,12 +1700,17 @@
 
 *Reverts anti-mention configuration to default values.*
 
-**Aliases:**
-`default, def, s, rr`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`default, def, s, rr`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -1576,16 +1726,16 @@
 
 *Gets or sets the anti-mention sensitivity.*
 
-**Aliases:**
-`setsensitivity, setsens, sens, s`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`setsensitivity, setsens, sens, s`
 
-(optional) [`short`]: *Sensitivity* (def: `None`)
+**Overload 0:**
+- (optional) \[`short`\]: *Sensitivity* (def: `None`)
 
 **Examples:**
 
@@ -1602,24 +1752,22 @@
 
 *Removes anti-mention exemptions.*
 
-**Aliases:**
-`unex, uex`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 2:**
+**Aliases:**
+`unex, uex`
 
-[`member...`]: *User(s) to unexempt*
+**Overload 2:**
+- \[`member...`\]: *User(s) to unexempt*
 
 **Overload 1:**
-
-[`role...`]: *Role(s) to unexempt*
+- \[`role...`\]: *Role(s) to unexempt*
 
 **Overload 0:**
-
-[`channel...`]: *Channel(s) to unexempt*
+- \[`channel...`\]: *Channel(s) to unexempt*
 
 **Examples:**
 
@@ -1637,32 +1785,30 @@
 
 *Punishes users that send the same message atleast specified amount of times (sensitivity).*
 
-**Aliases:**
-`as`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
+**Aliases:**
+`as`
+
 **Overload 3:**
-
-[`boolean`]: *Enable?*
-
-[`short`]: *Sensitivity*
-
-(optional) [`PunishmentAction`]: *Punishment action* (def: `TemporaryMute`)
+- \[`boolean`\]: *Enable?*
+- \[`short`\]: *Sensitivity*
+- (optional) \[`PunishmentAction`\]: *Punishment action* (def: `TemporaryMute`)
 
 **Overload 2:**
-
-[`boolean`]: *Enable?*
-
-[`PunishmentAction`]: *Punishment action*
-
-(optional) [`short`]: *Sensitivity* (def: `5`)
+- \[`boolean`\]: *Enable?*
+- \[`PunishmentAction`\]: *Punishment action*
+- (optional) \[`short`\]: *Sensitivity* (def: `5`)
 
 **Overload 1:**
+- \[`boolean`\]: *Enable?*
 
-[`boolean`]: *Enable?*
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -1681,16 +1827,16 @@
 
 *Gets or sets the antispam action.*
 
-**Aliases:**
-`setaction, setact, act, a`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`setaction, setact, act, a`
 
-(optional) [`Nullable`1`]: *Punishment action* (def: `None`)
+**Overload 0:**
+- (optional) \[`Nullable`1`\]: *Punishment action* (def: `None`)
 
 **Examples:**
 
@@ -1707,24 +1853,22 @@
 
 *Disable antispam for specified users, channels or roles.*
 
-**Aliases:**
-`ex, exc`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 2:**
+**Aliases:**
+`ex, exc`
 
-[`member...`]: *User(s) to exempt*
+**Overload 2:**
+- \[`member...`\]: *User(s) to exempt*
 
 **Overload 1:**
-
-[`role...`]: *Role(s) to exempt*
+- \[`role...`\]: *Role(s) to exempt*
 
 **Overload 0:**
-
-[`channel...`]: *Channel(s) to exempt*
+- \[`channel...`\]: *Channel(s) to exempt*
 
 **Examples:**
 
@@ -1742,12 +1886,17 @@
 
 *Reverts antispam configuration to default values.*
 
-**Aliases:**
-`default, def, s, rr`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`default, def, s, rr`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -1763,16 +1912,16 @@
 
 *Gets or sets the antispam sensitivity.*
 
-**Aliases:**
-`setsensitivity, setsens, sens, s`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`setsensitivity, setsens, sens, s`
 
-(optional) [`short`]: *Sensitivity* (def: `None`)
+**Overload 0:**
+- (optional) \[`short`\]: *Sensitivity* (def: `None`)
 
 **Examples:**
 
@@ -1789,24 +1938,22 @@
 
 *Removes antispam exemptions.*
 
-**Aliases:**
-`unex, uex`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 2:**
+**Aliases:**
+`unex, uex`
 
-[`member...`]: *User(s) to unexempt*
+**Overload 2:**
+- \[`member...`\]: *User(s) to unexempt*
 
 **Overload 1:**
-
-[`role...`]: *Role(s) to unexempt*
+- \[`role...`\]: *Role(s) to unexempt*
 
 **Overload 0:**
-
-[`channel...`]: *Channel(s) to unexempt*
+- \[`channel...`\]: *Channel(s) to unexempt*
 
 **Examples:**
 
@@ -1824,16 +1971,20 @@
 
 *Manages real-time backup of messages sent in guild channels.*
 
-**Aliases:**
-`bk, bak`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`bk, bak`
 
-[`boolean`]: *Enable?*
+**Overload 1:**
+- \[`boolean`\]: *Enable?*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -1850,12 +2001,17 @@
 
 *Download compressed backup.*
 
-**Aliases:**
-`dl, get, zip`
 **Guild only.**
 
 **Requires user permissions:**
 `Administrator, Manage guild`
+
+**Aliases:**
+`dl, get, zip`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -1871,16 +2027,16 @@
 
 *Disable real-time backup for specified channels.*
 
-**Aliases:**
-`ex, exc`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`ex, exc`
 
-[`channel...`]: *Channel(s) to exempt*
+**Overload 0:**
+- \[`channel...`\]: *Channel(s) to exempt*
 
 **Examples:**
 
@@ -1896,16 +2052,16 @@
 
 *Removes real-time backup exemptions.*
 
-**Aliases:**
-`unex, uex`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`unex, uex`
 
-[`channel...`]: *Channel(s) to unexempt*
+**Overload 0:**
+- \[`channel...`\]: *Channel(s) to unexempt*
 
 **Examples:**
 
@@ -1921,16 +2077,20 @@
 
 *Gets or sets guild currency.*
 
-**Aliases:**
-`setcurrency, curr, $, $$, $$$`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`setcurrency, curr, $, $$, $$$`
 
-[`string`]: *New currency*
+**Overload 1:**
+- \[`string`\]: *New currency*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -1948,22 +2108,24 @@
 
 *Punishes users that join the guild and instantly leave it. This is a method used to spam ads if users join with ads in name and Discord/bots welcome them.*
 
-**Aliases:**
-`il`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
+**Aliases:**
+`il`
+
 **Overload 2:**
-
-[`boolean`]: *Enable?*
-
-[`short`]: *Sensitivity*
+- \[`boolean`\]: *Enable?*
+- \[`short`\]: *Sensitivity*
 
 **Overload 1:**
+- \[`boolean`\]: *Enable?*
 
-[`boolean`]: *Enable?*
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -1981,16 +2143,16 @@
 
 *Gets or sets the instantleave cooldown.*
 
-**Aliases:**
-`setcooldown, setcool, cd, c`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`setcooldown, setcool, cd, c`
 
-(optional) [`short`]: *Sensitivity* (def: `None`)
+**Overload 0:**
+- (optional) \[`short`\]: *Sensitivity* (def: `None`)
 
 **Examples:**
 
@@ -2007,12 +2169,17 @@
 
 *Reverts instantleave configuration to default values.*
 
-**Aliases:**
-`default, def, s, rr`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`default, def, s, rr`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2028,18 +2195,21 @@
 
 *Configures member leave messages.*
 
-**Aliases:**
-`quit, lv, lm, l`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
+**Aliases:**
+`quit, lv, lm, l`
+
 **Overload 1:**
+- \[`boolean`\]: *Enable leave messages?*
+- (optional) \[`channel`\]: *Channel where to send leave messages* (def: `None`)
 
-[`boolean`]: *Enable leave messages?*
+**Overload 0:**
 
-(optional) [`channel`]: *Channel where to send leave messages* (def: `None`)
+*No arguments.*
 
 **Examples:**
 
@@ -2056,16 +2226,16 @@
 
 *Enables leave messages in specified channel.*
 
-**Aliases:**
-`chn, ch, c`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`chn, ch, c`
 
-(optional) [`channel`]: *Channel where to send leave messages* (def: `None`)
+**Overload 0:**
+- (optional) \[`channel`\]: *Channel where to send leave messages* (def: `None`)
 
 **Examples:**
 
@@ -2081,16 +2251,16 @@
 
 *Customizes leave message.*
 
-**Aliases:**
-`msg, m`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`msg, m`
 
-[`string...`]: *Leave message*
+**Overload 0:**
+- \[`string...`\]: *Leave message*
 
 **Examples:**
 
@@ -2101,21 +2271,55 @@
 
 ---
 
-## Group: config linkfilter
+### config levelup
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
-*Linkfilter configuration. Group call prints current configuration, or enables/disables linkfilter.*
+*Configures member levelup notifications.*
 
-**Aliases:**
-`lf`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`lvlup, lvl`
 
-[`boolean`]: *Enable?*
+**Overload 1:**
+- \[`boolean`\]: *Enable silent level ups?*
+
+**Overload 0:**
+
+*No arguments.*
+
+**Examples:**
+
+```xml
+!config levelup
+!config levelup Yes/No
+```
+</p></details>
+
+---
+
+## Group: config linkfilter
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Linkfilter configuration. Group call prints current configuration, or enables/disables linkfilter.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`Manage guild`
+
+**Aliases:**
+`lf`
+
+**Overload 1:**
+- \[`boolean`\]: *Enable?*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2131,16 +2335,20 @@
 
 *Gets or sets DDoS/Booter website link filtering.*
 
-**Aliases:**
-`ddos, boot, dos`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`ddos, boot, dos`
 
-[`boolean`]: *Enable?*
+**Overload 1:**
+- \[`boolean`\]: *Enable?*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2156,16 +2364,20 @@
 
 *Gets or sets Discord invite link filtering.*
 
-**Aliases:**
-`invite, inv, i`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`invite, inv, i`
 
-[`boolean`]: *Enable?*
+**Overload 1:**
+- \[`boolean`\]: *Enable?*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2181,16 +2393,20 @@
 
 *Gets or sets IP logging website link filtering.*
 
-**Aliases:**
-`ip, loggers`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`ip, loggers`
 
-[`boolean`]: *Enable?*
+**Overload 1:**
+- \[`boolean`\]: *Enable?*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2206,16 +2422,20 @@
 
 *Gets or sets Shock/Gore website link filtering.*
 
-**Aliases:**
-`disturbingsites, shock, disturbing, gore`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`disturbingsites, shock, disturbing, gore`
 
-[`boolean`]: *Enable?*
+**Overload 1:**
+- \[`boolean`\]: *Enable?*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2231,16 +2451,20 @@
 
 *Gets or sets URL shortener website link filtering.*
 
-**Aliases:**
-`urlshort, shortenurl, urlshorteners`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`urlshort, shortenurl, urlshorteners`
 
-[`boolean`]: *Enable?*
+**Overload 1:**
+- \[`boolean`\]: *Enable?*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2256,16 +2480,20 @@
 
 *Configures the bot locale (language and date formats) for this guild. Group call shows current guild locale.*
 
-**Aliases:**
-`locale, language, lang, region`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`locale, language, lang, region`
 
-[`string`]: *New locale*
+**Overload 1:**
+- \[`string`\]: *New locale*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2282,12 +2510,17 @@
 
 *Lists all available locales (language and date formats).*
 
-**Aliases:**
-`print, show, view, ls, l, p`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`print, show, view, ls, l, p`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2303,16 +2536,16 @@
 
 *Changes the bot locale (language and date formats) for this guild.*
 
-**Aliases:**
-`change`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`change`
 
-[`string`]: *New locale*
+**Overload 0:**
+- \[`string`\]: *New locale*
 
 **Examples:**
 
@@ -2328,26 +2561,27 @@
 
 *Configures event logging for this guild.*
 
-**Aliases:**
-`log, modlog`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
+**Aliases:**
+`log, modlog`
+
 **Overload 3:**
-
-[`boolean`]: *Enable?*
-
-[`channel`]: *New locale*
+- \[`boolean`\]: *Enable?*
+- \[`channel`\]: *New locale*
 
 **Overload 2:**
-
-[`channel`]: *New locale*
+- \[`channel`\]: *New locale*
 
 **Overload 1:**
+- \[`boolean`\]: *Enable?*
 
-[`boolean`]: *Enable?*
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2365,24 +2599,22 @@
 
 *Disable action logging for specified users, channels or roles.*
 
-**Aliases:**
-`ex, exc`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 2:**
+**Aliases:**
+`ex, exc`
 
-[`member...`]: *User(s) to exempt*
+**Overload 2:**
+- \[`member...`\]: *User(s) to exempt*
 
 **Overload 1:**
-
-[`role...`]: *Role(s) to exempt*
+- \[`role...`\]: *Role(s) to exempt*
 
 **Overload 0:**
-
-[`channel...`]: *Channel(s) to exempt*
+- \[`channel...`\]: *Channel(s) to exempt*
 
 **Examples:**
 
@@ -2400,24 +2632,22 @@
 
 *Removes action logging exemptions.*
 
-**Aliases:**
-`unex, uex`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 2:**
+**Aliases:**
+`unex, uex`
 
-[`member...`]: *User(s) to unexempt*
+**Overload 2:**
+- \[`member...`\]: *User(s) to unexempt*
 
 **Overload 1:**
-
-[`role...`]: *Role(s) to unexempt*
+- \[`role...`\]: *Role(s) to unexempt*
 
 **Overload 0:**
-
-[`channel...`]: *Channel(s) to unexempt*
+- \[`channel...`\]: *Channel(s) to unexempt*
 
 **Examples:**
 
@@ -2435,16 +2665,16 @@
 
 *Views or changes the mute role for the guild.*
 
-**Aliases:**
-`mr, muterl, mrl`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`mr, muterl, mrl`
 
-(optional) [`role`]: *New mute role* (def: `None`)
+**Overload 0:**
+- (optional) \[`role`\]: *New mute role* (def: `None`)
 
 **Examples:**
 
@@ -2461,32 +2691,30 @@
 
 *Punishes users that send more than specified amount of messages (sensitivity) in 5s.*
 
-**Aliases:**
-`rl`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
+**Aliases:**
+`rl`
+
 **Overload 3:**
-
-[`boolean`]: *Enable?*
-
-[`short`]: *Sensitivity*
-
-(optional) [`PunishmentAction`]: *Punishment action* (def: `TemporaryMute`)
+- \[`boolean`\]: *Enable?*
+- \[`short`\]: *Sensitivity*
+- (optional) \[`PunishmentAction`\]: *Punishment action* (def: `TemporaryMute`)
 
 **Overload 2:**
-
-[`boolean`]: *Enable?*
-
-[`PunishmentAction`]: *Punishment action*
-
-(optional) [`short`]: *Sensitivity* (def: `5`)
+- \[`boolean`\]: *Enable?*
+- \[`PunishmentAction`\]: *Punishment action*
+- (optional) \[`short`\]: *Sensitivity* (def: `5`)
 
 **Overload 1:**
+- \[`boolean`\]: *Enable?*
 
-[`boolean`]: *Enable?*
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2505,16 +2733,16 @@
 
 *Gets or sets the ratelimit action.*
 
-**Aliases:**
-`setaction, setact, act, a`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`setaction, setact, act, a`
 
-(optional) [`Nullable`1`]: *Punishment action* (def: `None`)
+**Overload 0:**
+- (optional) \[`Nullable`1`\]: *Punishment action* (def: `None`)
 
 **Examples:**
 
@@ -2531,24 +2759,22 @@
 
 *Disable ratelimit watch for specified users, channels or roles.*
 
-**Aliases:**
-`ex, exc`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 2:**
+**Aliases:**
+`ex, exc`
 
-[`member...`]: *User(s) to exempt*
+**Overload 2:**
+- \[`member...`\]: *User(s) to exempt*
 
 **Overload 1:**
-
-[`role...`]: *Role(s) to exempt*
+- \[`role...`\]: *Role(s) to exempt*
 
 **Overload 0:**
-
-[`channel...`]: *Channel(s) to exempt*
+- \[`channel...`\]: *Channel(s) to exempt*
 
 **Examples:**
 
@@ -2566,12 +2792,17 @@
 
 *Reverts ratelimit configuration to default values.*
 
-**Aliases:**
-`default, def, s, rr`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`default, def, s, rr`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2587,16 +2818,16 @@
 
 *Gets or sets the ratelimit sensitivity.*
 
-**Aliases:**
-`setsensitivity, setsens, sens, s`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`setsensitivity, setsens, sens, s`
 
-(optional) [`short`]: *Sensitivity* (def: `None`)
+**Overload 0:**
+- (optional) \[`short`\]: *Sensitivity* (def: `None`)
 
 **Examples:**
 
@@ -2613,24 +2844,22 @@
 
 *Removes antispam exemptions.*
 
-**Aliases:**
-`unex, uex`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 2:**
+**Aliases:**
+`unex, uex`
 
-[`member...`]: *User(s) to unexempt*
+**Overload 2:**
+- \[`member...`\]: *User(s) to unexempt*
 
 **Overload 1:**
-
-[`role...`]: *Role(s) to unexempt*
+- \[`role...`\]: *Role(s) to unexempt*
 
 **Overload 0:**
-
-[`channel...`]: *Channel(s) to unexempt*
+- \[`channel...`\]: *Channel(s) to unexempt*
 
 **Examples:**
 
@@ -2648,12 +2877,17 @@
 
 *Resets guild config to default values.*
 
-**Aliases:**
-`default, def, s, rr`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`default, def, s, rr`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2669,16 +2903,16 @@
 
 *Starts an interactive wizard for configuring the guild settings.*
 
-**Aliases:**
-`wizard`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`wizard`
 
-(optional) [`channel`]: *Channel where to execute the setup* (def: `None`)
+**Overload 0:**
+- (optional) \[`channel`\]: *Channel where to execute the setup* (def: `None`)
 
 **Examples:**
 
@@ -2695,16 +2929,20 @@
 
 *Views or toggles silent reaction replies to command execution.*
 
-**Aliases:**
-`reactionresponse, silentresponse, s, rr`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`reactionresponse, silentresponse, s, rr`
 
-[`boolean`]: *Enable silent replies?*
+**Overload 1:**
+- \[`boolean`\]: *Enable silent replies?*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2719,18 +2957,22 @@
 ### config suggestions
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
-*Views or toggles command suggestions when command name is not found.*
+*Views or toggles command suggestion setting when command name is not found.*
 
-**Aliases:**
-`suggestion, cmdsug, sugg, sug, help`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`suggestion, cmdsug, sugg, sug, help`
 
-[`boolean`]: *Enable command suggestions?*
+**Overload 1:**
+- \[`boolean`\]: *Enable command suggestions?*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2742,21 +2984,184 @@
 
 ---
 
-### config verbose
+## Group: config timezone
 <details><summary markdown='span'>Expand for additional information</summary><p>
 
-*Views or toggles verbose replies to command execution.*
+*Gets or sets current guild time zone.*
 
-**Aliases:**
-`fullresponse, verboseresponse, v, vr`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
+**Aliases:**
+`tz`
+
 **Overload 1:**
 
-[`boolean`]: *Enable verbose replies?*
+*No arguments.*
+
+**Overload 0:**
+- \[`string...`\]: *IANA/Windows/Rails timezone ID*
+
+**Examples:**
+
+```xml
+!config timezone
+!config timezone CET
+```
+</p></details>
+
+---
+
+### config timezone current
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Prints current guild time zone.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`Manage guild`
+
+**Aliases:**
+`curr, active`
+
+**Overload 0:**
+
+*No arguments.*
+
+**Examples:**
+
+```xml
+!config timezone current
+```
+</p></details>
+
+---
+
+### config timezone info
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Prints information about given time zone.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`Manage guild`
+
+**Aliases:**
+`i, information`
+
+**Overload 0:**
+- (optional) \[`string...`\]: *IANA/Windows/Rails timezone ID* (def: `None`)
+
+**Examples:**
+
+```xml
+!config timezone info
+!config timezone info CET
+```
+</p></details>
+
+---
+
+### config timezone list
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Lists all available time zones.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`Manage guild`
+
+**Aliases:**
+`print, show, view, ls, l, p`
+
+**Overload 0:**
+
+*No arguments.*
+
+**Examples:**
+
+```xml
+!config timezone list
+```
+</p></details>
+
+---
+
+### config timezone reset
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Resets guild time zone information to the default value.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`Manage guild`
+
+**Aliases:**
+`default, def, rr`
+
+**Overload 0:**
+
+*No arguments.*
+
+**Examples:**
+
+```xml
+!config timezone reset
+```
+</p></details>
+
+---
+
+### config timezone set
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Modifies current guild time zone.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`Manage guild`
+
+**Aliases:**
+`s`
+
+**Overload 0:**
+- \[`string...`\]: *IANA/Windows/Rails timezone ID*
+
+**Examples:**
+
+```xml
+!config timezone set CET
+```
+</p></details>
+
+---
+
+### config verbose
+<details><summary markdown='span'>Expand for additional information</summary><p>
+
+*Views or toggles verbose replies to command execution.*
+
+**Guild only.**
+
+**Requires user permissions:**
+`Manage guild`
+
+**Aliases:**
+`fullresponse, verboseresponse, v, vr`
+
+**Overload 1:**
+- \[`boolean`\]: *Enable verbose replies?*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -2773,18 +3178,21 @@
 
 *Configures member welcome messages.*
 
-**Aliases:**
-`enter, join, wlc, wm, w`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
+**Aliases:**
+`enter, join, wlc, wm, w`
+
 **Overload 1:**
+- \[`boolean`\]: *Enable welcome messages?*
+- (optional) \[`channel`\]: *Channel where to send welcome messages* (def: `None`)
 
-[`boolean`]: *Enable welcome messages?*
+**Overload 0:**
 
-(optional) [`channel`]: *Channel where to send welcome messages* (def: `None`)
+*No arguments.*
 
 **Examples:**
 
@@ -2801,16 +3209,16 @@
 
 *Enables welcome messages in specified channel.*
 
-**Aliases:**
-`chn, ch, c`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`chn, ch, c`
 
-(optional) [`channel`]: *Channel where to send welcome messages* (def: `None`)
+**Overload 0:**
+- (optional) \[`channel`\]: *Channel where to send welcome messages* (def: `None`)
 
 **Examples:**
 
@@ -2826,16 +3234,16 @@
 
 *Customizes welcome message.*
 
-**Aliases:**
-`msg, m`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`msg, m`
 
-[`string...`]: *Welcome message*
+**Overload 0:**
+- \[`string...`\]: *Welcome message*
 
 **Examples:**
 
@@ -2851,16 +3259,20 @@
 
 *Guild emoji administration. Group call lists all guild emoji or prints information about a given emoji.*
 
-**Aliases:**
-`emojis, e`
 **Guild only.**
 
 **Requires permissions:**
-`Manage emoji`
+`Manage emoji and stickers`
+
+**Aliases:**
+`emojis, e`
+
+**Overload 1:**
+
+*No arguments.*
 
 **Overload 0:**
-
-[`emoji`]: *Emoji to view*
+- \[`emoji`\]: *Emoji to view*
 
 **Examples:**
 
@@ -2878,36 +3290,29 @@
 
 *Add emoji specified via URL/attachment, or from another guild.*
 
-**Aliases:**
-`create, install, register, reg, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires permissions:**
-`Manage emoji`
+`Manage emoji and stickers`
+
+**Aliases:**
+`create, install, register, reg, a, +, +=, <<, <, <-, <=`
 
 **Overload 3:**
-
-[`string`]: *Name for the emoji*
-
-(optional) [`URL`]: *Emoji URL* (def: `None`)
+- \[`string`\]: *Name for the emoji*
+- (optional) \[`URL`\]: *Emoji URL* (def: `None`)
 
 **Overload 2:**
-
-[`URL`]: *Emoji URL*
-
-[`string`]: *Name for the emoji*
+- \[`URL`\]: *Emoji URL*
+- \[`string`\]: *Name for the emoji*
 
 **Overload 1:**
-
-[`string`]: *Name for the emoji*
-
-[`emoji`]: *Emoji from another guild*
+- \[`string`\]: *Name for the emoji*
+- \[`emoji`\]: *Emoji from another guild*
 
 **Overload 0:**
-
-[`emoji`]: *Emoji from another guild*
-
-(optional) [`string`]: *Name for the emoji* (def: `None`)
+- \[`emoji`\]: *Emoji from another guild*
+- (optional) \[`string`\]: *Name for the emoji* (def: `None`)
 
 **Examples:**
 
@@ -2924,18 +3329,17 @@
 
 *Remove guild emoji. Note: Bots can only delete emojis they created!*
 
-**Aliases:**
-`unregister, uninstall, remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires permissions:**
-`Manage emoji`
+`Manage emoji and stickers`
 
-**Arguments:**
+**Aliases:**
+`unregister, uninstall, remove, rm, del, d, -, -=, >, >>, ->, =>`
 
-[`emoji`]: *Emoji to delete*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`emoji`\]: *Emoji to delete*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -2952,16 +3356,16 @@
 
 *Prints information for given guild emoji.*
 
-**Aliases:**
-`information, details, about, i`
 **Guild only.**
 
 **Requires permissions:**
-`Manage emoji`
+`Manage emoji and stickers`
 
-**Arguments:**
+**Aliases:**
+`information, details, about, i`
 
-[`emoji`]: *Emoji to view*
+**Overload 0:**
+- \[`emoji`\]: *Emoji to view*
 
 **Examples:**
 
@@ -2979,12 +3383,17 @@
 
 *List all emojis for this guild.*
 
-**Aliases:**
-`print, show, view, ls, l, p`
 **Guild only.**
 
 **Requires permissions:**
-`Manage emoji`
+`Manage emoji and stickers`
+
+**Aliases:**
+`print, show, view, ls, l, p`
+
+**Overload 0:**
+
+*No arguments.*
 
 </p></details>
 
@@ -2995,28 +3404,23 @@
 
 *Edit name of an existing guild emoji.*
 
-**Aliases:**
-`edit, mod, e, m, rename, mv, setname`
 **Guild only.**
 
 **Requires permissions:**
-`Manage emoji`
+`Manage emoji and stickers`
+
+**Aliases:**
+`edit, mod, e, m, rename, mv, setname`
 
 **Overload 1:**
-
-[`emoji`]: *Emoji to modify*
-
-[`string`]: *Name*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`emoji`\]: *Emoji to modify*
+- \[`string`\]: *Name*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`string`]: *Name*
-
-[`emoji`]: *Emoji to modify*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`string`\]: *Name*
+- \[`emoji`\]: *Emoji to modify*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -3032,16 +3436,20 @@
 
 *Message filtering administration. Group call either lists all filters or adds a new filter for given regular expression(s).*
 
-**Aliases:**
-`f, filters, autodel`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 0:**
+**Aliases:**
+`f, filters, autodel`
 
-[`string...`]: *Filter patterns (regular expressions, case insensitive)*
+**Overload 1:**
+
+*No arguments.*
+
+**Overload 0:**
+- \[`string...`\]: *Filter patterns (regular expressions, case insensitive)*
 
 **Examples:**
 
@@ -3058,16 +3466,16 @@
 
 *Adds a new filter for given regular expression(s).*
 
-**Aliases:**
-`register, reg, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`register, reg, a, +, +=, <<, <, <-, <=`
 
-[`string...`]: *Filter patterns (regular expressions, case insensitive)*
+**Overload 0:**
+- \[`string...`\]: *Filter patterns (regular expressions, case insensitive)*
 
 **Examples:**
 
@@ -3083,20 +3491,19 @@
 
 *Removes filter(s) by ID, pattern or matching string.*
 
-**Aliases:**
-`remove, rm, del, d, -, -=, >, >>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`remove, rm, del, d, -, -=, >, >>`
 
-[`int...`]: *IDs of filters to remove*
+**Overload 1:**
+- \[`int...`\]: *IDs of filters to remove*
 
 **Overload 0:**
-
-[`string...`]: *Filters to remove*
+- \[`string...`\]: *Filters to remove*
 
 **Examples:**
 
@@ -3113,12 +3520,17 @@
 
 *Removes all guild filters.*
 
-**Aliases:**
-`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -3134,12 +3546,17 @@
 
 *Lists all filters for this guild.*
 
-**Aliases:**
-`print, show, view, ls, l, p`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`print, show, view, ls, l, p`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -3155,19 +3572,22 @@
 
 *Forbidden name administration. Group call shows all registered forbidden names for this guild or adds a new forbidden name pattern if it has been provided.*
 
-**Aliases:**
-`forbiddenname, forbiddennicknames, disallowednames, fnames, fname, fn`
 **Guild only.**
 
 **Requires permissions:**
 `Manage nicknames`
-
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 0:**
+**Aliases:**
+`forbiddenname, forbiddennicknames, disallowednames, fnames, fname, fn`
 
-[`string...`]: *Forbidden name patterns (regular expressions, case insensitive)*
+**Overload 1:**
+
+*No arguments.*
+
+**Overload 0:**
+- \[`string...`\]: *Forbidden name patterns (regular expressions, case insensitive)*
 
 **Examples:**
 
@@ -3184,24 +3604,33 @@
 
 *Registers new forbidden name patterns.*
 
-**Aliases:**
-`register, reg, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires permissions:**
 `Manage nicknames`
-
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`register, reg, a, +, +=, <<, <, <-, <=`
 
-[`string...`]: *Forbidden name patterns (regular expressions, case insensitive)*
+**Overload 2:**
+- \[`PunishmentAction`\]: *Punishment action*
+- \[`string...`\]: *Forbidden name patterns (regular expressions, case insensitive)*
+
+**Overload 1:**
+- \[`string`\]: *Forbidden name pattern (regular expression, case insensitive)*
+- (optional) \[`Nullable`1`\]: *Punishment action* (def: `None`)
+
+**Overload 0:**
+- \[`string...`\]: *Forbidden name patterns (regular expressions, case insensitive)*
 
 **Examples:**
 
 ```xml
 !forbiddennames add regex?pattern+
+!forbiddennames add Kick regex?pattern+
+!forbiddennames add regex?pattern+ regex?pattern+
 ```
 </p></details>
 
@@ -3212,23 +3641,21 @@
 
 *Removes forbidden name by ID, pattern or matching string.*
 
-**Aliases:**
-`remove, rm, del, d, -, -=, >, >>`
 **Guild only.**
 
 **Requires permissions:**
 `Manage nicknames`
-
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`remove, rm, del, d, -, -=, >, >>`
 
-[`int...`]: *IDs of forbidden names to remove*
+**Overload 1:**
+- \[`int...`\]: *IDs of forbidden names to remove*
 
 **Overload 0:**
-
-[`string...`]: *Forbidden names to remove*
+- \[`string...`\]: *Forbidden names to remove*
 
 **Examples:**
 
@@ -3245,15 +3672,19 @@
 
 *Removes all guild forbidden names.*
 
-**Aliases:**
-`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires permissions:**
 `Manage nicknames`
-
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -3269,15 +3700,19 @@
 
 *Lists all forbidden names for this guild.*
 
-**Aliases:**
-`print, show, view, ls, l, p`
 **Guild only.**
 
 **Requires permissions:**
 `Manage nicknames`
-
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`print, show, view, ls, l, p`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -3293,9 +3728,15 @@
 
 *Guild control commands. Group call prints guild information.*
 
+**Guild only.**
+
+
 **Aliases:**
 `server, gld, svr, g`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -3311,12 +3752,17 @@
 
 *Shows guild ban list.*
 
-**Aliases:**
-`banlist, viewbanlist, getbanlist, getbans, viewbans`
 **Guild only.**
 
 **Requires permissions:**
 `View audit log`
+
+**Aliases:**
+`banlist, viewbanlist, getbanlist, getbans, viewbans`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -3332,16 +3778,20 @@
 
 *Gets or sets guild icon.*
 
-**Aliases:**
-`seticon, si`
 **Guild only.**
 
 **Requires permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`seticon, si`
 
-[`URL`]: *Icon URL*
+**Overload 1:**
+- \[`URL`\]: *Icon URL*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -3358,9 +3808,15 @@
 
 *Shows guild information.*
 
+**Guild only.**
+
+
 **Aliases:**
 `i, information`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -3376,18 +3832,17 @@
 
 *Shows guild audit log.*
 
-**Aliases:**
-`auditlog, viewlog, getlog, getlogs, logs`
 **Guild only.**
 
 **Requires permissions:**
 `View audit log`
 
-**Arguments:**
+**Aliases:**
+`auditlog, viewlog, getlog, getlogs, logs`
 
-(optional) [`int`]: *Amount of log entries to fetch* (def: `10`)
-
-(optional) [`member`]: *Filter by member* (def: `None`)
+**Overload 0:**
+- (optional) \[`int`\]: *Amount of log entries to fetch* (def: `10`)
+- (optional) \[`member`\]: *Filter by member* (def: `None`)
 
 **Examples:**
 
@@ -3404,9 +3859,15 @@
 
 *Shows all guild members.*
 
+**Guild only.**
+
+
 **Aliases:**
 `listmembers, members`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -3422,57 +3883,46 @@
 
 *Removes guild members who weren't active in the given amount of days.*
 
-**Aliases:**
-`p, clean, purge`
 **Guild only.**
 
 **Requires permissions:**
 `Kick members`
-
 **Requires user permissions:**
 `Administrator`
 
+**Aliases:**
+`p, clean, purge`
+
 **Overload 6:**
-
-[`int`]: *Days of inactivity*
-
-[`string`]: *Reason for the action*
-
-[`role...`]: *Additional roles to prune*
+- \[`int`\]: *Days of inactivity*
+- \[`string`\]: *Reason for the action*
+- \[`role...`\]: *Additional roles to prune*
 
 **Overload 5:**
-
-[`string`]: *Reason for the action*
-
-[`int`]: *Days of inactivity*
-
-[`role...`]: *Additional roles to prune*
+- \[`string`\]: *Reason for the action*
+- \[`int`\]: *Days of inactivity*
+- \[`role...`\]: *Additional roles to prune*
 
 **Overload 4:**
-
-[`string`]: *Reason for the action*
-
-[`role...`]: *Additional roles to prune*
+- \[`string`\]: *Reason for the action*
+- \[`role...`\]: *Additional roles to prune*
 
 **Overload 3:**
-
-[`int`]: *Days of inactivity*
-
-[`role...`]: *Additional roles to prune*
+- \[`int`\]: *Days of inactivity*
+- \[`role...`\]: *Additional roles to prune*
 
 **Overload 2:**
-
-[`int`]: *Days of inactivity*
-
-[`role`]: *Additional roles to prune*
-
-[`string...`]: *Reason for the action*
+- \[`int`\]: *Days of inactivity*
+- \[`role`\]: *Additional roles to prune*
+- \[`string...`\]: *Reason for the action*
 
 **Overload 1:**
+- \[`int`\]: *Days of inactivity*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
-[`int`]: *Days of inactivity*
+**Overload 0:**
 
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+*No arguments.*
 
 **Examples:**
 
@@ -3490,16 +3940,16 @@
 
 *Renames the current guild.*
 
-**Aliases:**
-`r, name, setname, mv`
 **Guild only.**
 
 **Requires permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`r, name, setname, mv`
 
-[`string...`]: *New name*
+**Overload 0:**
+- \[`string...`\]: *New name*
 
 **Examples:**
 
@@ -3515,27 +3965,27 @@
 
 *Level roles management. Level roles are granted to a member of the guild upon gaining a specified XP rank. Group call lists all level roles for the guild. Group call adds a role to the level roles list for the specific rank, effective immediately.*
 
-**Aliases:**
-`lr, levelrole, lvlroles, levelrl, lvlrole, lvlr, lvlrl, lrole`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
-
 **Requires bot permissions:**
 `Manage roles`
 
+**Aliases:**
+`lr, levelrole, lvlroles, levelrl, lvlrole, lvlr, lvlrl, lrole`
+
 **Overload 2:**
-
-[`short`]: *Rank*
-
-[`role`]: *Role to grant*
+- \[`short`\]: *Rank*
+- \[`role`\]: *Role to grant*
 
 **Overload 1:**
+- \[`role`\]: *Role to grant*
+- \[`short`\]: *Rank*
 
-[`role`]: *Role to grant*
+**Overload 0:**
 
-[`short`]: *Rank*
+*No arguments.*
 
 **Examples:**
 
@@ -3553,27 +4003,23 @@
 
 *Registers given role as a level role for the specified rank.*
 
-**Aliases:**
-`register, reg, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
-
 **Requires bot permissions:**
 `Manage roles`
 
+**Aliases:**
+`register, reg, a, +, +=, <<, <, <-, <=`
+
 **Overload 1:**
-
-[`role`]: *Role to grant*
-
-[`short`]: *Rank*
+- \[`role`\]: *Role to grant*
+- \[`short`\]: *Rank*
 
 **Overload 0:**
-
-[`short`]: *Rank*
-
-[`role`]: *Role to grant*
+- \[`short`\]: *Rank*
+- \[`role`\]: *Role to grant*
 
 **Examples:**
 
@@ -3590,23 +4036,21 @@
 
 *Removes given level role(s) by rank or role.*
 
-**Aliases:**
-`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
-
 **Requires bot permissions:**
 `Manage roles`
 
+**Aliases:**
+`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
+
 **Overload 1:**
-
-[`role...`]: *Roles to remove*
+- \[`role...`\]: *Roles to remove*
 
 **Overload 1:**
-
-[`short...`]: *Ranks*
+- \[`short...`\]: *Ranks*
 
 **Examples:**
 
@@ -3623,15 +4067,19 @@
 
 *Removes all level roles.*
 
-**Aliases:**
-`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
-
 **Requires bot permissions:**
 `Manage roles`
+
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -3647,15 +4095,19 @@
 
 *Lists all level roles.*
 
-**Aliases:**
-`print, show, view, ls, l, p`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
-
 **Requires bot permissions:**
 `Manage roles`
+
+**Aliases:**
+`print, show, view, ls, l, p`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -3671,8 +4123,10 @@
 
 *Message control commands.*
 
+
 **Aliases:**
 `m, msg, msgs, messages`
+
 </p></details>
 
 ---
@@ -3682,14 +4136,14 @@
 
 *View all message attachments. If the message is not provided, scans the last sent message before command invocation.*
 
-**Aliases:**
-`a, files, la`
 **Requires permissions:**
 `Read message history`
 
-**Arguments:**
+**Aliases:**
+`a, files, la`
 
-(optional) [`message`]: *Discord message* (def: `None`)
+**Overload 0:**
+- (optional) \[`message`\]: *Discord message* (def: `None`)
 
 **Examples:**
 
@@ -3706,19 +4160,17 @@
 
 *Deletes messages from the current channel. Group call deletes given amount of most recent messages.*
 
-**Aliases:**
-`-, prune, del, d`
 **Requires permissions:**
 `Manage messages`
-
 **Requires user permissions:**
 `Administrator`
 
-**Arguments:**
+**Aliases:**
+`-, prune, del, d`
 
-(optional) [`int`]: *Amount of messages to delete* (def: `1`)
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- (optional) \[`int`\]: *Amount of messages to delete* (def: `1`)
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -3736,21 +4188,18 @@
 
 *Deletes given amount messages after a specified message.*
 
-**Aliases:**
-`aft, af`
 **Requires permissions:**
 `Manage messages`
-
 **Requires user permissions:**
 `Administrator`
 
-**Arguments:**
+**Aliases:**
+`aft, af`
 
-[`message`]: *Discord message*
-
-(optional) [`int`]: *Amount of messages to delete* (def: `1`)
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`message`\]: *Discord message*
+- (optional) \[`int`\]: *Amount of messages to delete* (def: `1`)
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -3766,21 +4215,18 @@
 
 *Deletes given amount messages before a specified message.*
 
-**Aliases:**
-`bef, bf`
 **Requires permissions:**
 `Manage messages`
-
 **Requires user permissions:**
 `Administrator`
 
-**Arguments:**
+**Aliases:**
+`bef, bf`
 
-[`message`]: *Discord message*
-
-(optional) [`int`]: *Amount of messages to delete* (def: `1`)
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`message`\]: *Discord message*
+- (optional) \[`int`\]: *Amount of messages to delete* (def: `1`)
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -3796,29 +4242,23 @@
 
 *Deletes given amount of most recent messages sent by the given member.*
 
-**Aliases:**
-`f, frm`
 **Requires permissions:**
 `Manage messages`
-
 **Requires user permissions:**
 `Administrator`
 
+**Aliases:**
+`f, frm`
+
 **Overload 1:**
-
-[`member`]: *Member*
-
-(optional) [`int`]: *Amount of messages to delete* (def: `1`)
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`member`\]: *Member*
+- (optional) \[`int`\]: *Amount of messages to delete* (def: `1`)
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`int`]: *Amount of messages to delete*
-
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *Amount of messages to delete*
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -3835,19 +4275,17 @@
 
 *Deletes all message reactions.*
 
-**Aliases:**
-`react, re`
 **Requires permissions:**
 `Manage messages`
-
 **Requires user permissions:**
 `Administrator`
 
-**Arguments:**
+**Aliases:**
+`react, re`
 
-(optional) [`message`]: *Discord message* (def: `None`)
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- (optional) \[`message`\]: *Discord message* (def: `None`)
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -3863,29 +4301,23 @@
 
 *Deletes given amount of most-recent messages that match a given regular expression.*
 
-**Aliases:**
-`r, rgx, regexp, reg`
 **Requires permissions:**
 `Manage messages`
-
 **Requires user permissions:**
 `Administrator`
 
+**Aliases:**
+`r, rgx, regexp, reg`
+
 **Overload 1:**
-
-[`string`]: *Pattern (regular expression)*
-
-(optional) [`int`]: *Amount of messages to delete* (def: `5`)
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`string`\]: *Pattern (regular expression)*
+- (optional) \[`int`\]: *Amount of messages to delete* (def: `5`)
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`int`]: *Amount of messages to delete*
-
-[`string`]: *Pattern (regular expression)*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`int`\]: *Amount of messages to delete*
+- \[`string`\]: *Pattern (regular expression)*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -3902,19 +4334,17 @@
 
 *Flags the message given by ID for deletion vote. If the message is not provided, flags the last sent message before command invocation.*
 
-**Aliases:**
-`f`
 **Requires permissions:**
 `Read message history`
-
 **Requires bot permissions:**
 `Manage messages`
 
-**Arguments:**
+**Aliases:**
+`f`
 
-(optional) [`message`]: *Discord message* (def: `None`)
-
-(optional) [`time span`]: *Voting timespan* (def: `None`)
+**Overload 0:**
+- (optional) \[`message`\]: *Discord message* (def: `None`)
+- (optional) \[`time span`\]: *Voting timespan* (def: `None`)
 
 **Examples:**
 
@@ -3931,11 +4361,12 @@
 
 *List pinned messages in a given channel. If the channel is not provided, uses the current one.*
 
+
 **Aliases:**
 `lp, listpins, listpin, pinned`
-**Arguments:**
 
-(optional) [`channel`]: *Channel which pins to view* (def: `None`)
+**Overload 0:**
+- (optional) \[`channel`\]: *Channel which pins to view* (def: `None`)
 
 **Examples:**
 
@@ -3952,14 +4383,14 @@
 
 *Pins the given message. If the message is not provided, uses the last message before command invocation.*
 
-**Aliases:**
-`p`
 **Requires permissions:**
 `Manage messages`
 
-**Arguments:**
+**Aliases:**
+`p`
 
-(optional) [`message`]: *Discord message* (def: `None`)
+**Overload 0:**
+- (optional) \[`message`\]: *Discord message* (def: `None`)
 
 **Examples:**
 
@@ -3976,18 +4407,17 @@
 
 *Unpins the message by index (starting from 1) or message ID. If the index is not given, unpins the most recent one.*
 
-**Aliases:**
-`up`
 **Requires permissions:**
 `Manage messages`
 
-**Overload 1:**
+**Aliases:**
+`up`
 
-[`message`]: *Discord message*
+**Overload 1:**
+- \[`message`\]: *Discord message*
 
 **Overload 0:**
-
-(optional) [`int`]: *Index (starting from 1)* (def: `1`)
+- (optional) \[`int`\]: *Index (starting from 1)* (def: `1`)
 
 **Examples:**
 
@@ -4004,14 +4434,14 @@
 
 *Unpins all pinned messages in given channel. If the channel is not provided, uses the current one.*
 
-**Aliases:**
-`upa`
 **Requires permissions:**
 `Manage messages`
 
-**Arguments:**
+**Aliases:**
+`upa`
 
-(optional) [`channel`]: *Channel which pins to remove* (def: `None`)
+**Overload 0:**
+- (optional) \[`channel`\]: *Channel which pins to remove* (def: `None`)
 
 **Examples:**
 
@@ -4028,27 +4458,49 @@
 
 *Reaction roles management. Reaction roles are granted to a member of the guild when the member reacts to a message with the special emoji. Group call lists all reaction roles for the guild. Group call adds a role to the reaction roles list triggered by given emoji, effective immediately.*
 
-**Aliases:**
-`rr, reactionrole, reactroles, reactionrl, reactrole, reactr, reactrl, rrole`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
-
 **Requires bot permissions:**
 `Manage roles`
 
+**Aliases:**
+`rr, reactionrole, reactroles, reactionrl, reactrole, reactr, reactrl, rrole`
+
 **Overload 2:**
+- \[`message`\]: *Message on which to monitor reactions*
+- \[`emoji`\]: *Emoji*
+- \[`role`\]: *Role to grant*
 
-[`emoji`]: *Emoji*
+**Overload 2:**
+- \[`emoji`\]: *Emoji*
+- \[`message`\]: *Message on which to monitor reactions*
+- \[`role`\]: *Role to grant*
 
-[`role`]: *Role to grant*
+**Overload 2:**
+- \[`emoji`\]: *Emoji*
+- \[`role`\]: *Role to grant*
+- (optional) \[`message`\]: *Message on which to monitor reactions* (def: `None`)
 
 **Overload 1:**
+- \[`message`\]: *Message on which to monitor reactions*
+- \[`role`\]: *Role to grant*
+- \[`emoji`\]: *Emoji*
 
-[`role`]: *Role to grant*
+**Overload 1:**
+- \[`role`\]: *Role to grant*
+- \[`message`\]: *Message on which to monitor reactions*
+- \[`emoji`\]: *Emoji*
 
-[`emoji`]: *Emoji*
+**Overload 1:**
+- \[`role`\]: *Role to grant*
+- \[`emoji`\]: *Emoji*
+- (optional) \[`message`\]: *Message on which to monitor reactions* (def: `None`)
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -4056,6 +4508,10 @@
 !reactionroles
 !reactionroles @Role :emoji:
 !reactionroles :emoji: @Role
+!reactionroles @Role :emoji: 361119455792594954
+!reactionroles :emoji: @Role 361119455792594954
+!reactionroles 361119455792594954 @Role :emoji:
+!reactionroles 361119455792594954 :emoji: @Role
 ```
 </p></details>
 
@@ -4066,33 +4522,55 @@
 
 *Registers given role as a reaction role for the specified emoji.*
 
-**Aliases:**
-`register, reg, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
-
 **Requires bot permissions:**
 `Manage roles`
 
+**Aliases:**
+`register, reg, a, +, +=, <<, <, <-, <=`
+
+**Overload 5:**
+- \[`message`\]: *Message on which to monitor reactions*
+- \[`role`\]: *Role to grant*
+- \[`emoji`\]: *Emoji*
+
+**Overload 4:**
+- \[`message`\]: *Message on which to monitor reactions*
+- \[`emoji`\]: *Emoji*
+- \[`role`\]: *Role to grant*
+
+**Overload 3:**
+- \[`role`\]: *Role to grant*
+- \[`message`\]: *Message on which to monitor reactions*
+- \[`emoji`\]: *Emoji*
+
+**Overload 2:**
+- \[`emoji`\]: *Emoji*
+- \[`message`\]: *Message on which to monitor reactions*
+- \[`role`\]: *Role to grant*
+
 **Overload 1:**
-
-[`role`]: *Role to grant*
-
-[`emoji`]: *Emoji*
+- \[`role`\]: *Role to grant*
+- \[`emoji`\]: *Emoji*
+- (optional) \[`message`\]: *Message on which to monitor reactions* (def: `None`)
 
 **Overload 0:**
-
-[`emoji`]: *Emoji*
-
-[`role`]: *Role to grant*
+- \[`emoji`\]: *Emoji*
+- \[`role`\]: *Role to grant*
+- (optional) \[`message`\]: *Message on which to monitor reactions* (def: `None`)
 
 **Examples:**
 
 ```xml
 !reactionroles add @Role :emoji:
 !reactionroles add :emoji: @Role
+!reactionroles add @Role :emoji: 361119455792594954
+!reactionroles add :emoji: @Role 361119455792594954
+!reactionroles add 361119455792594954 @Role :emoji:
+!reactionroles add 361119455792594954 :emoji: @Role
 ```
 </p></details>
 
@@ -4103,29 +4581,35 @@
 
 *Removes given reaction role(s) by emoji or role.*
 
-**Aliases:**
-`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
-
 **Requires bot permissions:**
 `Manage roles`
 
+**Aliases:**
+`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
+
+**Overload 3:**
+- \[`role...`\]: *Roles to remove*
+
+**Overload 2:**
+- \[`emoji...`\]: *Emojis*
+
 **Overload 1:**
+- \[`message...`\]: *Discord message*
 
-[`role...`]: *Roles to remove*
-
-**Overload 1:**
-
-[`emoji...`]: *Ranks*
+**Overload 0:**
+- \[`channel...`\]: *Channel*
 
 **Examples:**
 
 ```xml
 !reactionroles delete @Role RoleName
 !reactionroles delete :emoji: emoji_name
+!reactionroles delete Sample message
+!reactionroles delete #my-text-channel
 ```
 </p></details>
 
@@ -4136,15 +4620,19 @@
 
 *Removes all reaction roles.*
 
-**Aliases:**
-`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
-
 **Requires bot permissions:**
 `Manage roles`
+
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -4160,15 +4648,19 @@
 
 *Lists all reaction roles.*
 
-**Aliases:**
-`print, show, view, ls, l, p`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
-
 **Requires bot permissions:**
 `Manage roles`
+
+**Aliases:**
+`print, show, view, ls, l, p`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -4184,13 +4676,18 @@
 
 *Role control commands. Group call lists all the roles in this guild or prints information about a given role.*
 
-**Aliases:**
-`roles, rl`
 **Guild only.**
 
-**Overload 1:**
 
-[`role`]: *Role*
+**Aliases:**
+`roles, rl`
+
+**Overload 1:**
+- \[`role`\]: *Role*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -4207,30 +4704,24 @@
 
 *Creates a new role.*
 
-**Aliases:**
-`new, add, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires permissions:**
 `Manage roles`
 
+**Aliases:**
+`new, add, a, +, +=, <<, <, <-, <=`
+
 **Overload 1:**
-
-[`string`]: *New name*
-
-(optional) [`color`]: *Color (hex or RGB)* (def: `None`)
-
-(optional) [`boolean`]: *Hoisted (visible in online list)?* (def: `False`)
-
-(optional) [`boolean`]: *Mentionable?* (def: `False`)
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`string`\]: *New name*
+- (optional) \[`color`\]: *Color (hex or RGB)* (def: `None`)
+- (optional) \[`boolean`\]: *Hoisted (visible in online list)?* (def: `False`)
+- (optional) \[`boolean`\]: *Mentionable?* (def: `False`)
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`color`]: *Color (hex or RGB)*
-
-[`string...`]: *New name*
+- \[`color`\]: *Color (hex or RGB)*
+- \[`string...`\]: *New name*
 
 **Examples:**
 
@@ -4248,18 +4739,17 @@
 
 *Deletes specified role.*
 
-**Aliases:**
-`remove, rm, del, d, -, -=, >, >>`
 **Guild only.**
 
 **Requires permissions:**
 `Manage roles`
 
-**Arguments:**
+**Aliases:**
+`remove, rm, del, d, -, -=, >, >>`
 
-[`role`]: *Role*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`role`\]: *Role*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -4275,16 +4765,16 @@
 
 *Prints details for given role.*
 
-**Aliases:**
-`i`
 **Guild only.**
 
 **Requires permissions:**
 `Manage roles`
 
-**Arguments:**
+**Aliases:**
+`i`
 
-[`role`]: *Role*
+**Overload 0:**
+- \[`role`\]: *Role*
 
 **Examples:**
 
@@ -4300,9 +4790,15 @@
 
 *Lists all guild roles.*
 
+**Guild only.**
+
+
 **Aliases:**
 `print, show, view, ls, l, p`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -4319,19 +4815,18 @@
 
 *Mention the given role. This will bypass the mentionable status for the given role.*
 
-**Aliases:**
-`mentionall, @, ma`
 **Guild only.**
 
 **Requires user permissions:**
 `Administrator`
-
 **Requires bot permissions:**
 `Manage roles`
 
-**Arguments:**
+**Aliases:**
+`mentionall, @, ma`
 
-[`role`]: *Role*
+**Overload 0:**
+- \[`role`\]: *Role*
 
 **Examples:**
 
@@ -4347,28 +4842,23 @@
 
 *Sets the role color.*
 
-**Aliases:**
-`clr, c, sc, setc`
 **Guild only.**
 
 **Requires permissions:**
 `Manage roles`
 
+**Aliases:**
+`clr, c, sc, setc`
+
 **Overload 1:**
-
-[`role`]: *Role*
-
-[`color`]: *Color (hex or RGB)*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`role`\]: *Role*
+- \[`color`\]: *Color (hex or RGB)*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`color`]: *Color (hex or RGB)*
-
-[`role`]: *Role*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`color`\]: *Color (hex or RGB)*
+- \[`role`\]: *Role*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -4385,28 +4875,23 @@
 
 *Allows or forbids the role to be mentionable.*
 
-**Aliases:**
-`mentionable, m, setm`
 **Guild only.**
 
 **Requires permissions:**
 `Manage roles`
 
+**Aliases:**
+`mentionable, m, setm`
+
 **Overload 1:**
-
-[`role`]: *Role*
-
-(optional) [`boolean`]: *Mentionable?* (def: `True`)
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`role`\]: *Role*
+- (optional) \[`boolean`\]: *Mentionable?* (def: `True`)
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`boolean`]: *Mentionable?*
-
-[`role`]: *Role*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`boolean`\]: *Mentionable?*
+- \[`role`\]: *Role*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -4423,26 +4908,22 @@
 
 *Sets the role name.*
 
-**Aliases:**
-`name, rename, n, mv`
 **Guild only.**
 
 **Requires permissions:**
 `Manage roles`
 
+**Aliases:**
+`name, rename, n, mv`
+
 **Overload 1:**
-
-[`string`]: *New name*
-
-[`role`]: *Role*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`string`\]: *New name*
+- \[`role`\]: *Role*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`role`]: *Role*
-
-[`string...`]: *New name*
+- \[`role`\]: *Role*
+- \[`string...`\]: *New name*
 
 **Examples:**
 
@@ -4459,28 +4940,23 @@
 
 *Allows or forbids the role to be hoisted (grouped in online list).*
 
-**Aliases:**
-`setvisible, separate, h, seth, hoist, sethoist`
 **Guild only.**
 
 **Requires permissions:**
 `Manage roles`
 
+**Aliases:**
+`setvisible, separate, h, seth, hoist, sethoist`
+
 **Overload 1:**
-
-[`role`]: *Role*
-
-(optional) [`boolean`]: *Hoisted (visible in online list)?* (def: `True`)
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`role`\]: *Role*
+- (optional) \[`boolean`\]: *Hoisted (visible in online list)?* (def: `True`)
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`boolean`]: *Hoisted (visible in online list)?*
-
-[`role`]: *Role*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`boolean`\]: *Hoisted (visible in online list)?*
+- \[`role`\]: *Role*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -4497,16 +4973,20 @@
 
 *Self-assignable roles commands. Self-assignable roles can be granted to members by themselves using the `give` command. Group call lists all self-assignable roles for the guild. Group call with an arbitrary amount of roles will add those roles to the self-assignable roles list for the guild, effective immediately.*
 
-**Aliases:**
-`sar, selfassignablerole, selfroles, selfrole, sr, srl, srole`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 0:**
+**Aliases:**
+`sar, selfassignablerole, selfroles, selfrole, sr, srl, srole`
 
-[`role...`]: *Roles to add*
+**Overload 1:**
+
+*No arguments.*
+
+**Overload 0:**
+- \[`role...`\]: *Roles to add*
 
 **Examples:**
 
@@ -4523,16 +5003,16 @@
 
 *Registers given role(s) as self-assignable.*
 
-**Aliases:**
-`register, reg, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`register, reg, a, +, +=, <<, <, <-, <=`
 
-[`role...`]: *Roles to add*
+**Overload 0:**
+- \[`role...`\]: *Roles to add*
 
 **Examples:**
 
@@ -4548,16 +5028,16 @@
 
 *Removes given roles from self-assignable role list.*
 
-**Aliases:**
-`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 
-[`role...`]: *Roles to remove*
+**Overload 0:**
+- \[`role...`\]: *Roles to remove*
 
 **Examples:**
 
@@ -4573,12 +5053,17 @@
 
 *Removes all self-assignable roles.*
 
-**Aliases:**
-`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -4594,12 +5079,17 @@
 
 *Lists all self-assignable roles.*
 
-**Aliases:**
-`print, show, view, ls, l, p`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`print, show, view, ls, l, p`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -4615,15 +5105,15 @@
 
 *User administration commands. Group call prints information about given user or guild member.*
 
+
 **Aliases:**
 `users, u, usr, member, mem`
-**Overload 1:**
 
-(optional) [`member`]: *Member* (def: `None`)
+**Overload 1:**
+- (optional) \[`member`\]: *Member* (def: `None`)
 
 **Overload 0:**
-
-(optional) [`user`]: *User* (def: `None`)
+- (optional) \[`user`\]: *User* (def: `None`)
 
 **Examples:**
 
@@ -4639,11 +5129,12 @@
 
 *Shows user avatar in full size.*
 
+
 **Aliases:**
 `a, pic, profilepic`
-**Arguments:**
 
-[`user`]: *User*
+**Overload 0:**
+- \[`user`\]: *User*
 
 **Examples:**
 
@@ -4659,40 +5150,31 @@
 
 *Bans member from the guild.*
 
-**Aliases:**
-`b`
 **Guild only.**
 
 **Requires permissions:**
 `Ban members`
 
+**Aliases:**
+`b`
+
 **Overload 3:**
-
-[`user`]: *User*
-
-[`int`]: *Delete messages in past number of days*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`user`\]: *User*
+- \[`int`\]: *Delete messages in past number of days*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 2:**
-
-[`member`]: *Member*
-
-[`int`]: *Delete messages in past number of days*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`member`\]: *Member*
+- \[`int`\]: *Delete messages in past number of days*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 1:**
-
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`user`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`user`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -4710,18 +5192,17 @@
 
 *Deafens a member.*
 
-**Aliases:**
-`deaf, d, df`
 **Guild only.**
 
 **Requires permissions:**
 `Deafen voice chat members`
 
-**Arguments:**
+**Aliases:**
+`deaf, d, df`
 
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -4737,24 +5218,21 @@
 
 *Grants specified role(s) to specified user.*
 
-**Aliases:**
-`+role, +r, <r, <<r, ar, addr, +roles, addroles, giverole, giveroles, addrole, grantroles, gr`
 **Guild only.**
 
 **Requires permissions:**
 `Manage roles`
 
+**Aliases:**
+`+role, +r, <r, <<r, ar, addr, +roles, addroles, giverole, giveroles, addrole, grantroles, gr`
+
 **Overload 1:**
-
-[`member`]: *Member*
-
-[`role...`]: *Roles to add*
+- \[`member`\]: *Member*
+- \[`role...`\]: *Roles to add*
 
 **Overload 0:**
-
-[`role`]: *Role*
-
-[`member`]: *Member*
+- \[`role`\]: *Role*
+- \[`member`\]: *Member*
 
 **Examples:**
 
@@ -4771,15 +5249,15 @@
 
 *Prints user/member information.*
 
+
 **Aliases:**
 `i, information`
-**Overload 1:**
 
-(optional) [`member`]: *Member* (def: `None`)
+**Overload 1:**
+- (optional) \[`member`\]: *Member* (def: `None`)
 
 **Overload 0:**
-
-(optional) [`user`]: *User* (def: `None`)
+- (optional) \[`user`\]: *User* (def: `None`)
 
 **Examples:**
 
@@ -4795,18 +5273,17 @@
 
 *Kicks member from the guild.*
 
-**Aliases:**
-`k`
 **Guild only.**
 
 **Requires permissions:**
 `Kick members`
 
-**Arguments:**
+**Aliases:**
+`k`
 
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -4822,18 +5299,17 @@
 
 *Kicks member from the voice channels.*
 
-**Aliases:**
-`kv`
 **Guild only.**
 
 **Requires permissions:**
 `Mute voice chat members`
 
-**Arguments:**
+**Aliases:**
+`kv`
 
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -4849,18 +5325,17 @@
 
 *Mutes member by assigning a mute role.*
 
-**Aliases:**
-`m`
 **Guild only.**
 
 **Requires permissions:**
 `Manage roles`
 
-**Arguments:**
+**Aliases:**
+`m`
 
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -4876,18 +5351,17 @@
 
 *Mutes member in the voice channels.*
 
-**Aliases:**
-`mv, voicemute, vmute, mutev, vm`
 **Guild only.**
 
 **Requires permissions:**
 `Mute voice chat members`
 
-**Arguments:**
+**Aliases:**
+`mv, voicemute, vmute, mutev, vm, gag`
 
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -4903,18 +5377,17 @@
 
 *Revokes all roles from specified user.*
 
-**Aliases:**
-`--roles, --r, >>>r, rar, removeallr, remallr, removeallroles, takeallroles, revallroles, tar`
 **Guild only.**
 
 **Requires permissions:**
 `Manage roles`
 
-**Arguments:**
+**Aliases:**
+`--roles, --r, >>>r, rar, removeallr, remallr, removeallroles, takeallroles, revallroles, tar`
 
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -4930,24 +5403,21 @@
 
 *Revokes specified role(s) from specified user.*
 
-**Aliases:**
-`-role, -r, >r, >>r, rr, remover, remr, -roles, removeroles, removerole, revokeroles, takeroles, revrole, revroles, tr`
 **Guild only.**
 
 **Requires permissions:**
 `Manage roles`
 
+**Aliases:**
+`-role, -r, >r, >>r, rr, remover, remr, -roles, removeroles, removerole, revokeroles, takeroles, revrole, revroles, tr`
+
 **Overload 1:**
-
-[`member`]: *Member*
-
-[`role...`]: *Roles to remove*
+- \[`member`\]: *Member*
+- \[`role...`\]: *Roles to remove*
 
 **Overload 0:**
-
-[`role`]: *Role*
-
-[`member`]: *Member*
+- \[`role`\]: *Role*
+- \[`member`\]: *Member*
 
 **Examples:**
 
@@ -4964,18 +5434,17 @@
 
 *Sets a nickname for the specified member in the current guild.*
 
-**Aliases:**
-`nick, newname, name, rename, nickname`
 **Guild only.**
 
 **Requires permissions:**
 `Manage nicknames`
 
-**Arguments:**
+**Aliases:**
+`nick, newname, name, rename, nickname`
 
-[`member`]: *Member*
-
-(optional) [`string...`]: *New name* (def: `None`)
+**Overload 0:**
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *New name* (def: `None`)
 
 **Examples:**
 
@@ -4991,26 +5460,22 @@
 
 *Bans a member and then immediately unbans him.*
 
-**Aliases:**
-`sb, sban`
 **Guild only.**
 
 **Requires permissions:**
 `Ban members`
 
+**Aliases:**
+`sb, sban`
+
 **Overload 1:**
-
-[`member`]: *Member*
-
-[`int`]: *Delete messages in past number of days*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`member`\]: *Member*
+- \[`int`\]: *Delete messages in past number of days*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -5027,44 +5492,33 @@
 
 *Bans a member and unbans him after given timespan.*
 
-**Aliases:**
-`tb, tban, tmpban, tmpb`
 **Guild only.**
 
 **Requires permissions:**
 `Ban members`
 
+**Aliases:**
+`tb, tban, tmpban, tmpb`
+
 **Overload 3:**
-
-[`time span`]: *Time span*
-
-[`user`]: *User*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`time span`\]: *Time span*
+- \[`user`\]: *User*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 2:**
-
-[`member`]: *User*
-
-[`time span`]: *Time span*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`member`\]: *Member*
+- \[`time span`\]: *Time span*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 1:**
-
-[`time span`]: *Time span*
-
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`time span`\]: *Time span*
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`user`]: *User*
-
-[`time span`]: *Time span*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`user`\]: *User*
+- \[`time span`\]: *Time span*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -5081,28 +5535,23 @@
 
 *Mutes a member and unmutes him after given timespan.*
 
-**Aliases:**
-`tm, tmute, tmpmute, tmpm`
 **Guild only.**
 
 **Requires permissions:**
 `Manage roles`
 
+**Aliases:**
+`tm, tmute, tmpmute, tmpm`
+
 **Overload 1:**
-
-[`time span`]: *Time span*
-
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`time span`\]: *Time span*
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`member`]: *User*
-
-[`time span`]: *Time span*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`member`\]: *User*
+- \[`time span`\]: *Time span*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -5119,18 +5568,17 @@
 
 *Unbans a user.*
 
-**Aliases:**
-`ub, removeban, revokeban, rb`
 **Guild only.**
 
 **Requires permissions:**
 `Ban members`
 
-**Arguments:**
+**Aliases:**
+`ub, removeban, revokeban, rb`
 
-[`user`]: *User*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 1:**
+- \[`user`\]: *User*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -5146,18 +5594,17 @@
 
 *Undeafens a member.*
 
-**Aliases:**
-`undeaf, ud, udf`
 **Guild only.**
 
 **Requires permissions:**
 `Deafen voice chat members`
 
-**Arguments:**
+**Aliases:**
+`undeaf, ud, udf`
 
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -5173,18 +5620,17 @@
 
 *Unmutes a member by revoking mute role.*
 
-**Aliases:**
-`um`
 **Guild only.**
 
 **Requires permissions:**
 `Mute voice chat members`
 
-**Arguments:**
+**Aliases:**
+`um`
 
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -5200,18 +5646,17 @@
 
 *Unmutes a member in voice channels.*
 
-**Aliases:**
-`umv, voiceunmute, vunmute, unmutev, vum`
 **Guild only.**
 
 **Requires permissions:**
 `Mute voice chat members`
 
-**Arguments:**
+**Aliases:**
+`umv, voiceunmute, vunmute, unmutev, vum`
 
-[`member`]: *Member*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+**Overload 0:**
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Examples:**
 
@@ -5227,16 +5672,15 @@
 
 *Warns a member by a direct message with a given warning text.*
 
-**Aliases:**
-`w`
 **Requires permissions:**
 `Administrator`
 
-**Arguments:**
+**Aliases:**
+`w`
 
-[`member`]: *Member*
-
-(optional) [`string...`]: *Warning message* (def: `None`)
+**Overload 0:**
+- \[`member`\]: *Member*
+- (optional) \[`string...`\]: *Warning message* (def: `None`)
 
 **Examples:**
 
@@ -5253,16 +5697,16 @@
 
 *Webhook management commands. Group call lists webhooks for a given channel.*
 
-**Aliases:**
-`wh, webhooks, whook`
 **Guild only.**
 
 **Requires permissions:**
 `Manage webhooks`
 
-**Arguments:**
+**Aliases:**
+`wh, webhooks, whook`
 
-(optional) [`channel`]: *Channel whose webhooks to show* (def: `None`)
+**Overload 0:**
+- (optional) \[`channel`\]: *Channel whose webhooks to show* (def: `None`)
 
 **Examples:**
 
@@ -5279,72 +5723,50 @@
 
 *Creates a webhook.*
 
-**Aliases:**
-`create, c, register, reg, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires permissions:**
 `Manage webhooks`
 
+**Aliases:**
+`create, c, register, reg, a, +, +=, <<, <, <-, <=`
+
 **Overload 6:**
-
-[`URL`]: *Avatar URL*
-
-[`channel`]: *Channel where to add the webhook*
-
-[`string`]: *Webhook name*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`URL`\]: *Avatar URL*
+- \[`channel`\]: *Channel where to add the webhook*
+- \[`string`\]: *Webhook name*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 5:**
-
-[`URL`]: *Avatar URL*
-
-[`string`]: *Webhook name*
-
-[`channel`]: *Channel where to add the webhook*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`URL`\]: *Avatar URL*
+- \[`string`\]: *Webhook name*
+- \[`channel`\]: *Channel where to add the webhook*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 4:**
-
-[`channel`]: *Channel where to add the webhook*
-
-[`URL`]: *Avatar URL*
-
-[`string`]: *Webhook name*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`channel`\]: *Channel where to add the webhook*
+- \[`URL`\]: *Avatar URL*
+- \[`string`\]: *Webhook name*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 3:**
-
-[`channel`]: *Channel where to add the webhook*
-
-[`string`]: *Webhook name*
-
-[`URL`]: *Avatar URL*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`channel`\]: *Channel where to add the webhook*
+- \[`string`\]: *Webhook name*
+- \[`URL`\]: *Avatar URL*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 2:**
-
-[`string`]: *Webhook name*
-
-[`URL`]: *Avatar URL*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`string`\]: *Webhook name*
+- \[`URL`\]: *Avatar URL*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 1:**
-
-[`URL`]: *Avatar URL*
-
-[`string`]: *Webhook name*
-
-(optional) [`string...`]: *Reason for the action* (def: `None`)
+- \[`URL`\]: *Avatar URL*
+- \[`string`\]: *Webhook name*
+- (optional) \[`string...`\]: *Reason for the action* (def: `None`)
 
 **Overload 0:**
-
-[`string...`]: *Webhook name*
+- \[`string...`\]: *Webhook name*
 
 **Examples:**
 
@@ -5361,36 +5783,29 @@
 
 *Deletes a webhook by it's name or ID.*
 
-**Aliases:**
-`remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires permissions:**
 `Manage webhooks`
 
+**Aliases:**
+`remove, rm, del, d, -, -=, >, >>, ->, =>`
+
 **Overload 3:**
-
-[`channel`]: *Channel whose webhooks to delete*
-
-[`string...`]: *Webhook name*
+- \[`channel`\]: *Channel whose webhooks to delete*
+- \[`string...`\]: *Webhook name*
 
 **Overload 2:**
-
-[`channel`]: *Channel whose webhooks to delete*
-
-[`unsigned long`]: *ID*
+- \[`channel`\]: *Channel whose webhooks to delete*
+- \[`unsigned long`\]: *ID*
 
 **Overload 1:**
-
-[`string`]: *Webhook name*
-
-(optional) [`channel`]: *Channel whose webhooks to delete* (def: `None`)
+- \[`string`\]: *Webhook name*
+- (optional) \[`channel`\]: *Channel whose webhooks to delete* (def: `None`)
 
 **Overload 0:**
-
-[`unsigned long`]: *ID*
-
-(optional) [`channel`]: *Channel whose webhooks to delete* (def: `None`)
+- \[`unsigned long`\]: *ID*
+- (optional) \[`channel`\]: *Channel whose webhooks to delete* (def: `None`)
 
 **Examples:**
 
@@ -5409,20 +5824,19 @@
 
 *Deletes all webhooks in a given channel list.*
 
-**Aliases:**
-`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires permissions:**
 `Manage webhooks`
 
-**Overload 1:**
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 
-(optional) [`channel`]: *Channel whose webhooks to delete* (def: `None`)
+**Overload 1:**
+- (optional) \[`channel`\]: *Channel whose webhooks to delete* (def: `None`)
 
 **Overload 0:**
-
-[`channel...`]: *Channel whose webhooks to delete*
+- \[`channel...`\]: *Channel whose webhooks to delete*
 
 **Examples:**
 
@@ -5439,16 +5853,16 @@
 
 *Shows webhooks for a given channel.*
 
-**Aliases:**
-`l, ls, show, s, print`
 **Guild only.**
 
 **Requires permissions:**
 `Manage webhooks`
 
-**Arguments:**
+**Aliases:**
+`l, ls, show, s, print`
 
-(optional) [`channel`]: *Channel whose webhooks to show* (def: `None`)
+**Overload 0:**
+- (optional) \[`channel`\]: *Channel whose webhooks to show* (def: `None`)
 
 **Examples:**
 
@@ -5465,12 +5879,17 @@
 
 *Shows webhooks for the entire guild.*
 
-**Aliases:**
-`la, lsa, showall, printall`
 **Guild only.**
 
 **Requires permissions:**
 `Manage webhooks`
+
+**Aliases:**
+`la, lsa, showall, printall`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 

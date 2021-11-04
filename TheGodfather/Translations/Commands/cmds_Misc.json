@@ -29,12 +29,6 @@
       []
     ]
   },
-  "linux": {
-    "usage": [
-      [],
-      [ "arg-gnu", "arg-windows" ]
-    ]
-  },
   "birthday list": {
     "usage": [
       [ "arg-usr" ],
@@ -112,6 +106,12 @@
   "leet": {
     "usage": [
       [ "arg-string" ]
+    ]
+  },
+  "linux": {
+    "usage": [
+      [],
+      [ "arg-gnu", "arg-windows" ]
     ]
   },
   "meme": {
@@ -230,6 +230,11 @@
       [ "arg-usr", "arg-usr", "arg-usr" ]
     ]
   },
+  "rip": {
+    "usage": [
+      [ "arg-usr" ]
+    ]
+  },
   "report": {
     "usage": [
       [ "arg-report" ]
@@ -250,6 +255,12 @@
       [ "arg-string" ]
     ]
   },
+  "simulate": {
+    "usage": [
+      [],
+      [ "arg-usr" ]
+    ]
+  },
   "starboard": {
     "usage": [
       [],
@@ -261,6 +272,12 @@
   "starboard channel": {
     "usage": [
       []
+    ]
+  },
+  "starboard emoji": {
+    "usage": [
+      [],
+      [ "arg-emoji" ]
     ]
   },
   "starboard sensitivity": {

@@ -28,7 +28,7 @@ namespace TheGodfather.Modules.Administration
             public async Task ExecuteGroupAsync(CommandContext ctx,
                                                [Description("desc-enable")] bool enable,
                                                [Description("desc-sens")] short sens,
-                                               [Description("desc-punish-action")] PunishmentAction action = PunishmentAction.TemporaryMute)
+                                               [Description("desc-punish-action")] Punishment.Action action = Punishment.Action.TemporaryMute)
             {
                 if (sens is < RatelimitSettings.MinSensitivity or > RatelimitSettings.MaxSensitivity)
                     throw new CommandFailedException(ctx, "cmd-err-range-sens", RatelimitSettings.MinSensitivity, RatelimitSettings.MaxSensitivity);
@@ -45,28 +45,28 @@ namespace TheGodfather.Modules.Administration
                     emb.WithLocalizedTitle("evt-cfg-upd");
                     emb.WithColor(this.ModuleColor);
                     if (enable) {
-                        emb.WithLocalizedDescription("evt-rl-enabled");
+                        emb.WithLocalizedDescription("evt-rl-enable");
                         emb.AddLocalizedTitleField("str-sensitivity", settings.Sensitivity, inline: true);
                         emb.AddLocalizedTitleField("str-punish-action", settings.Action.Humanize(), inline: true);
                     } else {
-                        emb.WithLocalizedDescription("evt-rl-disabled");
+                        emb.WithLocalizedDescription("evt-rl-disable");
                     }
                 });
 
-                await ctx.InfoAsync(this.ModuleColor, enable ? "evt-rl-enabled" : "evt-rl-disabled");
+                await ctx.InfoAsync(this.ModuleColor, enable ? "evt-rl-enable" : "evt-rl-disable");
             }
 
             [GroupCommand, Priority(2)]
             public Task ExecuteGroupAsync(CommandContext ctx,
                                          [Description("desc-enable")] bool enable,
-                                         [Description("desc-punish-action")] PunishmentAction action,
+                                         [Description("desc-punish-action")] Punishment.Action action,
                                          [Description("desc-sens")] short sens = 5)
                 => this.ExecuteGroupAsync(ctx, enable, sens, action);
 
             [GroupCommand, Priority(1)]
             public Task ExecuteGroupAsync(CommandContext ctx,
                                          [Description("desc-enable")] bool enable)
-                => this.ExecuteGroupAsync(ctx, enable, 5, PunishmentAction.Kick);
+                => this.ExecuteGroupAsync(ctx, enable, 5, Punishment.Action.TemporaryMute);
 
             [GroupCommand, Priority(0)]
             public async Task ExecuteGroupAsync(CommandContext ctx)
@@ -89,7 +89,7 @@ namespace TheGodfather.Modules.Administration
             [Command("action")]
             [Aliases("setaction", "setact", "act", "a")]
             public async Task SetActionAsync(CommandContext ctx,
-                                            [Description("desc-punish-action")] PunishmentAction? action = null)
+                                            [Description("desc-punish-action")] Punishment.Action? action = null)
             {
                 if (action is null) {
                     await ctx.WithGuildConfigAsync(gcfg => ctx.ImpInfoAsync(this.ModuleColor, Emojis.Information, "evt-rl-action", gcfg.RatelimitAction.Humanize()));

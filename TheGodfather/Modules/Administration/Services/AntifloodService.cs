@@ -11,7 +11,7 @@ using TheGodfather.Services;
 
 namespace TheGodfather.Modules.Administration.Services
 {
-    public sealed class AntifloodService : ProtectionService
+    public sealed class AntifloodService : ProtectionServiceBase
     {
         private readonly ConcurrentDictionary<ulong, ConcurrentHashSet<DiscordMember>> guildFloodUsers;
 
@@ -51,11 +51,6 @@ namespace TheGodfather.Modules.Administration.Services
 
             if (this.guildFloodUsers.ContainsKey(e.Guild.Id) && !this.guildFloodUsers[e.Guild.Id].TryRemove(e.Member))
                 throw new ConcurrentOperationException("Failed to remove member from antiflood watch list!");
-        }
-
-        public override void Dispose()
-        {
-
         }
     }
 }

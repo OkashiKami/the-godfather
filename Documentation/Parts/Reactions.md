@@ -8,24 +8,25 @@
 *This groups is used to make the bot react with given emoji to a message containing a trigger word inside (guild specific). Group call either lists currently registered emoji reactions or adds a new emoji reaction to a given trigger word list.
 *Note: Trigger words can be regular expressions (use `emojireaction addregex` command).**
 
-**Aliases:**
-`ereact, er, emojir, emojireactions`
 **Guild only.**
 
 **Requires permissions:**
 `Manage guild`
 
+**Aliases:**
+`ereact, er, emojir, emojireactions`
+
+**Overload 2:**
+
+*No arguments.*
+
 **Overload 1:**
-
-[`emoji`]: *Emoji*
-
-[`string...`]: *Reaction triggers*
+- \[`emoji`\]: *Emoji*
+- \[`string...`\]: *Reaction triggers*
 
 **Overload 0:**
-
-[`string`]: *Reaction triggers*
-
-[`emoji`]: *Emoji*
+- \[`string`\]: *Reaction triggers*
+- \[`emoji`\]: *Emoji*
 
 **Examples:**
 
@@ -43,24 +44,21 @@
 
 *Adds a new emoji reaction to guild reaction list. Requires emoji to react as and one or more triggers.*
 
-**Aliases:**
-`register, reg, new, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires permissions:**
 `Manage guild`
 
+**Aliases:**
+`register, reg, new, a, +, +=, <<, <, <-, <=`
+
 **Overload 1:**
-
-[`emoji`]: *Emoji*
-
-[`string...`]: *Reaction triggers*
+- \[`emoji`\]: *Emoji*
+- \[`string...`\]: *Reaction triggers*
 
 **Overload 0:**
-
-[`string`]: *Reaction triggers*
-
-[`emoji`]: *Emoji*
+- \[`string`\]: *Reaction triggers*
+- \[`emoji`\]: *Emoji*
 
 **Examples:**
 
@@ -77,24 +75,21 @@
 
 *Adds a new emoji reaction to guild reaction list. Requires emoji to react as and one or more regular expressions that will match the message being tested (each regular expression is word-bounded automatically).*
 
-**Aliases:**
-`registerregex, regex, newregex, ar, +r, +=r, <<r, <r, <-r, <=r, +regex, +regexp, +rgx`
 **Guild only.**
 
 **Requires permissions:**
 `Manage guild`
 
+**Aliases:**
+`registerregex, regex, newregex, ar, +r, +=r, <<r, <r, <-r, <=r, +regex, +regexp, +rgx`
+
 **Overload 1:**
-
-[`emoji`]: *Emoji*
-
-[`string...`]: *Reaction triggers*
+- \[`emoji`\]: *Emoji*
+- \[`string...`\]: *Reaction triggers*
 
 **Overload 0:**
-
-[`string`]: *Reaction triggers*
-
-[`emoji`]: *Emoji*
+- \[`string`\]: *Reaction triggers*
+- \[`emoji`\]: *Emoji*
 
 **Examples:**
 
@@ -111,24 +106,22 @@
 
 *Removes existing emoji reaction by it's reaction emoji, ID or trigger.*
 
-**Aliases:**
-`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires permissions:**
 `Manage guild`
 
-**Overload 2:**
+**Aliases:**
+`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 
-[`emoji`]: *Emoji*
+**Overload 2:**
+- \[`emoji`\]: *Emoji*
 
 **Overload 1:**
-
-[`int...`]: *Reaction IDs to remove*
+- \[`int...`\]: *Reaction IDs to remove*
 
 **Overload 0:**
-
-[`string...`]: *Reaction triggers*
+- \[`string...`\]: *Reaction triggers*
 
 **Examples:**
 
@@ -146,15 +139,19 @@
 
 *Removes all guild emoji reactions.*
 
-**Aliases:**
-`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires permissions:**
 `Manage guild`
-
 **Requires user permissions:**
 `Administrator`
+
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -170,16 +167,16 @@
 
 *Finds emoji reactions that are triggered by a given text.*
 
-**Aliases:**
-`f, test`
 **Guild only.**
 
 **Requires permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`f, test`
 
-[`string...`]: *Reaction trigger*
+**Overload 0:**
+- \[`string...`\]: *Reaction trigger*
 
 **Examples:**
 
@@ -195,12 +192,17 @@
 
 *Lists all emoji reactions for this guild.*
 
-**Aliases:**
-`print, show, view, ls, l, p`
 **Guild only.**
 
 **Requires permissions:**
 `Manage guild`
+
+**Aliases:**
+`print, show, view, ls, l, p`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -217,18 +219,21 @@
 *This groups is used to make the bot react with given text to a message containing a trigger word inside (guild specific). Group call either lists currently registered text reactions or adds a new text reaction to a given trigger word list.
 *Note: Trigger words can be regular expressions (use `textreaction addregex` command).**
 
-**Aliases:**
-`treact, tr, txtr, textreactions`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
+**Aliases:**
+`treact, tr, txtr, textreactions`
+
+**Overload 1:**
+
+*No arguments.*
+
 **Overload 0:**
-
-[`string`]: *Reaction trigger*
-
-[`string...`]: *Response*
+- \[`string`\]: *Reaction trigger*
+- \[`string...`\]: *Response*
 
 **Examples:**
 
@@ -245,18 +250,17 @@
 
 *Adds a new text reaction to guild reaction list. Requires trigger word and a response.*
 
-**Aliases:**
-`register, reg, new, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`register, reg, new, a, +, +=, <<, <, <-, <=`
 
-[`string`]: *Reaction trigger*
-
-[`string...`]: *Response*
+**Overload 0:**
+- \[`string`\]: *Reaction trigger*
+- \[`string...`\]: *Response*
 
 **Examples:**
 
@@ -272,18 +276,17 @@
 
 *Adds a new text reaction to guild reaction list. Requires a regular expression that will match the message being tested (each regular expression is word-bounded automatically) and a text to reply when the match occurs.*
 
-**Aliases:**
-`registerregex, regex, newregex, ar, +r, +=r, <<r, <r, <-r, <=r, +regex, +regexp, +rgx`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`registerregex, regex, newregex, ar, +r, +=r, <<r, <r, <-r, <=r, +regex, +regexp, +rgx`
 
-[`string`]: *Reaction trigger*
-
-[`string...`]: *Response*
+**Overload 0:**
+- \[`string`\]: *Reaction trigger*
+- \[`string...`\]: *Response*
 
 **Examples:**
 
@@ -299,20 +302,19 @@
 
 *Removes existing text reaction by it's ID or trigger word.*
 
-**Aliases:**
-`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Overload 1:**
+**Aliases:**
+`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 
-[`int...`]: *Reaction IDs to remove*
+**Overload 1:**
+- \[`int...`\]: *Reaction IDs to remove*
 
 **Overload 0:**
-
-[`string...`]: *Reaction triggers*
+- \[`string...`\]: *Reaction triggers*
 
 **Examples:**
 
@@ -329,12 +331,17 @@
 
 *Removes all guild text reactions.*
 
-**Aliases:**
-`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires user permissions:**
 `Administrator, Manage guild`
+
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -350,16 +357,16 @@
 
 *Finds text reactions that are triggered by a given text.*
 
-**Aliases:**
-`f, test`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`f, test`
 
-[`string...`]: *Reaction trigger*
+**Overload 0:**
+- \[`string...`\]: *Reaction trigger*
 
 **Examples:**
 
@@ -375,12 +382,17 @@
 
 *Lists all emoji reactions for this guild.*
 
-**Aliases:**
-`print, show, view, ls, l, p`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`print, show, view, ls, l, p`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 

@@ -36,73 +36,23 @@ namespace TheGodfather.Modules.Administration
         #endregion
 
         #region forbiddennames add
-        [Command("add")]
+        [Command("add"), Priority(2)]
         [Aliases("register", "reg", "a", "+", "+=", "<<", "<", "<-", "<=")]
-        public async Task AddAsync(CommandContext ctx,
-                                  [RemainingText, Description("desc-fnames")] params string[] names)
-        {
-            if (names is null || !names.Any())
-                throw new InvalidCommandUsageException(ctx, "cmd-err-fn-pat-none");
+        public Task AddAsync(CommandContext ctx,
+                            [Description("desc-punish-action")] Punishment.Action action,
+                            [RemainingText, Description("desc-fnames")] params string[] names)
+            => this.InternalAddAsync(ctx, action, names);
 
-            var eb = new StringBuilder();
-            var addedPatterns = new List<Regex>();
-            foreach (string regexString in names) {
-                if (regexString.Length is < 3 or > ForbiddenName.NameLimit) {
-                    eb.AppendLine(this.Localization.GetString(ctx.Guild.Id, "cmd-err-fn-size", Formatter.InlineCode(regexString), ForbiddenName.NameLimit));
-                    continue;
-                }
+        [Command("add"), Priority(1)]
+        public Task AddAsync(CommandContext ctx,
+                            [Description("desc-fname")] string name,
+                            [Description("desc-punish-action")] Punishment.Action? action = null)
+            => this.InternalAddAsync(ctx, action, new[] { name });
 
-                if (!regexString.TryParseRegex(out Regex? regex) || regex is null) {
-                    eb.AppendLine(this.Localization.GetString(ctx.Guild.Id, "cmd-err-fn-invalid", Formatter.InlineCode(regexString)));
-                    continue;
-                }
-
-                if (this.Service.IsSafePattern(regex)) {
-                    eb.AppendLine(this.Localization.GetString(ctx.Guild.Id, "cmd-err-fn-unsafe", Formatter.InlineCode(regexString)));
-                    continue;
-                }
-
-                if (!await this.Service.AddForbiddenNameAsync(ctx.Guild.Id, regex)) {
-                    eb.AppendLine(this.Localization.GetString(ctx.Guild.Id, "cmd-err-fn-dup", Formatter.InlineCode(regexString)));
-                    continue;
-                }
-
-                addedPatterns.Add(regex);
-            }
-
-            DiscordMember bot = ctx.Guild.CurrentMember;
-            bool failed = false;
-            foreach (DiscordMember member in ctx.Guild.Members.Select(kvp => kvp.Value).Where(m => !m.IsBot && m.Hierarchy < bot.Hierarchy)) {
-                Regex? match = addedPatterns.FirstOrDefault(r => r.IsMatch(member.DisplayName));
-                if (match is { }) {
-                    try {
-                        await member.ModifyAsync(m => {
-                            m.Nickname = member.Id.ToString();
-                            m.AuditLogReason = this.Localization.GetString(ctx.Guild.Id, "rsn-fname-match", match);
-                        });
-                        if (!member.IsBot)
-                            await member.SendMessageAsync(this.Localization.GetString(null, "dm-fname-match", Formatter.Italic(ctx.Guild.Name)));
-                    } catch (UnauthorizedException) {
-                        if (!failed) {
-                            failed = true;
-                            eb.Append(this.Localization.GetString(ctx.Guild.Id, "err-fname-match"));
-                        }
-                    }
-                }
-            }
-
-            await ctx.GuildLogAsync(emb => {
-                emb.WithLocalizedTitle(DiscordEventType.GuildUpdated, "evt-fn-add");
-                emb.AddLocalizedTitleField("str-fname-add", Formatter.BlockCode(addedPatterns.Select(p => p.ToString()).JoinWith()));
-                if (eb.Length > 0)
-                    emb.AddLocalizedTitleField("str-err", eb);
-            });
-
-            if (eb.Length > 0)
-                await ctx.FailAsync("evt-action-err", eb.ToString());
-            else
-                await ctx.InfoAsync(this.ModuleColor, "str-fn-add");
-        }
+        [Command("add"), Priority(0)]
+        public Task AddAsync(CommandContext ctx,
+                            [RemainingText, Description("desc-fnames")] params string[] names)
+            => this.InternalAddAsync(ctx, null, names);
         #endregion
 
         #region forbiddennames delete
@@ -223,6 +173,79 @@ namespace TheGodfather.Modules.Administration
                     this.ModuleColor
                 )
                 : throw new CommandFailedException(ctx, "cmd-err-fn-none");
+        }
+        #endregion
+
+
+        #region internals
+        public async Task InternalAddAsync(CommandContext ctx, Punishment.Action? action, params string[] names)
+        {
+            if (names is null || !names.Any())
+                throw new InvalidCommandUsageException(ctx, "cmd-err-fn-pat-none");
+
+            var eb = new StringBuilder();
+            var addedPatterns = new List<Regex>();
+            foreach (string regexString in names) {
+                if (regexString.Length is < 3 or > ForbiddenName.NameLimit) {
+                    eb.AppendLine(this.Localization.GetString(ctx.Guild.Id, "cmd-err-fn-size", Formatter.InlineCode(regexString), ForbiddenName.NameLimit));
+                    continue;
+                }
+
+                if (!regexString.TryParseRegex(out Regex? regex) || regex is null) {
+                    eb.AppendLine(this.Localization.GetString(ctx.Guild.Id, "cmd-err-fn-invalid", Formatter.InlineCode(regexString)));
+                    continue;
+                }
+
+                if (!this.Service.IsSafePattern(regex)) {
+                    eb.AppendLine(this.Localization.GetString(ctx.Guild.Id, "cmd-err-fn-unsafe", Formatter.InlineCode(regexString)));
+                    continue;
+                }
+
+                if (!await this.Service.AddForbiddenNameAsync(ctx.Guild.Id, regex, action)) {
+                    eb.AppendLine(this.Localization.GetString(ctx.Guild.Id, "cmd-err-fn-dup", Formatter.InlineCode(regexString)));
+                    continue;
+                }
+
+                addedPatterns.Add(regex);
+            }
+
+            DiscordMember bot = ctx.Guild.CurrentMember;
+            bool failed = false;
+            IReadOnlyCollection<DiscordMember> members = await ctx.Guild.GetAllMembersAsync();
+            foreach (DiscordMember member in members.Where(m => !m.IsBot && m.Hierarchy < bot.Hierarchy)) {
+                Regex? match = addedPatterns.FirstOrDefault(r => r.IsMatch(member.DisplayName));
+                if (match is { }) {
+                    try {
+                        if (action is { }) {
+                            await this.Service.PunishMemberAsync(ctx.Guild, member, action.Value);
+                        } else {
+                            await member.ModifyAsync(m => {
+                                m.Nickname = member.Id.ToString();
+                                m.AuditLogReason = this.Localization.GetString(ctx.Guild.Id, "rsn-fname-match", match);
+                            });
+                        }
+                        if (!member.IsBot)
+                            await member.SendMessageAsync(this.Localization.GetString(null, "dm-fname-match", Formatter.Italic(ctx.Guild.Name)));
+                    } catch (UnauthorizedException) {
+                        if (!failed) {
+                            failed = true;
+                            eb.Append(this.Localization.GetString(ctx.Guild.Id, "err-fname-match"));
+                        }
+                    }
+                }
+            }
+
+            await ctx.GuildLogAsync(emb => {
+                emb.WithLocalizedTitle(DiscordEventType.GuildUpdated, "evt-fn-add");
+                emb.AddLocalizedTitleField("str-fn-add", Formatter.BlockCode(addedPatterns.Select(p => p.ToString()).JoinWith()));
+                if (eb.Length > 0)
+                    emb.AddLocalizedTitleField("str-err", eb);
+            });
+
+            if (eb.Length > 0)
+                await ctx.FailAsync("fmt-err", eb.ToString());
+            else
+                await ctx.InfoAsync(this.ModuleColor, "str-fn-add");
         }
         #endregion
     }

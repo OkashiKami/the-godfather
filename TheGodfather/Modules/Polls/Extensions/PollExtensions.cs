@@ -17,15 +17,15 @@ namespace TheGodfather.Modules.Polls.Extensions
 
             for (int i = 0; i < poll.Options.Count; i++) {
                 if (!string.IsNullOrWhiteSpace(poll.Options[i]))
-                    emb.AddField($"{i + 1} : {poll.Options[i]}", $"{poll.Results.Count(kvp => kvp.Value == i)}");
+                    emb.AddField($"{i + 1} : {poll.Options[i]}", $"{poll.Results.Count(kvp => kvp.Value == i)}", inline: true);
             }
 
             if (poll.EndTime is { }) {
                 string localizedTime = lcs.GetLocalizedTimeString(poll.Channel.GuildId, poll.EndTime);
                 if (poll.TimeUntilEnd.TotalSeconds > 1)
-                    emb.WithLocalizedFooter("fmt-poll-end", poll.Initiator.AvatarUrl, localizedTime, $"{localizedTime:hh\\:mm\\:ss}");
+                    emb.WithLocalizedFooter("fmt-poll-end", poll.Initiator.AvatarUrl, localizedTime, $"{poll.TimeUntilEnd:hh\\:mm\\:ss}");
                 else
-                    emb.WithLocalizedFooter("fmt-poll-end", poll.Initiator.AvatarUrl);
+                    emb.WithLocalizedFooter("fmt-poll-ended", poll.Initiator.AvatarUrl);
             }
 
             return emb.Build();

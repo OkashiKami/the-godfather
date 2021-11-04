@@ -30,11 +30,11 @@ namespace TheGodfather.Modules.Music.Common
         public DiscordChannel? Channel => this.player?.Channel;
         public DiscordChannel? CommandChannel { get; set; }
 
-        private readonly List<Song> queue;
         private readonly SemaphoreSlim queueSem;
         private readonly DiscordGuild guild;
         private readonly SecureRandom rng;
         private readonly LavalinkService lava;
+        private List<Song> queue;
         private LavalinkGuildConnection? player;
 
         
@@ -65,6 +65,7 @@ namespace TheGodfather.Modules.Music.Common
                 return;
 
             this.NowPlaying = default;
+            this.RepeatMode = RepeatMode.None;
             await this.player.StopAsync();
         }
 
@@ -128,6 +129,7 @@ namespace TheGodfather.Modules.Music.Common
 
         public int EmptyQueue()
         {
+            this.RepeatMode = RepeatMode.None;
             lock (this.queue) {
                 int count = this.queue.Count;
                 this.queue.Clear();
@@ -147,7 +149,7 @@ namespace TheGodfather.Modules.Music.Common
         public void Reshuffle()
         {
             lock (this.queue) {
-                this.queue.Shuffle(this.rng);
+                this.queue = this.queue.Shuffle(this.rng).ToList();
             }
         }
 

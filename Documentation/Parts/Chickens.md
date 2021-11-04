@@ -7,17 +7,17 @@
 
 *Chicken management commands. If invoked without subcommands, prints out your chicken information.*
 
-**Aliases:**
-`cock, hen, chick, coc, cc`
 **Guild only.**
 
+
+**Aliases:**
+`chickens, cock, hen, chick, coc, cc`
+
 **Overload 1:**
-
-(optional) [`member`]: *Member* (def: `None`)
+- (optional) \[`member`\]: *Member* (def: `None`)
 
 **Overload 1:**
-
-[`string`]: *Chicken name*
+- \[`string`\]: *Chicken name*
 
 **Examples:**
 
@@ -35,17 +35,17 @@
 
 *Start an ambush for another user's chicken. Other users can either help with the ambush or help the ambushed chicken.*
 
-**Aliases:**
-`gangattack`
 **Guild only.**
 
-**Overload 1:**
 
-[`member`]: *Member*
+**Aliases:**
+`gangattack`
+
+**Overload 1:**
+- \[`member`\]: *Member*
 
 **Overload 0:**
-
-[`string`]: *Chicken name*
+- \[`string`\]: *Chicken name*
 
 **Examples:**
 
@@ -62,9 +62,15 @@
 
 *Join a pending chicken ambush and help the ambushed chicken.*
 
+**Guild only.**
+
+
 **Aliases:**
 `h, halp, hlp, ha`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -80,9 +86,15 @@
 
 *Join a pending chicken ambush as one of the ambushers.*
 
+**Guild only.**
+
+
 **Aliases:**
 `+, compete, enter, j, <, <<`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -98,13 +110,14 @@
 
 *Buys a chicken! Group call buys the cheapest chicken type. To list all available chicken types, use command `chicken buy list`.*
 
-**Aliases:**
-`b, shop`
 **Guild only.**
 
-**Arguments:**
 
-[`string...`]: *Chicken name*
+**Aliases:**
+`b, shop`
+
+**Overload 0:**
+- \[`string...`\]: *Chicken name*
 
 **Examples:**
 
@@ -120,13 +133,14 @@
 
 *Buys a chicken from another planet far, far away.*
 
-**Aliases:**
-`a, extraterrestrial`
 **Guild only.**
 
-**Arguments:**
 
-[`string...`]: *Chicken name*
+**Aliases:**
+`a, extraterrestrial`
+
+**Overload 0:**
+- \[`string...`\]: *Chicken name*
 
 **Examples:**
 
@@ -142,13 +156,14 @@
 
 *Buys a default chicken.*
 
-**Aliases:**
-`d, def`
 **Guild only.**
 
-**Arguments:**
 
-[`string...`]: *Chicken name*
+**Aliases:**
+`d, def`
+
+**Overload 0:**
+- \[`string...`\]: *Chicken name*
 
 **Examples:**
 
@@ -164,9 +179,15 @@
 
 *Lists all chicken types available for purchase.*
 
+**Guild only.**
+
+
 **Aliases:**
 `ls, view`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -182,13 +203,14 @@
 
 *Buys a chicken that was fed with steroids since the day it was born.*
 
-**Aliases:**
-`s, steroid, empowered`
 **Guild only.**
 
-**Arguments:**
 
-[`string...`]: *Chicken name*
+**Aliases:**
+`s, steroid, empowered`
+
+**Overload 0:**
+- \[`string...`\]: *Chicken name*
 
 **Examples:**
 
@@ -204,13 +226,14 @@
 
 *Buys a chicken trained by Jackie Chan.*
 
-**Aliases:**
-`tr, train`
 **Guild only.**
 
-**Arguments:**
 
-[`string...`]: *Chicken name*
+**Aliases:**
+`tr, train`
+
+**Overload 0:**
+- \[`string...`\]: *Chicken name*
 
 **Examples:**
 
@@ -226,13 +249,14 @@
 
 *Buys a well-fed chicken.*
 
-**Aliases:**
-`wf, fed`
 **Guild only.**
 
-**Arguments:**
 
-[`string...`]: *Chicken name*
+**Aliases:**
+`wf, fed`
+
+**Overload 0:**
+- \[`string...`\]: *Chicken name*
 
 **Examples:**
 
@@ -248,17 +272,17 @@
 
 *Make your chicken fight another member's chicken.*
 
-**Aliases:**
-`f, duel, attack`
 **Guild only.**
 
-**Overload 1:**
 
-[`member`]: *Member*
+**Aliases:**
+`f, duel, attack`
+
+**Overload 1:**
+- \[`member`\]: *Member*
 
 **Overload 0:**
-
-[`string`]: *Chicken name*
+- \[`string`\]: *Chicken name*
 
 **Examples:**
 
@@ -275,9 +299,15 @@
 
 *Heals your chicken. There is one medicine made per certain time period, so you need to grab it before the others do!*
 
+**Guild only.**
+
+
 **Aliases:**
 `+hp, hp`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -293,17 +323,17 @@
 
 *Prints chicken information.*
 
-**Aliases:**
-`information, stats`
 **Guild only.**
 
+
+**Aliases:**
+`information, stats`
+
 **Overload 1:**
-
-(optional) [`member`]: *Member* (def: `None`)
+- (optional) \[`member`\]: *Member* (def: `None`)
 
 **Overload 1:**
-
-[`string`]: *Chicken name*
+- \[`string`\]: *Chicken name*
 
 **Examples:**
 
@@ -321,9 +351,15 @@
 
 *Lists all chickens in this guild.*
 
+**Guild only.**
+
+
 **Aliases:**
 `print, show, view, ls, l, p`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -339,13 +375,14 @@
 
 *Renames your chicken.*
 
-**Aliases:**
-`rn, name`
 **Guild only.**
 
-**Arguments:**
 
-[`string...`]: *New name*
+**Aliases:**
+`rn, name`
+
+**Overload 0:**
+- \[`string...`\]: *New name*
 
 **Examples:**
 
@@ -361,9 +398,15 @@
 
 *Sells your chicken.*
 
+**Guild only.**
+
+
 **Aliases:**
 `s`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -379,9 +422,15 @@
 
 *Shows all strongest chickens in this guild.*
 
+**Guild only.**
+
+
 **Aliases:**
 `best, strongest`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -397,9 +446,15 @@
 
 *Shows the strongest chickens in the world.*
 
+**Guild only.**
+
+
 **Aliases:**
 `bestglobally, globallystrongest, globaltop, topg, gtop, globalbest, bestglobal`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -415,9 +470,15 @@
 
 *Trains your chicken at the cost of some guild currency. Group call trains your chicken's strength.*
 
+**Guild only.**
+
+
 **Aliases:**
 `tr, t, exercise`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -433,9 +494,15 @@
 
 *Trains your chicken's strength at the cost of some guild currency.*
 
+**Guild only.**
+
+
 **Aliases:**
 `str, st, s`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -451,9 +518,15 @@
 
 *Trains your chicken's vitality at the cost of some guild currency.*
 
+**Guild only.**
+
+
 **Aliases:**
 `vit, vi, v`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -469,13 +542,18 @@
 
 *Upgrade your chicken with items you can buy using guild currency. Group call lists all available upgrades or buys an upgrade with specified ID.*
 
-**Aliases:**
-`perks, upgrades, upg, u`
 **Guild only.**
 
-**Overload 0:**
 
-[`int...`]: *Chicken upgrade ID(s) to buy*
+**Aliases:**
+`perks, upgrades, upg, u`
+
+**Overload 1:**
+
+*No arguments.*
+
+**Overload 0:**
+- \[`int...`\]: *Chicken upgrade ID(s) to buy*
 
 **Examples:**
 
@@ -491,9 +569,15 @@
 
 *Lists all available chicken upgrades.*
 
+**Guild only.**
+
+
 **Aliases:**
 `print, show, view, ls, l, p`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -509,15 +593,15 @@
 
 *Starts a chicken war! Users can make their chickens join one of the teams.*
 
-**Aliases:**
-`gangwar, battle`
 **Guild only.**
 
-**Arguments:**
 
-(optional) [`string`]: *Team 1 name* (def: `None`)
+**Aliases:**
+`gangwar, battle`
 
-(optional) [`string`]: *Team 2 name* (def: `None`)
+**Overload 0:**
+- (optional) \[`string`\]: *Team 1 name* (def: `None`)
+- (optional) \[`string`\]: *Team 2 name* (def: `None`)
 
 **Examples:**
 
@@ -534,17 +618,17 @@
 
 *Joins a specified team (via name or number) in a pending chicken war.*
 
-**Aliases:**
-`+, compete, enter, j, <, <<`
 **Guild only.**
 
-**Overload 1:**
 
-[`int`]: *Team number to join*
+**Aliases:**
+`+, compete, enter, j, <, <<`
+
+**Overload 1:**
+- \[`int`\]: *Team number to join*
 
 **Overload 0:**
-
-[`string...`]: *Team name to join*
+- \[`string...`\]: *Team name to join*
 
 **Examples:**
 

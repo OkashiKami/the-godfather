@@ -5,6 +5,9 @@ namespace TheGodfather.EventListeners.Common
     public enum DiscordEventType
     {
         #region Event types
+        ApplicationCommandCreated,
+        ApplicationCommandDeleted,
+        ApplicationCommandUpdated,
         ChannelCreated,
         ChannelDeleted,
         ChannelPinsUpdated,
@@ -12,7 +15,7 @@ namespace TheGodfather.EventListeners.Common
         ClientErrored,
         CommandErrored,
         CommandExecuted,
-        DmChannelCreated,
+        ComponentInteractionCreated,
         DmChannelDeleted,
         GuildAvailable,
         GuildBanAdded,
@@ -29,6 +32,7 @@ namespace TheGodfather.EventListeners.Common
         GuildRoleCreated,
         GuildRoleDeleted,
         GuildRoleUpdated,
+        GuildStickersUpdated,
         GuildUnavailable,
         GuildUpdated,
         Heartbeated,
@@ -55,7 +59,7 @@ namespace TheGodfather.EventListeners.Common
         UserUpdated,
         VoiceServerUpdated,
         VoiceStateUpdated,
-        WebhooksUpdated
+        WebhooksUpdated,
         #endregion
     }
 
@@ -65,6 +69,13 @@ namespace TheGodfather.EventListeners.Common
         public static DiscordColor ToDiscordColor(this DiscordEventType type)
         {
             switch (type) {
+                #region Application commands
+                case DiscordEventType.ApplicationCommandCreated:
+                case DiscordEventType.ApplicationCommandDeleted:
+                case DiscordEventType.ApplicationCommandUpdated:
+                    return DiscordColor.Sienna;
+                #endregion
+
                 #region Channels
                 case DiscordEventType.ChannelCreated:
                 case DiscordEventType.ChannelDeleted:
@@ -83,7 +94,6 @@ namespace TheGodfather.EventListeners.Common
                 #endregion
 
                 #region Availability
-                case DiscordEventType.DmChannelCreated:
                 case DiscordEventType.DmChannelDeleted:
                 case DiscordEventType.GuildAvailable:
                 case DiscordEventType.GuildCreated:
@@ -97,8 +107,9 @@ namespace TheGodfather.EventListeners.Common
                     return DiscordColor.SpringGreen;
                 #endregion
 
-                #region Emojis
+                #region Emojis & Stickers
                 case DiscordEventType.GuildEmojisUpdated:
+                case DiscordEventType.GuildStickersUpdated:
                     return DiscordColor.Yellow;
                 #endregion
 

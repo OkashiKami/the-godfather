@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DSharpPlus;
@@ -9,7 +8,6 @@ using DSharpPlus.Exceptions;
 using Humanizer;
 using Microsoft.Extensions.DependencyInjection;
 using TheGodfather.Common;
-using TheGodfather.Database;
 using TheGodfather.Database.Models;
 using TheGodfather.EventListeners.Attributes;
 using TheGodfather.EventListeners.Common;
@@ -18,6 +16,7 @@ using TheGodfather.Misc.Services;
 using TheGodfather.Modules.Administration.Extensions;
 using TheGodfather.Modules.Administration.Services;
 using TheGodfather.Modules.Owner.Services;
+using TheGodfather.Modules.Reactions.Extensions;
 using TheGodfather.Modules.Reactions.Services;
 using TheGodfather.Services;
 using TheGodfather.Services.Common;
@@ -50,7 +49,13 @@ namespace TheGodfather.EventListeners
             }
             ms.Seek(0, SeekOrigin.Begin);
             DiscordChannel? chn = gcs.GetLogChannelForGuild(e.Guild);
-            await (chn?.SendFileAsync($"{e.Channel.Name}-deleted-messages.txt", ms, embed: emb.Build()) ?? Task.CompletedTask);
+            if (chn is { }) {
+                await chn.SendMessageAsync(
+                    new DiscordMessageBuilder()
+                        .WithEmbed(emb.Build())
+                        .WithFile($"{e.Channel.Name}-deleted-messages.txt", ms)
+                );
+            }
         }
 
         [AsyncEventListener(DiscordEventType.MessageCreated)]
@@ -76,18 +81,19 @@ namespace TheGodfather.EventListeners
                     LocalizationService ls = bot.Services.GetRequiredService<LocalizationService>();
                     LevelRole? lr = await bot.Services.GetRequiredService<LevelRoleService>().GetAsync(e.Guild.Id, rank);
                     DiscordRole? levelRole = lr is { } ? e.Guild.GetRole(lr.RoleId) : null;
-                    XpRank? rankInfo = await bot.Services.GetRequiredService<GuildRanksService>().GetAsync(e.Guild.Id, rank);
-                    string rankupStr;
                     if (levelRole is { }) {
-                        rankupStr = ls.GetString(e.Guild.Id, "fmt-rankup-lr",
-                            e.Author.Mention, Formatter.Bold(rank.ToString()), rankInfo?.Name ?? "/", levelRole.Mention
-                        );
                         DiscordMember member = await e.Guild.GetMemberAsync(e.Author.Id);
                         await member.GrantRoleAsync(levelRole);
-                    } else {
-                        rankupStr = ls.GetString(e.Guild.Id, "fmt-rankup", e.Author.Mention, Formatter.Bold(rank.ToString()), rankInfo?.Name ?? "/");
                     }
-                    await e.Channel.EmbedAsync(rankupStr, Emojis.Medal);
+
+                    GuildConfig gcfg = await bot.Services.GetRequiredService<GuildConfigService>().GetConfigAsync(e.Guild.Id);
+                    if (!gcfg.SilentLevelUpEnabled) {
+                        XpRank? rankInfo = await bot.Services.GetRequiredService<GuildRanksService>().GetAsync(e.Guild.Id, rank);
+                        string rankupStr = levelRole is { }
+                            ? ls.GetString(e.Guild.Id, "fmt-rankup-lr", e.Author.Mention, Formatter.Bold(rank.ToString()), rankInfo?.Name ?? "/", levelRole.Mention)
+                            : ls.GetString(e.Guild.Id, "fmt-rankup", e.Author.Mention, Formatter.Bold(rank.ToString()), rankInfo?.Name ?? "/");
+                        await e.Channel.EmbedAsync(rankupStr, Emojis.Medal);
+                    }
                 }
             }
         }
@@ -95,7 +101,7 @@ namespace TheGodfather.EventListeners
         [AsyncEventListener(DiscordEventType.MessageCreated)]
         public static async Task MessageCreateProtectionHandlerAsync(TheGodfatherBot bot, MessageCreateEventArgs e)
         {
-            if (e.Author.IsBot || e.Guild is null || string.IsNullOrWhiteSpace(e.Message?.Content))
+            if (e.Author.IsBot || e.Guild is null)
                 return;
 
             if (bot.Services.GetRequiredService<BlockingService>().IsChannelBlocked(e.Channel.Id))
@@ -114,11 +120,7 @@ namespace TheGodfather.EventListeners
 
         [AsyncEventListener(DiscordEventType.MessageCreated)]
         public static Task MessageCreateBackupHandlerAsync(TheGodfatherBot bot, MessageCreateEventArgs e)
-        {
-            return e.Guild is null
-                ? Task.CompletedTask
-                : bot.Services.GetRequiredService<BackupService>().BackupAsync(e.Message);
-        }
+            => e.Guild is null ? Task.CompletedTask : bot.Services.GetRequiredService<BackupService>().BackupAsync(e.Message);
 
         [AsyncEventListener(DiscordEventType.MessageCreated)]
         public static async Task MessageFilterEventHandlerAsync(TheGodfatherBot bot, MessageCreateEventArgs e)
@@ -138,18 +140,7 @@ namespace TheGodfather.EventListeners
             if (!bot.Services.GetRequiredService<FilteringService>().TextContainsFilter(e.Guild.Id, e.Message.Content, out _))
                 return;
 
-            if (!e.Channel.PermissionsFor(e.Guild.CurrentMember).HasFlag(Permissions.ManageMessages))
-                return;
-
-
-            // TODO automatize, same below in message update handler
-            LocalizationService ls = bot.Services.GetRequiredService<LocalizationService>();
-            try {
-                await e.Message.DeleteAsync(ls.GetString(e.Guild.Id, "rsn-filter-match"));
-                await e.Channel.LocalizedEmbedAsync(ls, "fmt-filter", e.Author.Mention, Formatter.Strip(e.Message.Content));
-            } catch {
-                // TODO
-            }
+            await SanitizeFilteredMessage(bot, e.Message);
         }
 
         [AsyncEventListener(DiscordEventType.MessageCreated)]
@@ -162,37 +153,19 @@ namespace TheGodfather.EventListeners
                 return;
 
             ReactionsService rs = bot.Services.GetRequiredService<ReactionsService>();
+            Permissions perms = e.Channel.PermissionsFor(e.Guild.CurrentMember);
 
-            if (e.Channel.PermissionsFor(e.Guild.CurrentMember).HasFlag(Permissions.AddReactions)) {
-                EmojiReaction? er = rs.FindMatchingEmojiReactions(e.Guild.Id, e.Message.Content)
-                    .Shuffle()
-                    .FirstOrDefault();
-
-                // TODO move to service
-                if (er is { }) {
-                    try {
-                        DiscordClient client = bot.Client.GetShard(e.Guild.Id);
-                        var emoji = DiscordEmoji.FromName(client, er.Response);
-                        await e.Message.CreateReactionAsync(emoji);
-                    } catch (ArgumentException) {
-                        using TheGodfatherDbContext db = bot.Database.CreateContext();
-                        db.EmojiReactions.RemoveRange(
-                            db.EmojiReactions
-                                .Where(r => r.GuildIdDb == (long)e.Guild.Id)
-                                .AsEnumerable()
-                                .Where(r => r.HasSameResponseAs(er))
-                        );
-                        await db.SaveChangesAsync();
-                    } catch (NotFoundException) {
-                        LogExt.Debug(bot.GetId(e.Guild.Id), "Trying to react to a deleted message.");
-                    }
+            if (perms.HasFlag(Permissions.AddReactions)) {
+                DiscordClient client = bot.Client.GetShard(e.Guild.Id);
+                try {
+                    await rs.HandleEmojiReactionsAsync(client, e.Message);
+                } catch (NotFoundException) {
+                    LogExt.Debug(bot.GetId(e.Guild.Id), "Trying to react to a deleted message.");
                 }
             }
 
-            TextReaction? tr = rs.FindMatchingTextReaction(e.Guild.Id, e.Message.Content);
-            // TODO move to service
-            if (tr is { } && tr.CanSend())
-                await e.Channel.SendMessageAsync(tr.Response.Replace("%user%", e.Author.Mention));
+            if (perms.HasFlag(Permissions.SendMessages))
+                await rs.HandleTextReactionsAsync(e.Message);
         }
 
         [AsyncEventListener(DiscordEventType.MessageDeleted)]
@@ -217,8 +190,13 @@ namespace TheGodfather.EventListeners
             DiscordAuditLogMessageEntry? entry = await e.Guild.GetLatestAuditLogEntryAsync<DiscordAuditLogMessageEntry>(AuditLogActionType.MessageDelete);
             if (entry is { }) {
                 DiscordMember? member = await e.Guild.GetMemberAsync(entry.UserResponsible.Id);
-                if (member is { } && gcs.IsMemberExempted(e.Guild.Id, member.Id, member.Roles.Select(r => r.Id)))
+                if (member is { } && gcs.IsMemberExempted(e.Guild.Id, member.Id, member.Roles.SelectIds()))
                     return;
+                if (member is null && e.Message.Author is { }) {
+                    DiscordMember? author = await e.Guild.GetMemberAsync(e.Message.Author.Id);
+                    if (author is { } && gcs.IsMemberExempted(e.Guild.Id, author.Id, author.Roles.SelectIds()))
+                        return;
+                }
                 emb.AddFieldsFromAuditLogEntry(entry);
             }
 
@@ -230,16 +208,15 @@ namespace TheGodfather.EventListeners
                     emb.WithDescription(Formatter.Italic(ls.GetString(e.Guild.Id, "rsn-filter-match")));
                 }
             }
+
             if (e.Message.Embeds.Any())
                 emb.AddLocalizedTitleField("str-embeds", e.Message.Embeds.Count, inline: true);
             if (e.Message.Reactions.Any())
                 emb.AddLocalizedTitleField("str-reactions", e.Message.Reactions.Select(r => r.Emoji.GetDiscordName()).JoinWith(" "), inline: true);
-            if (e.Message.Attachments.Any()) {
-                emb.AddLocalizedTitleField("str-attachments", e.Message.Attachments.Select(a => ToMaskedUrl(a)).JoinWith(), inline: true);
-
-                static string ToMaskedUrl(DiscordAttachment a)
-                    => Formatter.MaskedUrl($"{a.FileName} ({a.FileSize.ToMetric(decimals: 0)}B)", new Uri(a.Url));
-            }
+            if (e.Message.Stickers.Any())
+                emb.AddLocalizedTitleField("str-stickers", e.Message.Stickers.JoinWith(), inline: true);
+            if (e.Message.Attachments.Any())
+                emb.AddLocalizedTitleField("str-attachments", e.Message.Attachments.Select(a => a.ToMaskedUrl()).JoinWith(), inline: true);
             if (e.Message.CreationTimestamp is { })
                 emb.AddLocalizedTimestampField("str-created-at", e.Message.CreationTimestamp, inline: true);
 
@@ -263,14 +240,8 @@ namespace TheGodfather.EventListeners
 
             LocalizationService ls = bot.Services.GetRequiredService<LocalizationService>();
             FilteringService fs = bot.Services.GetRequiredService<FilteringService>();
-            if (!string.IsNullOrWhiteSpace(e.Message.Content) && fs.TextContainsFilter(e.Guild.Id, e.Message.Content, out _)) {
-                try {
-                    await e.Message.DeleteAsync(ls.GetString(e.Guild.Id, "rsn-filter-match"));
-                    await e.Channel.LocalizedEmbedAsync(ls, "fmt-filter", e.Author.Mention, Formatter.Strip(e.Message.Content));
-                } catch {
-                    // TODO
-                }
-            }
+            if (!string.IsNullOrWhiteSpace(e.Message.Content) && fs.TextContainsFilter(e.Guild.Id, e.Message.Content, out _))
+                await SanitizeFilteredMessage(bot, e.Message);
 
             if (!LoggingService.IsLogEnabledForGuild(bot, e.Guild.Id, out LoggingService logService, out LocalizedEmbedBuilder emb))
                 return;
@@ -278,14 +249,15 @@ namespace TheGodfather.EventListeners
             if (LoggingService.IsChannelExempted(bot, e.Guild, e.Channel, out GuildConfigService gcs))
                 return;
 
-            DiscordMember member = await e.Guild.GetMemberAsync(e.Author.Id);
-            if (member is { } && gcs.IsMemberExempted(e.Guild.Id, member.Id, member.Roles.Select(r => r.Id)))
+            DiscordMember? member = await e.Guild.GetMemberAsync(e.Author.Id);
+            if (member is { } && gcs.IsMemberExempted(e.Guild.Id, member.Id, member.Roles.SelectIds()))
                 return;
 
             string jumplink = Formatter.MaskedUrl(ls.GetString(e.Guild.Id, "str-jumplink"), e.Message.JumpLink);
             emb.WithLocalizedTitle(DiscordEventType.MessageUpdated, "evt-msg-upd", desc: jumplink);
             emb.AddLocalizedTitleField("str-location", e.Channel.Mention, inline: true);
             emb.AddLocalizedTitleField("str-author", e.Message.Author?.Mention, inline: true);
+            emb.AddLocalizedPropertyChangeField("str-pinned", e.MessageBefore?.Pinned, e.Message.Pinned);
 
             emb.AddLocalizedContentField(
                 "str-upd-bef",
@@ -312,7 +284,36 @@ namespace TheGodfather.EventListeners
 
 
             static string? FormatContent(DiscordMessage? msg)
-                => string.IsNullOrWhiteSpace(msg?.Content) ? null : Formatter.BlockCode(msg.Content.Truncate(700));
+                => string.IsNullOrWhiteSpace(msg?.Content) ? null : Formatter.BlockCode(Formatter.Strip(msg.Content.Truncate(700)));
+        }
+
+
+        private static async Task SanitizeFilteredMessage(TheGodfatherBot bot, DiscordMessage msg)
+        {
+            if (msg.Channel.GuildId is null)
+                return;
+
+            if (msg.Channel.PermissionsFor(msg.Channel.Guild.CurrentMember).HasFlag(Permissions.ManageMessages)) {
+                LocalizationService ls = bot.Services.GetRequiredService<LocalizationService>();
+                try {
+                    await msg.DeleteAsync(ls.GetString(msg.Channel.GuildId, "rsn-filter-match"));
+                    // await msg.Channel.LocalizedEmbedAsync(ls, "fmt-filter", msg.Author.Mention, Formatter.Spoiler(Formatter.Strip(msg.Content)));
+                } catch {
+                    await SendErrorReportAsync();
+                }
+            } else {
+                await SendErrorReportAsync();
+            }
+
+
+            async Task SendErrorReportAsync()
+            {
+                if (LoggingService.IsLogEnabledForGuild(bot, msg.Channel.GuildId.Value, out LoggingService? logService, out LocalizedEmbedBuilder? emb)) {
+                    emb.WithColor(DiscordColor.Red);
+                    emb.WithLocalizedDescription("err-f", msg.Channel.Mention);
+                    await logService.LogAsync(msg.Channel.Guild, emb);
+                }
+            }
         }
     }
 }

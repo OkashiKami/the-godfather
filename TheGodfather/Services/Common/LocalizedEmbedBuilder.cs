@@ -107,6 +107,12 @@ namespace TheGodfather.Services.Common
             return this;
         }
 
+        public LocalizedEmbedBuilder WithThumbnail(Uri uri)
+        {
+            this.emb.WithThumbnail(uri);
+            return this;
+        }
+
         public LocalizedEmbedBuilder WithLocalizedFooter(string key, string? iconUrl, params object?[]? args)
         {
             string localizedText = this.TruncateToFitFooterText(this.lcs.GetString(this.gid, key, args));
@@ -204,10 +210,11 @@ namespace TheGodfather.Services.Common
         public LocalizedEmbedBuilder AddReason(string? reason)
             => reason is null ? this : this.AddLocalizedTitleField("str-rsn", reason);
 
-        public LocalizedEmbedBuilder AddFieldsFromAuditLogEntry<T>(T? entry, Action<LocalizedEmbedBuilder, T>? action = null) where T : DiscordAuditLogEntry
+        public LocalizedEmbedBuilder AddFieldsFromAuditLogEntry<T>(T? entry, Action<LocalizedEmbedBuilder, T>? action = null, bool errReport = true) where T : DiscordAuditLogEntry
         {
             if (entry is null) {
-                this.AddInsufficientAuditLogPermissionsField();
+                if (errReport)
+                    this.AddInsufficientAuditLogPermissionsField();
             } else {
                 if (action is { })
                     action(this, entry);

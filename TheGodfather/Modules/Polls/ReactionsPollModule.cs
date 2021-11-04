@@ -10,12 +10,13 @@ using TheGodfather.Common;
 using TheGodfather.Exceptions;
 using TheGodfather.Extensions;
 using TheGodfather.Modules.Polls.Common;
+using TheGodfather.Modules.Polls.Extensions;
 using TheGodfather.Services;
 
 namespace TheGodfather.Modules.Polls
 {
     [Group("reactionspoll"), Module(ModuleType.Polls), NotBlocked, UsesInteractivity]
-    [Aliases("rpoll", "pollr", "voter")]
+    [Aliases("reactionspolls", "rpoll", "rpolls", "pollr", "voter")]
     [RequireGuild, Cooldown(3, 5, CooldownBucketType.Channel)]
     public sealed class ReactionsPollModule : TheGodfatherServiceModule<ChannelEventService>
     {
@@ -37,7 +38,7 @@ namespace TheGodfather.Modules.Polls
             var rpoll = new ReactionsPoll(ctx.Client.GetInteractivity(), ctx.Channel, ctx.Member, question, timeout);
             this.Service.RegisterEventInChannel(rpoll, ctx.Channel.Id);
             try {
-                await ctx.InfoAsync(this.ModuleColor, Emojis.Question, "q-poll-ans");
+                await ctx.ImpInfoAsync(this.ModuleColor, Emojis.Question, "q-poll-ans");
                 List<string>? options = await ctx.WaitAndParsePollOptionsAsync();
                 if (options is null || options.Count < 2 || options.Count > Poll.MaxPollOptions)
                     throw new CommandFailedException(ctx, "cmd-err-poll-opt", Poll.MaxPollOptions);

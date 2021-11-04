@@ -28,13 +28,13 @@ namespace TheGodfather.Extensions
             return channel.SendMessageAsync(embed: emb.Build());
         }
 
-        public static async Task<DiscordMessage> RespondWithLocalizedEmbedAsync(this CommandContext ctx, Func<LocalizedEmbedBuilder, Task> action,
+        public static async Task<DiscordMessage> RespondWithLocalizedEmbedAsync(this CommandContext ctx, Func<LocalizedEmbedBuilder, Task> asyncAction,
                                                                                 DiscordChannel? channel = null)
         {
             channel ??= ctx.Channel;
             LocalizationService lcs = ctx.Services.GetRequiredService<LocalizationService>();
             var emb = new LocalizedEmbedBuilder(lcs, ctx.Guild?.Id);
-            await action(emb);
+            await asyncAction(emb);
             return await channel.SendMessageAsync(embed: emb.Build());
         }
 
@@ -81,25 +81,6 @@ namespace TheGodfather.Extensions
             });
         }
 
-        public static async Task<List<string>?> WaitAndParsePollOptionsAsync(this CommandContext ctx, string separator = ";")
-        {
-            InteractivityService interactivity = ctx.Services.GetRequiredService<InteractivityService>();
-            interactivity.AddPendingResponse(ctx.Channel.Id, ctx.User.Id);
-
-            InteractivityResult<DiscordMessage> mctx = await ctx.Client.GetInteractivity().WaitForMessageAsync(
-                xm => xm.Author == ctx.User && xm.Channel == ctx.Channel
-            );
-
-            if (!interactivity.RemovePendingResponse(ctx.Channel.Id, ctx.User.Id))
-                throw new ConcurrentOperationException("Failed to remove user from pending list");
-
-            return mctx.TimedOut
-                ? null
-                : mctx.Result.Content.Split(separator, StringSplitOptions.RemoveEmptyEntries)
-                .Distinct()
-                .ToList();
-        }
-
         public static Task PaginateAsync<T>(this CommandContext ctx, string key, IEnumerable<T> collection,
                                             Func<T, string> selector, DiscordColor? color = null, int pageSize = 10,
                                             params object?[]? args)
@@ -130,7 +111,7 @@ namespace TheGodfather.Extensions
         }
 
         public static Task PaginateAsync<T>(this CommandContext ctx, IEnumerable<T> collection,
-                                           Func<LocalizedEmbedBuilder, T, LocalizedEmbedBuilder> formatter, DiscordColor? color = null)
+                                            Func<LocalizedEmbedBuilder, T, LocalizedEmbedBuilder> formatter, DiscordColor? color = null)
         {
             int count = collection.Count();
             LocalizationService ls = ctx.Services.GetRequiredService<LocalizationService>();

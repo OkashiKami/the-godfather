@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.Entities;
@@ -22,13 +24,13 @@ namespace TheGodfather.EventListeners
         [AsyncEventListener(DiscordEventType.MessageReactionsCleared)]
         public static Task MessageReactionsClearedEventHandlerAsync(TheGodfatherBot bot, MessageReactionsClearEventArgs e)
         {
-            if (e.Guild is null || e.Channel is null || e.Message is null || e.Message.Author == bot.Client.GetShard(e.Channel.Guild).CurrentUser)
+            if (e.Guild is null || e.Channel is null || e.Message is null || e.Message.Author == bot.Client.CurrentUser)
                 return Task.CompletedTask;
 
             if (bot.Services.GetRequiredService<BlockingService>().IsChannelBlocked(e.Channel.Id))
                 return Task.CompletedTask;
 
-            if (e.Message.Author == bot.Client.CurrentUser && bot.Services.GetRequiredService<ChannelEventService>().IsEventRunningInChannel(e.Channel.Id))
+            if (bot.Services.GetRequiredService<ChannelEventService>().IsEventRunningInChannel(e.Channel.Id))
                 return Task.CompletedTask;
 
             if (!LoggingService.IsLogEnabledForGuild(bot, e.Guild.Id, out LoggingService logService, out LocalizedEmbedBuilder emb))
@@ -59,7 +61,7 @@ namespace TheGodfather.EventListeners
             }
 
             ReactionRoleService rrs = bot.Services.GetRequiredService<ReactionRoleService>();
-            ReactionRole? rr = await rrs.GetAsync(e.Guild.Id, e.Emoji.GetDiscordName());
+            ReactionRole? rr = await rrs.GetAsync(e.Guild.Id, e.Emoji.GetDiscordName(), e.Channel.Id, e.Message.Id);
             if (rr is { }) {
                 DiscordRole? role = e.Guild.GetRole(rr.RoleId);
                 if (role is { }) {
@@ -89,7 +91,7 @@ namespace TheGodfather.EventListeners
             }
 
             ReactionRoleService rrs = bot.Services.GetRequiredService<ReactionRoleService>();
-            ReactionRole? rr = await rrs.GetAsync(e.Guild.Id, e.Emoji.GetDiscordName());
+            ReactionRole? rr = await rrs.GetAsync(e.Guild.Id, e.Emoji.GetDiscordName(), e.Channel.Id, e.Message.Id);
             if (rr is { }) {
                 DiscordRole? role = e.Guild.GetRole(rr.RoleId);
                 if (role is { }) {

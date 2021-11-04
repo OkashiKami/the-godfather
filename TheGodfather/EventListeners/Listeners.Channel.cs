@@ -19,20 +19,8 @@ namespace TheGodfather.EventListeners
 {
     internal static partial class Listeners
     {
-        private static ConcurrentDictionary<ulong, ConcurrentQueue<ChannelUpdateEventArgs>> _channelUpdates = new();
+        private static readonly ConcurrentDictionary<ulong, ConcurrentQueue<ChannelUpdateEventArgs>> _channelUpdates = new();
 
-
-        [AsyncEventListener(DiscordEventType.DmChannelCreated)]
-        public static Task DmChannelCreateEventHandlerAsync(TheGodfatherBot bot, DmChannelCreateEventArgs e)
-        {
-            LogExt.Debug(
-                bot.GetId(null),
-                new[] { "Create: DM {Channel}, recipients:", "{Recipients}" },
-                e.Channel,
-                e.Channel.Recipients.Humanize(Environment.NewLine)
-            );
-            return Task.CompletedTask;
-        }
 
         [AsyncEventListener(DiscordEventType.DmChannelDeleted)]
         public static Task DmChannelDeleteEventHandlerAsync(TheGodfatherBot bot, DmChannelDeleteEventArgs e)
@@ -65,8 +53,11 @@ namespace TheGodfather.EventListeners
         [AsyncEventListener(DiscordEventType.ChannelCreated)]
         public static Task ChannelCreateBackupEventHandlerAsync(TheGodfatherBot bot, ChannelCreateEventArgs e)
         {
+            if (e.Channel.GuildId is null)
+                return Task.CompletedTask;
+
             LogExt.Debug(bot.GetId(e.Guild.Id), "Adding newly created channel to backup service: {Channel}, {Guild}", e.Channel, e.Guild);
-            return bot.Services.GetRequiredService<BackupService>().AddChannelAsync(e.Channel.GuildId, e.Channel.Id);
+            return bot.Services.GetRequiredService<BackupService>().AddChannelAsync(e.Channel.GuildId.Value, e.Channel.Id);
         }
 
         [AsyncEventListener(DiscordEventType.ChannelDeleted)]
@@ -88,7 +79,10 @@ namespace TheGodfather.EventListeners
         [AsyncEventListener(DiscordEventType.ChannelDeleted)]
         public static Task ChannelDeleteBackupEventHandlerAsync(TheGodfatherBot bot, ChannelCreateEventArgs e)
         {
-            bot.Services.GetRequiredService<BackupService>().RemoveChannel(e.Channel.GuildId, e.Channel.Id);
+            if (e.Channel.GuildId is null)
+                return Task.CompletedTask;
+
+            bot.Services.GetRequiredService<BackupService>().RemoveChannel(e.Channel.GuildId.Value, e.Channel.Id);
             LogExt.Debug(bot.GetId(e.Guild.Id), "Removed channel from backup service: {Channel}, {Guild}", e.Channel, e.Guild);
             return Task.CompletedTask;
         }
@@ -107,13 +101,23 @@ namespace TheGodfather.EventListeners
             emb.WithLocalizedTitle(DiscordEventType.ChannelPinsUpdated, "evt-chn-pins-update");
             emb.AddLocalizedTitleField("str-chn", e.Channel.Mention);
 
-            IReadOnlyList<DiscordMessage> pinned = await e.Channel.GetPinnedMessagesAsync();
-            if (pinned.Any()) {
-                emb.WithDescription(Formatter.MaskedUrl("Jumplink", pinned[0].JumpLink));
-                string content = string.IsNullOrWhiteSpace(pinned[0].Content) ? "<embed>" : pinned[0].Content;
-                emb.AddLocalizedTitleField("str-top-pin-content", Formatter.BlockCode(Formatter.Strip(content.Truncate(900))));
+            DiscordAuditLogMessagePinEntry? entry = await e.Guild.GetLatestAuditLogEntryAsync<DiscordAuditLogMessagePinEntry>();
+            DiscordMessage? pinned;
+            if (entry is null) {
+                IReadOnlyList<DiscordMessage> pinnedMessages = await e.Channel.GetPinnedMessagesAsync();
+                pinned = pinnedMessages.FirstOrDefault();
+            } else {
+                pinned = entry.Message;
+                emb.AddInvocationFields(entry.UserResponsible);
+                emb.AddReason(entry.Reason);
             }
-            emb.AddLocalizedTimestampField("str-last-pin-timestamp", e.LastPinTimestamp);
+
+            if (pinned is not null) {
+                emb.WithDescription(Formatter.MaskedUrl("Jumplink", pinned.JumpLink));
+                string content = string.IsNullOrWhiteSpace(pinned.Content) ? "<embed>" : pinned.Content;
+                emb.AddLocalizedTitleField("str-pin-content", Formatter.BlockCode(Formatter.Strip(content.Truncate(900))));
+                emb.WithLocalizedTimestamp(pinned.Timestamp);
+            }
 
             await logService.LogAsync(e.Guild, emb);
         }
@@ -192,7 +196,7 @@ namespace TheGodfather.EventListeners
                 emb.AddLocalizedPropertyChangeField("evt-upd-position", fst.ChannelBefore.Position, lst.ChannelAfter.Position, inline: true);
                 emb.AddLocalizedPropertyChangeField("evt-upd-ratelimit", fst.ChannelBefore.PerUserRateLimit, lst.ChannelAfter.PerUserRateLimit, inline: true);
                 emb.AddLocalizedPropertyChangeField("evt-upd-type", fst.ChannelBefore.Type, lst.ChannelAfter.Type, inline: true);
-                if (!fst.ChannelBefore.Topic.Equals(lst.ChannelAfter.Topic, StringComparison.InvariantCultureIgnoreCase)) {
+                if (!fst.ChannelBefore.Topic?.Equals(lst.ChannelAfter.Topic, StringComparison.InvariantCultureIgnoreCase) ?? false) {
                     string before = Formatter.BlockCode(
                         Formatter.Strip(string.IsNullOrWhiteSpace(fst.ChannelBefore.Topic) ? " " : fst.ChannelBefore.Topic).Truncate(450, "...")
                     );

@@ -9,21 +9,20 @@
 
 **Guild only.**
 
+
+**Aliases:**
+`polls`
+
 **Overload 2:**
-
-[`time span`]: *Time for the poll to run*
-
-[`string...`]: *Poll question*
+- \[`time span`\]: *Time for the poll to run*
+- \[`string...`\]: *Poll question*
 
 **Overload 1:**
-
-[`string`]: *Poll question*
-
-[`time span`]: *Time for the poll to run*
+- \[`string`\]: *Poll question*
+- \[`time span`\]: *Time for the poll to run*
 
 **Overload 0:**
-
-[`string...`]: *Poll question*
+- \[`string...`\]: *Poll question*
 
 **Examples:**
 
@@ -41,9 +40,15 @@
 
 *Stops a running poll.*
 
+**Guild only.**
+
+
 **Aliases:**
 `end, cancel`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -59,25 +64,22 @@
 
 *Starts a new reactions poll in the current channel. You can also provide the time for the poll to run.*
 
-**Aliases:**
-`rpoll, pollr, voter`
 **Guild only.**
 
+
+**Aliases:**
+`reactionspolls, rpoll, rpolls, pollr, voter`
+
 **Overload 2:**
-
-[`time span`]: *Time for the poll to run*
-
-[`string...`]: *Poll question*
+- \[`time span`\]: *Time for the poll to run*
+- \[`string...`\]: *Poll question*
 
 **Overload 1:**
-
-[`string`]: *Poll question*
-
-[`time span`]: *Time for the poll to run*
+- \[`string`\]: *Poll question*
+- \[`time span`\]: *Time for the poll to run*
 
 **Overload 0:**
-
-[`string...`]: *Poll question*
+- \[`string...`\]: *Poll question*
 
 **Examples:**
 
@@ -95,9 +97,15 @@
 
 *Stops a running reactions poll.*
 
+**Guild only.**
+
+
 **Aliases:**
 `end, cancel`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -113,13 +121,14 @@
 
 *Manages voting in running polls. Group call registers a vote in the running poll for the option you entered.*
 
-**Aliases:**
-`votefor, vf`
 **Guild only.**
 
-**Arguments:**
 
-[`int`]: *Option to vote for*
+**Aliases:**
+`votefor, vf`
+
+**Overload 0:**
+- \[`int`\]: *Option to vote for*
 
 **Examples:**
 
@@ -135,9 +144,15 @@
 
 *Manages voting in running polls. Group call registers a vote in the running poll for the option you entered.*
 
+**Guild only.**
+
+
 **Aliases:**
 `c, reset`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 

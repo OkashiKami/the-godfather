@@ -12,7 +12,6 @@ using TheGodfather.Attributes;
 using TheGodfather.Database.Models;
 using TheGodfather.Exceptions;
 using TheGodfather.Extensions;
-using TheGodfather.Modules.Administration.Common;
 using TheGodfather.Modules.Administration.Extensions;
 using TheGodfather.Modules.Administration.Services;
 using TheGodfather.Services;
@@ -22,7 +21,7 @@ namespace TheGodfather.Modules.Administration
     [Group("user"), Module(ModuleType.Administration), NotBlocked]
     [Aliases("users", "u", "usr", "member", "mem")]
     [Cooldown(3, 5, CooldownBucketType.Channel)]
-    public sealed class UserModule : TheGodfatherModule
+    public sealed class UserModule : TheGodfatherServiceModule<ProtectionService>
     {
         #region user
         [GroupCommand, Priority(1)]
@@ -184,7 +183,7 @@ namespace TheGodfather.Modules.Administration
                 emb.AddLocalizedTitleField("str-flags-oauth", user.OAuthFlags?.Humanize(), inline: true, unknown: false);
                 emb.AddLocalizedTitleField("str-premium-type", user.PremiumType?.Humanize(), inline: true, unknown: false);
                 emb.AddLocalizedTitleField("str-email", user.Email, inline: true, unknown: false);
-                emb.AddLocalizedTitleField("str-activity", user.Presence.Activity?.ToDetailedString(), inline: true, unknown: false);
+                emb.AddLocalizedTitleField("str-activity", user.Presence?.Activity?.ToDetailedString(), inline: true, unknown: false);
             });
 
 
@@ -209,7 +208,7 @@ namespace TheGodfather.Modules.Administration
                 throw new CommandFailedException(ctx, "cmd-err-self-action");
 
             string name = member.ToString();
-            await member.RemoveAsync(reason: ctx.BuildInvocationDetailsString(reason));
+            await this.Service.PunishMemberAsync(ctx.Guild, member, Punishment.Action.Kick, reason: ctx.BuildInvocationDetailsString(reason));
             await ctx.ImpInfoAsync(this.ModuleColor, "fmt-kick", ctx.User.Mention, name);
         }
         #endregion
@@ -234,22 +233,46 @@ namespace TheGodfather.Modules.Administration
         #endregion
 
         #region user mute
-        [Command("mute")]
+        [Command("mute"), Priority(2)]
         [Aliases("m")]
         [RequireGuild, RequirePermissions(Permissions.ManageRoles)]
         public async Task MuteAsync(CommandContext ctx,
                                    [Description("desc-member")] DiscordMember member,
                                    [RemainingText, Description("desc-rsn")] string? reason = null)
         {
-            DiscordRole muteRole = await ctx.Services.GetRequiredService<RatelimitService>().GetOrCreateMuteRoleAsync(ctx.Guild);
-            await member.GrantRoleAsync(muteRole, ctx.BuildInvocationDetailsString(reason));
+            await this.Service.PunishMemberAsync(ctx.Guild, member, Punishment.Action.PermanentMute, reason: ctx.BuildInvocationDetailsString(reason));
             await ctx.InfoAsync(this.ModuleColor);
+
+            if ((await ctx.Services.GetRequiredService<GuildConfigService>().GetConfigAsync(ctx.Guild.Id)).ActionHistoryEnabled) {
+                LogExt.Debug(ctx, "Adding mute entry to action history: {Member}, {Guild}", member, ctx.Guild);
+                await ctx.Services.GetRequiredService<ActionHistoryService>().LimitedAddAsync(new ActionHistoryEntry {
+                    Type = ActionHistoryEntry.Action.IndefiniteMute,
+                    GuildId = ctx.Guild.Id,
+                    Notes = this.Localization.GetString(ctx.Guild.Id, "fmt-ah", ctx.User.Mention, reason),
+                    Time = DateTimeOffset.Now,
+                    UserId = member.Id,
+                });
+            }
         }
+
+        [Command("mute"), Priority(1)]
+        public Task MuteAsync(CommandContext ctx,
+                             [Description("desc-timespan")] TimeSpan timespan,
+                             [Description("desc-member")] DiscordMember member,
+                             [RemainingText, Description("desc-rsn")] string? reason = null)
+            => this.TempMuteAsync(ctx, timespan, member, reason);
+
+        [Command("mute"), Priority(0)]
+        public Task MuteAsync(CommandContext ctx,
+                             [Description("desc-user")] DiscordMember member,
+                             [Description("desc-timespan")] TimeSpan timespan,
+                             [RemainingText, Description("desc-rsn")] string? reason = null)
+            => this.TempMuteAsync(ctx, timespan, member, reason);
         #endregion
 
         #region user mutevoice
         [Command("mutevoice")]
-        [Aliases("mv", "voicemute", "vmute", "mutev", "vm")]
+        [Aliases("mv", "voicemute", "vmute", "mutev", "vm", "gag")]
         [RequireGuild, RequirePermissions(Permissions.MuteMembers)]
         public async Task MuteVoiceAsync(CommandContext ctx,
                                         [Description("desc-member")] DiscordMember member,
@@ -367,7 +390,12 @@ namespace TheGodfather.Modules.Administration
             await ctx.Guild.BanMemberAsync(user.Id, delete_message_days: 0, reason: ctx.BuildInvocationDetailsString(reason));
 
             DateTimeOffset until = DateTimeOffset.Now + timespan;
-            await ctx.InfoAsync(this.ModuleColor, "fmt-tempban", ctx.User.Mention, name, this.Localization.GetLocalizedTimeString(ctx.Guild.Id, until));
+            await ctx.InfoAsync(this.ModuleColor, "fmt-tempban",
+                ctx.User.Mention,
+                name,
+                timespan.Humanize(culture: this.Localization.GetGuildCulture(ctx.Guild.Id)),
+                this.Localization.GetLocalizedTimeString(ctx.Guild.Id, until)
+            );
 
             var task = new GuildTask {
                 ExecutionTime = until,
@@ -375,12 +403,25 @@ namespace TheGodfather.Modules.Administration
                 Type = ScheduledTaskType.Unban,
                 UserId = user.Id,
             };
+
             await ctx.Services.GetRequiredService<SchedulingService>().ScheduleAsync(task);
+
+            if ((await ctx.Services.GetRequiredService<GuildConfigService>().GetConfigAsync(ctx.Guild.Id)).ActionHistoryEnabled) {
+                LogExt.Debug(ctx, "Adding tempban entry to action history: {Member}, {Guild}", user, ctx.Guild);
+                string timestamp = timespan.Humanize(2, this.Localization.GetGuildCulture(ctx.Guild.Id));
+                await ctx.Services.GetRequiredService<ActionHistoryService>().LimitedAddAsync(new ActionHistoryEntry {
+                    Type = ActionHistoryEntry.Action.TemporaryBan,
+                    GuildId = ctx.Guild.Id,
+                    Notes = this.Localization.GetString(ctx.Guild.Id, "fmt-ah-temp", ctx.User.Mention, timestamp, reason),
+                    Time = DateTimeOffset.Now,
+                    UserId = user.Id,
+                });
+            }
         }
 
         [Command("tempban"), Priority(2)]
         public Task TempBanAsync(CommandContext ctx,
-                                [Description("desc-user")] DiscordMember member,
+                                [Description("desc-member")] DiscordMember member,
                                 [Description("desc-timespan")] TimeSpan timespan,
                                 [RemainingText, Description("desc-rsn")] string? reason = null)
             => this.TempBanAsync(ctx, timespan, member, reason);
@@ -412,16 +453,33 @@ namespace TheGodfather.Modules.Administration
             if (timespan.TotalMinutes < 1 || timespan.TotalDays > 31)
                 throw new InvalidCommandUsageException(ctx, "cmd-err-temp-time");
 
-            await ctx.Services.GetRequiredService<AntispamService>().PunishMemberAsync(
-                ctx.Guild,
-                member,
-                PunishmentAction.TemporaryMute,
-                timespan,
-                ctx.BuildInvocationDetailsString(reason ?? "_gf: Tempmute")
+            await this.Service.PunishMemberAsync(
+                guild: ctx.Guild,
+                member: member,
+                type: Punishment.Action.TemporaryMute,
+                cooldown: timespan,
+                reason: ctx.BuildInvocationDetailsString(reason)
             );
 
             DateTimeOffset until = DateTimeOffset.Now + timespan;
-            await ctx.InfoAsync(this.ModuleColor, "fmt-tempban", ctx.User.Mention, member.Mention, this.Localization.GetLocalizedTimeString(ctx.Guild.Id, until));
+            await ctx.InfoAsync(this.ModuleColor, "fmt-tempmute",
+                ctx.User.Mention,
+                member.Mention,
+                timespan.Humanize(culture: this.Localization.GetGuildCulture(ctx.Guild.Id)),
+                this.Localization.GetLocalizedTimeString(ctx.Guild.Id, until)
+            );
+
+            if ((await ctx.Services.GetRequiredService<GuildConfigService>().GetConfigAsync(ctx.Guild.Id)).ActionHistoryEnabled) {
+                LogExt.Debug(ctx, "Adding tempmute entry to action history: {Member}, {Guild}", member, ctx.Guild);
+                string timestamp = timespan.Humanize(2, this.Localization.GetGuildCulture(ctx.Guild.Id));
+                await ctx.Services.GetRequiredService<ActionHistoryService>().LimitedAddAsync(new ActionHistoryEntry {
+                    Type = ActionHistoryEntry.Action.TemporaryMute,
+                    GuildId = ctx.Guild.Id,
+                    Notes = this.Localization.GetString(ctx.Guild.Id, "fmt-ah-temp", ctx.User.Mention, timestamp, reason),
+                    Time = DateTimeOffset.Now,
+                    UserId = member.Id,
+                });
+            }
         }
 
         [Command("tempmute"), Priority(0)]
@@ -469,8 +527,9 @@ namespace TheGodfather.Modules.Administration
                                      [Description("desc-member")] DiscordMember member,
                                      [RemainingText, Description("desc-rsn")] string? reason = null)
         {
-            DiscordRole muteRole = await ctx.Services.GetRequiredService<RatelimitService>().GetOrCreateMuteRoleAsync(ctx.Guild);
+            DiscordRole muteRole = await this.Service.GetOrCreateMuteRoleAsync(ctx.Guild);
             await member.RevokeRoleAsync(muteRole, ctx.BuildInvocationDetailsString(reason));
+            await this.Service.RemoveLoggedPunishmentInCaseOfRejoinAsync(ctx.Guild, member, Punishment.Action.PermanentMute);
             await ctx.InfoAsync(this.ModuleColor);
         }
         #endregion
@@ -514,6 +573,17 @@ namespace TheGodfather.Modules.Administration
             }
 
             await ctx.InfoAsync(this.ModuleColor);
+
+            if ((await ctx.Services.GetRequiredService<GuildConfigService>().GetConfigAsync(ctx.Guild.Id)).ActionHistoryEnabled) {
+                LogExt.Debug(ctx, "Adding warn to action history: {Member}, {Guild}", member, ctx.Guild);
+                await ctx.Services.GetRequiredService<ActionHistoryService>().LimitedAddAsync(new ActionHistoryEntry {
+                    Type = ActionHistoryEntry.Action.Warning,
+                    GuildId = ctx.Guild.Id,
+                    Notes = this.Localization.GetString(ctx.Guild.Id, "fmt-ah", ctx.User.Mention, msg),
+                    Time = DateTimeOffset.Now,
+                    UserId = member.Id,
+                });
+            }
         }
         #endregion
     }

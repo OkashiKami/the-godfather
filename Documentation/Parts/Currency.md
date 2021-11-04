@@ -7,13 +7,14 @@
 
 *Bank account commands (each guild has it's own bank). Group call prints out given user's bank balance. Accounts periodically get a small increase through interest.*
 
-**Aliases:**
-`$, $$, $$$`
 **Guild only.**
 
-**Arguments:**
 
-(optional) [`member`]: *Member* (def: `None`)
+**Aliases:**
+`$, $$, $$$`
+
+**Overload 0:**
+- (optional) \[`member`\]: *Member* (def: `None`)
 
 **Examples:**
 
@@ -30,13 +31,14 @@
 
 *Prints user's bank balance.*
 
-**Aliases:**
-`s, status, bal, money`
 **Guild only.**
 
-**Arguments:**
 
-(optional) [`member`]: *Member* (def: `None`)
+**Aliases:**
+`s, status, bal, money`
+
+**Overload 0:**
+- (optional) \[`member`\]: *Member* (def: `None`)
 
 **Examples:**
 
@@ -53,13 +55,18 @@
 
 *Gets or sets guild currency.*
 
-**Aliases:**
-`setcurrency, curr`
 **Guild only.**
 
-**Overload 1:**
 
-[`string`]: *New currency*
+**Aliases:**
+`setcurrency, curr`
+
+**Overload 1:**
+- \[`string`\]: *New currency*
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -76,24 +83,21 @@
 
 *Grants user a certain amount of guild currency.*
 
-**Aliases:**
-`give`
 **Guild only.**
 
 **Privileged users only.**
 
 
+**Aliases:**
+`give`
+
 **Overload 1:**
-
-[`member`]: *Member*
-
-[`long`]: *Amount*
+- \[`member`\]: *Member*
+- \[`long`\]: *Amount*
 
 **Overload 0:**
-
-[`long`]: *Amount*
-
-[`member`]: *Member*
+- \[`long`\]: *Amount*
+- \[`member`\]: *Member*
 
 **Examples:**
 
@@ -110,9 +114,15 @@
 
 *Opens a new bank account for the sender.*
 
+**Guild only.**
+
+
 **Aliases:**
 `r, signup, activate`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -128,9 +138,15 @@
 
 *Lists wealthiest users in this guild.*
 
+**Guild only.**
+
+
 **Aliases:**
 `leaderboard, elite`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -146,9 +162,15 @@
 
 *Lists wealthiest users globally.*
 
+**Guild only.**
+
+
 **Aliases:**
 `globalleaderboard, globalelite, gtop, topg, globaltop`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -164,21 +186,19 @@
 
 *Transfer funds from your account to another user's account.*
 
-**Aliases:**
-`lend, tr`
 **Guild only.**
 
+
+**Aliases:**
+`lend, tr`
+
 **Overload 1:**
-
-[`member`]: *Member*
-
-[`long`]: *Amount*
+- \[`member`\]: *Member*
+- \[`long`\]: *Amount*
 
 **Overload 0:**
-
-[`long`]: *Amount*
-
-[`member`]: *Member*
+- \[`long`\]: *Amount*
+- \[`member`\]: *Member*
 
 **Examples:**
 
@@ -195,18 +215,17 @@
 
 *Closes a bank account.*
 
-**Aliases:**
-`ur, signout, deleteaccount, delacc, disable, deactivate`
 **Guild only.**
 
 **Privileged users only.**
 
 
-**Arguments:**
+**Aliases:**
+`ur, signout, deleteaccount, delacc, disable, deactivate`
 
-[`member`]: *Member*
-
-(optional) [`boolean`]: *Globally?* (def: `False`)
+**Overload 0:**
+- \[`member`\]: *Member*
+- (optional) \[`boolean`\]: *Globally?* (def: `False`)
 
 **Examples:**
 
@@ -223,8 +242,14 @@
 
 *Prints all available casino games.*
 
+
 **Aliases:**
 `vegas, cs, cas`
+
+**Overload 0:**
+
+*No arguments.*
+
 **Examples:**
 
 ```xml
@@ -239,11 +264,12 @@
 
 *Starts a new Blackjack game or joins a pending Blackjack game with given bid amount.*
 
+
 **Aliases:**
 `bj`
-**Arguments:**
 
-(optional) [`int`]: *Bid amount* (def: `5`)
+**Overload 0:**
+- (optional) \[`int`\]: *Bid amount* (def: `5`)
 
 **Examples:**
 
@@ -259,11 +285,12 @@
 
 *Joins a pending Blackjack game with given bid amount.*
 
+
 **Aliases:**
 `+, compete, enter, j, <<, <`
-**Arguments:**
 
-(optional) [`int`]: *Bid amount* (def: `5`)
+**Overload 0:**
+- (optional) \[`int`\]: *Bid amount* (def: `5`)
 
 **Examples:**
 
@@ -279,8 +306,14 @@
 
 *Prints Blackjack rules.*
 
+
 **Aliases:**
 `help, h, ruling, rule, info`
+
+**Overload 0:**
+
+*No arguments.*
+
 **Examples:**
 
 ```xml
@@ -295,11 +328,12 @@
 
 *Starts a new Texas Hold 'em poker game or joins a pending holdem game with given bid amount.*
 
+
 **Aliases:**
 `poker, texasholdem, texas`
-**Arguments:**
 
-(optional) [`int`]: *Total balance for each user* (def: `1000`)
+**Overload 0:**
+- (optional) \[`int`\]: *Total balance for each user* (def: `1000`)
 
 **Examples:**
 
@@ -315,8 +349,14 @@
 
 *Joins a pending Texas Hold 'em game with given bid amount.*
 
+
 **Aliases:**
 `+, compete, enter, j, <<, <`
+
+**Overload 0:**
+
+*No arguments.*
+
 **Examples:**
 
 ```xml
@@ -331,8 +371,14 @@
 
 *Prints Texas Hold 'em rules.*
 
+
 **Aliases:**
 `help, h, ruling, rule`
+
+**Overload 0:**
+
+*No arguments.*
+
 **Examples:**
 
 ```xml
@@ -347,11 +393,12 @@
 
 *Starts a new Lottery game or joins a pending Lottery game with given three numbers. The three numbers are drawn from 1 to 15 and they can't be repeated. Rewards are given for each guess, increasing as the number of guesses increases.*
 
+
 **Aliases:**
 `lotto, bingo`
-**Arguments:**
 
-[`int...`]: *3 numbers*
+**Overload 0:**
+- \[`int...`\]: *3 numbers*
 
 **Examples:**
 
@@ -367,11 +414,12 @@
 
 *Joins a pending Lottery game with given three numbers.*
 
+
 **Aliases:**
 `+, compete, enter, j, <<, <`
-**Arguments:**
 
-[`int...`]: *3 numbers*
+**Overload 0:**
+- \[`int...`\]: *3 numbers*
 
 **Examples:**
 
@@ -387,8 +435,14 @@
 
 *Prints Lottery rules.*
 
+
 **Aliases:**
 `help, h, ruling, rule`
+
+**Overload 0:**
+
+*No arguments.*
+
 **Examples:**
 
 ```xml
@@ -403,15 +457,15 @@
 
 *Rolls a Slot Machine.*
 
+
 **Aliases:**
 `slotmachine`
-**Overload 1:**
 
-(optional) [`long`]: *Bid* (def: `5`)
+**Overload 1:**
+- (optional) \[`long`\]: *Bid* (def: `5`)
 
 **Overload 0:**
-
-[`string...`]: *Bid*
+- \[`string...`\]: *Bid*
 
 **Examples:**
 
@@ -427,15 +481,15 @@
 
 *Rolls a Wheel of Fortune.*
 
+
 **Aliases:**
 `wof`
-**Overload 1:**
 
-(optional) [`long`]: *Bid* (def: `5`)
+**Overload 1:**
+- (optional) \[`long`\]: *Bid* (def: `5`)
 
 **Overload 0:**
-
-[`string...`]: *Bid*
+- \[`string...`\]: *Bid*
 
 **Examples:**
 
@@ -451,9 +505,11 @@
 
 *Gambling commands - requires guild currency.*
 
+**Guild only.**
+
+
 **Aliases:**
 `bet`
-**Guild only.**
 
 </p></details>
 
@@ -464,21 +520,19 @@
 
 *Gambles on a coinflip toss. Default bid is 5.*
 
-**Aliases:**
-`coin, flip`
 **Guild only.**
 
+
+**Aliases:**
+`coin, flip`
+
 **Overload 1:**
-
-[`long`]: *Bid amount*
-
-[`string`]: *Heads/Tails*
+- \[`long`\]: *Bid amount*
+- \[`string`\]: *Heads/Tails*
 
 **Overload 0:**
-
-[`string`]: *Heads/Tails*
-
-(optional) [`long`]: *Bid amount* (def: `5`)
+- \[`string`\]: *Heads/Tails*
+- (optional) \[`long`\]: *Bid amount* (def: `5`)
 
 **Examples:**
 
@@ -495,15 +549,15 @@
 
 *Gambles on a dice throw. Default bid is 5.*
 
-**Aliases:**
-`roll, die`
 **Guild only.**
 
-**Arguments:**
 
-[`int`]: *Dice outcome (1-6)*
+**Aliases:**
+`roll, die`
 
-(optional) [`long`]: *Bid amount* (def: `5`)
+**Overload 0:**
+- \[`int`\]: *Dice outcome (1-6)*
+- (optional) \[`long`\]: *Bid amount* (def: `5`)
 
 **Examples:**
 
@@ -519,9 +573,15 @@
 
 *Shop for items using guild currency from your bank account. Group command lists all available items for purchase.*
 
+**Guild only.**
+
+
 **Aliases:**
 `store, mall`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -537,24 +597,21 @@
 
 *Adds a new item to guild shop.*
 
-**Aliases:**
-`register, reg, additem, a, +, +=, <<, <, <-, <=`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
+**Aliases:**
+`register, reg, additem, a, +, +=, <<, <, <-, <=`
+
 **Overload 1:**
-
-[`long`]: *Item price*
-
-[`string...`]: *Item name*
+- \[`long`\]: *Item price*
+- \[`string...`\]: *Item name*
 
 **Overload 0:**
-
-[`string`]: *Item name*
-
-[`long`]: *Item price*
+- \[`string`\]: *Item name*
+- \[`long`\]: *Item price*
 
 **Examples:**
 
@@ -571,17 +628,17 @@
 
 *Buys a new item for you from the guild shop.*
 
-**Aliases:**
-`purchase, shutupandtakemymoney, b, p`
 **Guild only.**
 
+
+**Aliases:**
+`purchase, shutupandtakemymoney, b, p`
+
 **Overload 1:**
-
-[`int...`]: *Item IDs*
+- \[`int...`\]: *Item IDs*
 
 **Overload 1:**
-
-[`string`]: *Item name*
+- \[`string`\]: *Item name*
 
 **Examples:**
 
@@ -598,16 +655,16 @@
 
 *Removes an item from guild shop.*
 
-**Aliases:**
-`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
 
-**Arguments:**
+**Aliases:**
+`unregister, remove, rm, del, d, -, -=, >, >>, ->, =>`
 
-[`int...`]: *Item IDs to remove*
+**Overload 1:**
+- \[`int...`\]: *Item IDs to remove*
 
 **Examples:**
 
@@ -624,12 +681,17 @@
 
 *Removes all items from the guild shop.*
 
-**Aliases:**
-`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
 **Guild only.**
 
 **Requires user permissions:**
 `Manage guild`
+
+**Aliases:**
+`removeall, rmrf, rma, clearall, clear, delall, da, cl, -a, --, >>>`
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -645,9 +707,15 @@
 
 *Lists all items available for purchase in the guild shop.*
 
+**Guild only.**
+
+
 **Aliases:**
 `print, show, view, ls, l, p`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -663,13 +731,14 @@
 
 *Print user purchases in this guild.*
 
-**Aliases:**
-`myitems, purchased, bought`
 **Guild only.**
 
-**Arguments:**
 
-(optional) [`member`]: *Member* (def: `None`)
+**Aliases:**
+`myitems, purchased, bought`
+
+**Overload 0:**
+- (optional) \[`member`\]: *Member* (def: `None`)
 
 **Examples:**
 
@@ -686,13 +755,14 @@
 
 *Sell item(s) bought from the guild shop.*
 
-**Aliases:**
-`return`
 **Guild only.**
 
-**Arguments:**
 
-[`int...`]: *Item IDs*
+**Aliases:**
+`return`
+
+**Overload 0:**
+- \[`int...`\]: *Item IDs*
 
 **Examples:**
 
@@ -708,9 +778,15 @@
 
 *Do something productive with your life or decide to earn money using immoral or illegal ways. You can work once every minute. Keep in mind that your salary is influenced by the current time.*
 
+**Guild only.**
+
+
 **Aliases:**
 `job`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 
@@ -728,6 +804,11 @@
 
 **Guild only.**
 
+
+**Overload 0:**
+
+*No arguments.*
+
 **Examples:**
 
 ```xml
@@ -742,9 +823,15 @@
 
 *Work the streets tonight hoping to gather some easy money but beware - there are many threats lurking at that hour. This can be done once every 2 minutes. Keep in mind that during the night there is a higher chance to become a victim of a crime.*
 
+**Guild only.**
+
+
 **Aliases:**
 `prostitute`
-**Guild only.**
+
+**Overload 0:**
+
+*No arguments.*
 
 **Examples:**
 

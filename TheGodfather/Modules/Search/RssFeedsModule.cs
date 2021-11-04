@@ -74,7 +74,7 @@ namespace TheGodfather.Modules.Search
                                          [Description("desc-rss-url")] Uri url,
                                          [Description("desc-sub-chn")] DiscordChannel? chn = null,
                                          [RemainingText, Description("desc-name-f")] string? name = null)
-                => this.ExecuteGroupAsync(ctx, url, chn, name);
+                => this.ExecuteGroupAsync(ctx, chn ?? ctx.Channel, url, name);
 
             [GroupCommand, Priority(0)]
             public Task ExecuteGroupAsync(CommandContext ctx,
@@ -94,7 +94,7 @@ namespace TheGodfather.Modules.Search
 
                 IReadOnlyList<RssSubscription> subs = await this.Service.Subscriptions.GetAllAsync((ctx.Guild.Id, chn.Id));
                 if (!subs.Any())
-                    throw new CommandFailedException(ctx, "cmd-err-subs-none", chn.Mention);
+                    throw new CommandFailedException(ctx, "cmd-err-subs-none", chn.Name);
 
                 await ctx.PaginateAsync(
                     "str-subs",

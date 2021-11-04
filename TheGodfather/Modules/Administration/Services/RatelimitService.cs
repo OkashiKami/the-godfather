@@ -17,7 +17,7 @@ using TheGodfather.Services;
 
 namespace TheGodfather.Modules.Administration.Services
 {
-    public sealed class RatelimitService : ProtectionService
+    public sealed class RatelimitService : ProtectionServiceBase
     {
         private readonly ConcurrentDictionary<ulong, ConcurrentHashSet<ExemptedEntity>> guildExempts;
         private readonly ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, UserRatelimitInfo>> guildRatelimitInfo;
@@ -58,7 +58,7 @@ namespace TheGodfather.Modules.Administration.Services
         {
             List<ExemptedRatelimitEntity> exempts;
             using TheGodfatherDbContext db = this.dbb.CreateContext();
-            exempts = await db.ExemptsRatelimit.Where(ex => ex.GuildIdDb == (long)gid).ToListAsync();
+            exempts = await db.ExemptsRatelimit.AsQueryable().Where(ex => ex.GuildIdDb == (long)gid).ToListAsync();
             return exempts.AsReadOnly();
         }
 
@@ -74,7 +74,7 @@ namespace TheGodfather.Modules.Administration.Services
         {
             using TheGodfatherDbContext db = this.dbb.CreateContext();
             db.ExemptsRatelimit.RemoveRange(
-                db.ExemptsRatelimit.Where(ex => ex.GuildId == gid && ex.Type == type && ids.Any(id => id == ex.Id))
+                db.ExemptsRatelimit.AsQueryable().Where(ex => ex.GuildId == gid && ex.Type == type && ids.Any(id => id == ex.Id))
             );
             await db.SaveChangesAsync();
             this.UpdateExemptsForGuildAsync(gid);
@@ -84,7 +84,7 @@ namespace TheGodfather.Modules.Administration.Services
         {
             using TheGodfatherDbContext db = this.dbb.CreateContext();
             this.guildExempts[gid] = new ConcurrentHashSet<ExemptedEntity>(
-                db.ExemptsRatelimit.Where(ee => ee.GuildIdDb == (long)gid)
+                db.ExemptsRatelimit.AsQueryable().Where(ee => ee.GuildIdDb == (long)gid)
             );
         }
 
@@ -108,9 +108,7 @@ namespace TheGodfather.Modules.Administration.Services
             }
         }
 
-        public override void Dispose()
-        {
-            this.refreshTimer.Dispose();
-        }
+        public override void Dispose() 
+            => this.refreshTimer.Dispose();
     }
 }
